@@ -1,0 +1,8 @@
+.not-found h1 {
+    text-align: center;
+}
+
+.not-found .buttons .button {
+    margin: 20px auto;
+    width: 300px;
+}

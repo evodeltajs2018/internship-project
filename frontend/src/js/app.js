@@ -10,5 +10,6 @@ sidebar.render(); */
 const layout = new Layout(document.body);
 layout.render();
 
-const dashboard = new Dashboard(document.querySelector('.main'));
-dashboard.render();
+// const dashboard = new Dashboard(document.querySelector('.main'));
+// dashboard.render();
+const router = new Router(document.querySelector('.main'));
