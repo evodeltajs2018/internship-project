@@ -1,7 +1,6 @@
 class Layout extends Component {
 	constructor(container) {
 		super(container, "layout");
-	
 	}
 
 	toggleMenu() {
@@ -24,6 +23,7 @@ class Layout extends Component {
 
 	soundsPage(titleChangeFunction) {
 		titleChangeFunction('Sounds');
+		// TODO: change to sounds page, not able to do that now.
 		console.log('Sounds page');
 	}
 
