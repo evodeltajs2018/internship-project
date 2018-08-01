@@ -17,7 +17,7 @@ class App extends Component {
         this.sidebarLinks.forEach(element => {
             this.sidebarLinksHTML += `
             <li>
-                <i class="${element.icon} fa-3x" style="color: gray"></i>
+                <i class="${element.icon} fa-3x" style="color: gray" value="${element.name}"></i>
             </li>
             <li>${element.name}</li>
             `
@@ -29,42 +29,46 @@ class App extends Component {
 		document.querySelector('.main').classList.toggle('main-width');
 	}
 
-	titleChange(title) {
-		document.querySelector('.page-title').innerHTML = `
-			<h2>${title}</h2>
-		`;
-	}
-
-	mainPage(handleTitleChange) {
-		handleTitleChange('Projects');
+    
+	mainPage() {
+        App.titleChange(this.getAttribute("value"));
 		Router.goToUrl("/");
 	}
-
-	soundsPage(titleChangeFunction) {
-		titleChangeFunction('Sounds');
+    
+	soundsPage() {
+        App.titleChange(this.getAttribute("value"));
 		Router.goToUrl("/abc");
 	}
+    
+    static titleChange(title) {
+        document.querySelector('.page-title').innerHTML = `
+            <h2>${title}</h2>
+        `;
+    }
 
 	render() {
-		this.domElement.innerHTML = `
-			<nav class="header">
-				<i class="fas fa-bars hamburger"></i>
-				<h1>BeatMaker</h1>
-				<img src="/src/img/logo.png" class="logo">
-			</nav>
-            <hr>
-            <div class="page-title">
-                <h2>Projects</h2>
-			</div>
-			<div class="split">
-				<div class="sidebar">
-					<div class="vertical-line"></div>
-					<ul class="sidebar-content">
-					</ul>
+        this.domElement.innerHTML = `
+        <nav class="header">
+        <i class="fas fa-bars hamburger"></i>
+        <h1>BeatMaker</h1>
+        <img src="/src/img/logo.png" class="logo">
+        </nav>
+        <hr>
+        <div class="page-title">
+        <h2>Projects</h2>
+        </div>
+        <div class="split">
+        <div class="sidebar">
+        <div class="vertical-line"></div>
+        <ul class="sidebar-content">
+        </ul>
 				</div>
 				<div class="main"></div>
 			</div>
         `;
+        
+
+        console.log(this.domElement.querySelector('.sidebar-content'));
         
         this.domElement.querySelector('.sidebar-content')
             .innerHTML = this.sidebarLinksHTML;
@@ -73,13 +77,13 @@ class App extends Component {
 			.addEventListener("click", this.toggleMenu);
 
 		this.domElement.querySelector('.fa-folder')
-			.addEventListener("click", () => {this.mainPage(this.titleChange)});
+			.addEventListener("click", this.mainPage);
 
 		this.domElement.querySelector('.fa-soundcloud')
-			.addEventListener("click", () => {this.soundsPage(this.titleChange)});
+			.addEventListener("click", this.soundsPage);
 
 		this.domElement.querySelector('.logo')
-            .addEventListener("click", () => {this.mainPage(this.titleChange)});
+            .addEventListener("click", this.mainPage);
             
         this.router = new Router(document.querySelector('.main'));
 	}
