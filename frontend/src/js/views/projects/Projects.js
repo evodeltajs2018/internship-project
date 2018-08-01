@@ -18,24 +18,20 @@ class Projects extends Component {
 	}
 
 	render() {
+
 		this.domElement.innerHTML = `<div class="cards"><div class="modals"></div></div>`;
 
-		let array = JSON.parse(JSON.stringify(this.data));
+		const data = JSON.parse(JSON.stringify(this.data));
 
-		for (let x of array.projects){
-			this.card=new Card(this.domElement.querySelector(".cards"),x);
-			this.card.render();
+		if(data){
+			for (let project of data.projects){
+				this.card = new Card(this.domElement.querySelector(".cards"),project);
+				this.card.render();
+			}
 		}
 
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
-
-		for(let button of document.getElementsByClassName("deleteButton")){
-			button.addEventListener("click",() => {
-				this.card.deleteButtonHandler();
-			});
-		}
-
 
 		this.modal = new Modal(this.domElement.querySelector(".modals"),"Delete Project","Are you sure you want to delete this project?");
 		this.modal.render();

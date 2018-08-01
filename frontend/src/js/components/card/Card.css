@@ -35,18 +35,6 @@
     font-size:30px;
     color:#E61610;
 }
-.descr{
+.cardDescription{
     margin-bottom:20px;
-}
-.rightButton{
-    float:right;
-    margin-right:10px;
-}
-.leftButton{
-    margin-left:10px;
-}
-.button{
-    background:none;
-    border:none;
-    outline:none;
 }

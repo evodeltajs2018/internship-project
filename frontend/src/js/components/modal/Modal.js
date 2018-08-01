@@ -5,18 +5,6 @@ class Modal extends Component{
         this.text = text;
     }
 
-    render(){
-        this.domElement.innerHTML = `
-        <div class="modalContent">
-            <div class="modalHeader">${this.title}<i class="fa fa-close closeButton"></i></div>
-            <div class="modalBody">${this.text}</div>
-            <div class="modalFooter"><button class="confirmButton">Confirm</button><button class="cancelButton">CANCEL</button></div>
-        </div>
-        `
-        this.closeButtonHandler();
-        this.cancelButtonHandler();
-    }
-
     closeButtonHandler(){
         this.closeButton = document.getElementsByClassName("closeButton")[0];
         this.closeButton.addEventListener("click",() => {
@@ -31,6 +19,18 @@ class Modal extends Component{
     }
     confirmButtonHandler(){
         // delete project
+    }
+
+    render(){
+        this.domElement.innerHTML = `
+        <div class="modalContent">
+            <div class="modalHeader">${this.title}<i class="fa fa-close closeButton"></i></div>
+            <div class="modalBody">${this.text}</div>
+            <div class="modalFooter"><button class="confirmButton">Confirm</button><button class="cancelButton">CANCEL</button></div>
+        </div>
+        `
+        this.closeButtonHandler();
+        this.cancelButtonHandler();
     }
 
 }

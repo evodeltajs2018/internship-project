@@ -3,11 +3,15 @@ class AddingCard extends Component{
         super(container,"card");
     }
 
-    render(){
-        this.domElement.innerHTML = `<div class="addingCard addingCardImage"><i class="fa fa-plus-circle"></i></div><div class="addingCard addingCardText">ADD NEW PROJECT</div>`;
+    addProject(){
     }
 
-    addNewCard(){
-        //adding new card
+    render(){
+        this.domElement.innerHTML = `<div class="addingCard addingCardImage"><i class="fa fa-plus-circle addButton"></i></div><div class="addingCard addingCardText">ADD NEW PROJECT</div>`;
+
+        this.domElement.querySelector(".addingCardImage").addEventListener("click",()=>{
+            this.addProject();
+        });
     }
+
 }

@@ -15,8 +15,8 @@
     background-color: #fefefe;
     margin: 15% auto; 
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%; 
+    border: 1px solid grey;
+    width: 40%; 
 }
 .modalBody{
     display:flex;
@@ -39,7 +39,7 @@
     outline:none;
     color:grey;
     background:transparent;
-    padding:5px;
+    padding:10px;
     margin-right:10px;
 }
 .confirmButton{
@@ -47,6 +47,6 @@
     outline:none;
     color:white;
     background:#00B8DB;
-    padding:5px;
+    padding:10px;
     margin-left:10px;
 }
