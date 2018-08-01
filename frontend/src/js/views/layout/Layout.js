@@ -16,15 +16,18 @@ class Layout extends Component {
 
 	mainPage(titleChangeFunction) {
 		titleChangeFunction('Projects');
-		document.querySelector('.main').innerHTML = ``;
-		const dashboard = new Dashboard(document.querySelector('.main'));
-		dashboard.render();
+		//document.querySelector('.main').innerHTML = ``;
+		//const dashboard = new Dashboard(document.querySelector('.main'));
+		//dashboard.render();
+		Router.goToUrl("/");
+
 	}
 
 	soundsPage(titleChangeFunction) {
 		titleChangeFunction('Sounds');
 		// TODO: change to sounds page, not able to do that now.
 		console.log('Sounds page');
+		Router.goToUrl("/abc");
 	}
 
 	render() {
