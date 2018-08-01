@@ -1,7 +1,7 @@
 class App extends Component {
 	constructor(container) {
         super(container, "app");
-        
+        this.router = new Router();
 	}
 
 	toggleMenu() {
@@ -21,10 +21,14 @@ class App extends Component {
 	}
 
 	soundsPage() {
-        // titleChangeFunction('Sounds');
         this.titleChange('Sounds');
 		Router.goToUrl("/sounds");
-	}
+    }
+    
+    initRouter() {
+        this.router.container = document.querySelector('.main');
+        this.router.init();
+    }
 
 	render() {
 		this.domElement.innerHTML = `
@@ -66,7 +70,7 @@ class App extends Component {
 		this.domElement.querySelector('.logo')
             .addEventListener("click", () => {this.mainPage()});
             
-        this.router = new Router(document.querySelector('.main'));
+        this.initRouter();
 	}
 }
 

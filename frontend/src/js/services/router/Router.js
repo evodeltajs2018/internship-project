@@ -1,28 +1,24 @@
 class Router {
     constructor(container) {
         this.container = container;
-        this.notFoundRoute = {
-            path: "/404",
-            component: NotFound
-        };
 
         this.routes = [
             {
                 path: "/",
-                component: Dashboard,
-                data: {
-                    title: "Projects"
-                }
+                component: Dashboard
             },
             {
                 path: "/sounds",
-                component: Dummy,
-                data: {
-                    title: "Sounds"
-                }
+                component: Dummy
+            },
+            {
+                path: "/404",
+                component: NotFound
             }
-        ];
+        ];        
+    }
 
+    init() {
         this.renderInitialPath();
         this.addPopStateEvent();
     }
@@ -35,7 +31,6 @@ class Router {
     addPopStateEvent() {
         // called when URL is changed
         window.onpopstate = (event) => {
-            console.log(window.location.pathname);
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -44,42 +39,36 @@ class Router {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
-        //console.log(component);
+
         this.currentComponent = new component.component(this.container);
         this.currentComponent.render();
     }
 
-    // will be used later
-    checkNotFound() {
-        console.log(window.location.pathname);
-        return window.location.pathname == "/404";
+    findRouteByUrl(url) {
+        return this.routes.find((route) => { return route.path === url });
     }
 
     renderByUrl(url) {
-        const component = this.routes.find((route) => { return route.path === url });
-        // console.log(window.history.state);
-        // if (this.checkNotFound()) {
-        //     this.setNewCurrentComponent(this.routes[0]);
-        //     Router.goToUrl("/");
-        // }
+        const component = this.findRouteByUrl(url);
+
         if (component) {
             this.setNewCurrentComponent(component);
         } else {
-            console.log("invalid route");
-            this.setNewCurrentComponent(this.notFoundRoute);
+            console.error("invalid route");
+
+            const notFound = this.findRouteByUrl("/404");
+            this.setNewCurrentComponent(notFound);
             Router.goToUrl("/404", { data: "404" });
         }
     }
 
     static goToUrl(url, data = {}) {
-        // if (data) console.log(data);
         window.history.pushState(data, "", url);
         window.dispatchEvent(new Event("popstate"));
     }
 
-    static goBack() {
-        window.history.back(1);
-        window.dispatchEvent(new Event("popstate"));
+    getHistoryState() {
+        return window.history.state;
     }
 
 }
