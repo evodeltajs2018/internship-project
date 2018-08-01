@@ -3,23 +3,29 @@ class Router {
         this.container = container;
         this.notFoundRoute = {
             path: "/404",
-            data: NotFound
+            component: NotFound
         };
 
         this.routes = [
             {
                 path: "/",
-                data: Dashboard
+                component: Dashboard,
+                data: {
+                    title: "Projects"
+                }
             },
             {
                 path: "/abc",
-                data: Dummy
+                component: Dummy,
+                data: {
+                    title: "Sounds"
+                }
             }
         ];
-        
+
         const initialPath = window.location.pathname;
         this.renderByUrl(initialPath);
-        console.log(initialPath);
+
         window.onpopstate = (event) => {
             console.log(window.location.pathname);
             this.renderByUrl(window.location.pathname);
@@ -30,12 +36,14 @@ class Router {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
-        this.currentComponent = new component.data(this.container);
+        //console.log(component);
+        this.currentComponent = new component.component(this.container);
         this.currentComponent.render();
     }
 
     checkNotFound() {
-        return this.currentComponent instanceof NotFound;
+        //console.log(window.location.pathname);
+        return window.location.pathname === "/404";
     }
 
     renderByUrl(url) {
@@ -46,13 +54,14 @@ class Router {
         } else {
             console.log("invalid route");
             this.setNewCurrentComponent(this.notFoundRoute);
-            Router.goToUrl("/404");
+            Router.goToUrl("/404", { data: "404" });
         }
-        
+
     }
 
-    static goToUrl(url) {
-        window.history.pushState({}, "", url);
+    static goToUrl(url, data = {}) {
+        // if (data) console.log(data);
+        window.history.pushState(data, "", url);
         window.dispatchEvent(new Event("popstate"));
     }
 
