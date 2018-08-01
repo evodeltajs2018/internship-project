@@ -15,13 +15,14 @@ class App extends Component {
 		`;
 	}
 
-	mainPage(titleChangeFunction) {
-		titleChangeFunction('Projects');
+	mainPage() {
+		this.titleChange('Projects');
 		Router.goToUrl("/");
 	}
 
-	soundsPage(titleChangeFunction) {
-		titleChangeFunction('Sounds');
+	soundsPage() {
+        // titleChangeFunction('Sounds');
+        this.titleChange('Sounds');
 		Router.goToUrl("/sounds");
 	}
 
@@ -57,13 +58,13 @@ class App extends Component {
 			.addEventListener("click", this.toggleMenu);
 
 		this.domElement.querySelector('.fa-folder')
-			.addEventListener("click", () => {this.mainPage(this.titleChange)});
+			.addEventListener("click", () => {this.mainPage()});
 
 		this.domElement.querySelector('.fa-soundcloud')
-			.addEventListener("click", () => {this.soundsPage(this.titleChange)});
+			.addEventListener("click", () => {this.soundsPage()});
 
 		this.domElement.querySelector('.logo')
-            .addEventListener("click", () => {this.mainPage(this.titleChange)});
+            .addEventListener("click", () => {this.mainPage()});
             
         this.router = new Router(document.querySelector('.main'));
 	}

@@ -49,14 +49,19 @@ class Router {
         this.currentComponent.render();
     }
 
+    // will be used later
     checkNotFound() {
-        //console.log(window.location.pathname);
-        return window.location.pathname === "/404";
+        console.log(window.location.pathname);
+        return window.location.pathname == "/404";
     }
 
     renderByUrl(url) {
         const component = this.routes.find((route) => { return route.path === url });
-
+        console.log(window.history.state);
+        if (this.checkNotFound()) {
+            this.setNewCurrentComponent(this.routes[0]);
+            Router.goToUrl("/");
+        }
         if (component) {
             this.setNewCurrentComponent(component);
         } else {
