@@ -2,6 +2,26 @@ class App extends Component {
 	constructor(container) {
         super(container, "app");
         
+        this.sidebarLinksHTML = '';
+        this.sidebarLinks = [
+            {
+                name: 'Projects',
+                icon: 'fas fa-folder'
+            },
+            {
+                name: 'Sounds',
+                icon: 'fab fa-soundcloud'
+            }
+        ]
+
+        this.sidebarLinks.forEach(element => {
+            this.sidebarLinksHTML += `
+            <li>
+                <i class="${element.icon} fa-3x" style="color: gray"></i>
+            </li>
+            <li>${element.name}</li>
+            `
+        });
 	}
 
 	toggleMenu() {
@@ -15,8 +35,8 @@ class App extends Component {
 		`;
 	}
 
-	mainPage(titleChangeFunction) {
-		titleChangeFunction('Projects');
+	mainPage(handleTitleChange) {
+		handleTitleChange('Projects');
 		Router.goToUrl("/");
 	}
 
@@ -40,18 +60,14 @@ class App extends Component {
 				<div class="sidebar">
 					<div class="vertical-line"></div>
 					<ul class="sidebar-content">
-						<li>
-							<i class="fas fa-folder fa-3x" style="color: gray"></i>
-						</li>
-						<li>Projects</li>
-						<li>
-							<i class="fab fa-soundcloud fa-3x" style="color: gray"></i></li>
-						<li>Sounds</li>
 					</ul>
 				</div>
 				<div class="main"></div>
 			</div>
-		`;
+        `;
+        
+        this.domElement.querySelector('.sidebar-content')
+            .innerHTML = this.sidebarLinksHTML;
 
 		this.domElement.querySelector('.hamburger')
 			.addEventListener("click", this.toggleMenu);
