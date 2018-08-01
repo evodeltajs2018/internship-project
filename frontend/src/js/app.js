@@ -22,7 +22,7 @@ class App extends Component {
 
 	soundsPage(titleChangeFunction) {
 		titleChangeFunction('Sounds');
-		Router.goToUrl("/abc");
+		Router.goToUrl("/sounds");
 	}
 
 	render() {
