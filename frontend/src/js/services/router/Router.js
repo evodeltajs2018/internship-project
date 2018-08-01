@@ -45,7 +45,7 @@ class Router {
         //console.log(window.location.pathname);
         return window.location.pathname === "/404";
     }
-
+    
     renderByUrl(url) {
         const component = this.routes.find((route) => { return route.path === url });
 
