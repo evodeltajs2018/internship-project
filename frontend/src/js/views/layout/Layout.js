@@ -26,7 +26,7 @@ class Layout extends Component {
 	soundsPage(titleChangeFunction) {
 		titleChangeFunction('Sounds');
 		// TODO: change to sounds page, not able to do that now.
-		console.log('Sounds page');
+		//console.log('Sounds page');
 		Router.goToUrl("/abc");
 	}
 
@@ -35,7 +35,7 @@ class Layout extends Component {
 			<nav class="header">
 				<i class="fas fa-bars hamburger"></i>
 				<h1>BeatMaker</h1>
-				<img src="src/img/logo.png" class="logo">
+				<img src="/src/img/logo.png" class="logo">
 			</nav>
             <hr>
             <div class="page-title">
