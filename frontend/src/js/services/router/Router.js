@@ -5,11 +5,11 @@ class Router {
         this.routes = [
             {
                 path: "/",
-                component: Dashboard
+                component: Projects,
             },
             {
                 path: "/sounds",
-                component: Dummy
+                component: SoundsGrid
             },
             {
                 path: "/404",
