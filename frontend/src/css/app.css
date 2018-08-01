@@ -40,7 +40,7 @@ html, body, .app {
 
 .sidebar {
     margin: 0;
-    width: 100px;
+    width: 120px;
     height: 100%;
     background-color: #00c8f8;
     -webkit-transition: transform 0.5s ease-in-out;
@@ -64,8 +64,6 @@ html, body, .app {
 }
 
 .hide-sidebar {
-    position: absolute;
-    left: 0;
     -webkit-transition: transform 0.5s ease-in-out;
     transition: transform 0.5s ease-in-out;
     -webkit-transform: translateX(-110%);
@@ -81,14 +79,6 @@ html, body, .app {
     align-items: center;
 }
 
-.vertical-line {
-    position: absolute;
-    left: 3px;
-    width: 2px;
-    height: 100%;
-    background-color: #ddd;
-}
-
 hr {
     margin: 0 0 1px 0;
     border: 1px solid #ddd;
@@ -98,17 +88,16 @@ hr {
 .main {
     display: flex;
     justify-content: center;
-    margin: 0;
-    width: calc(100% - 100px);
+	margin: 0;
+    width: 100%;
 }
 
 .main-width {
     width: 100%;
 }
-
+ 
 .split {
     width: 100%;
     height: 100%;
-    display: inline-flex;
-    flex-direction: row;
+    display: flex;
 }
