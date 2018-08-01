@@ -57,11 +57,11 @@ class Router {
 
     renderByUrl(url) {
         const component = this.routes.find((route) => { return route.path === url });
-        console.log(window.history.state);
-        if (this.checkNotFound()) {
-            this.setNewCurrentComponent(this.routes[0]);
-            Router.goToUrl("/");
-        }
+        // console.log(window.history.state);
+        // if (this.checkNotFound()) {
+        //     this.setNewCurrentComponent(this.routes[0]);
+        //     Router.goToUrl("/");
+        // }
         if (component) {
             this.setNewCurrentComponent(component);
         } else {
