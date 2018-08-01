@@ -15,7 +15,7 @@ class Router {
                 }
             },
             {
-                path: "/abc",
+                path: "/sounds",
                 component: Dummy,
                 data: {
                     title: "Sounds"
@@ -27,7 +27,6 @@ class Router {
         this.renderByUrl(initialPath);
 
         window.onpopstate = (event) => {
-            console.log(window.location.pathname);
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -36,13 +35,11 @@ class Router {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
-        //console.log(component);
         this.currentComponent = new component.component(this.container);
         this.currentComponent.render();
     }
 
     checkNotFound() {
-        //console.log(window.location.pathname);
         return window.location.pathname === "/404";
     }
 

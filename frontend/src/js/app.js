@@ -2,89 +2,78 @@ class App extends Component {
 	constructor(container) {
         super(container, "app");
         
-        this.sidebarLinksHTML = '';
-        this.sidebarLinks = [
-            {
-                name: 'Projects',
-                icon: 'fas fa-folder'
-            },
-            {
-                name: 'Sounds',
-                icon: 'fab fa-soundcloud'
-            }
-        ]
+        this.menuService = new MenuService();
+        this.sidebarLinks = this.menuService.getSidebarLinks();
+    }
 
-        this.sidebarLinks.forEach(element => {
+	toggleMenu() {
+		document.querySelector('.sidebar').classList.toggle('hide-sidebar');
+    }
+    
+    getRouteFromMenuElement(value) {
+        return this.sidebarLinks.find((v) => v.name == value).route;
+    }
+
+    loadPage(target) {
+        this.handleTitleChange(target.getAttribute("value"));
+        Router.goToUrl(this.getRouteFromMenuElement(target.getAttribute("value")));
+    }
+
+    getSidebarLinksHTML() {
+        this.sidebarLinksHTML = '';
+        this.sidebarLinks.map(element => {
             this.sidebarLinksHTML += `
             <li>
-                <i class="${element.icon} fa-3x" style="color: gray" value="${element.name}"></i>
+                <i class="${element.icon} fa-3x menu-element" style="color: gray" value="${element.name}"></i>
             </li>
             <li>${element.name}</li>
             `
         });
-	}
+        
+        return this.sidebarLinksHTML;
+    }
 
-	toggleMenu() {
-		document.querySelector('.sidebar').classList.toggle('hide-sidebar');
-		//document.querySelector('.main').classList.toggle('main-width');
-	}
-
-    
-	mainPage() {
-        App.titleChange(this.getAttribute("value"));
-		Router.goToUrl("/");
-	}
-    
-	soundsPage() {
-        App.titleChange(this.getAttribute("value"));
-		Router.goToUrl("/abc");
-	}
-    
-    static titleChange(title) {
+    handleTitleChange(title) {
         document.querySelector('.page-title').innerHTML = `
             <h2>${title}</h2>
         `;
     }
 
+    addClickEventListenerToSidebar() {
+        const element = this.domElement.querySelectorAll('.menu-element');
+        
+        for(let i = 0; i < element.length; i++) {
+            element[i].addEventListener("click", (e) => { this.loadPage(e.target) });
+        }
+    }
+
 	render() {
         this.domElement.innerHTML = `
         <nav class="header">
-        <i class="fas fa-bars hamburger"></i>
-        <h1>BeatMaker</h1>
-        <img src="/src/img/logo.png" class="logo">
+            <i class="fas fa-bars hamburger"></i>
+            <h1>BeatMaker</h1>
+            <img src="/src/img/logo.png" class="logo menu-element" value="Projects">
         </nav>
         <hr>
         <div class="page-title">
-        <h2>Projects</h2>
+            <h2>Projects</h2>
         </div>
         <div class="split">
-        <div class="sidebar">
-        <div class="vertical-line"></div>
-        <ul class="sidebar-content">
-        </ul>
-				</div>
-				<div class="main"></div>
-			</div>
+            <div class="sidebar">
+                <ul class="sidebar-content"></ul>
+            </div>
+            <div class="main"></div>
+        </div>
         `;
         
-
-        console.log(this.domElement.querySelector('.sidebar-content'));
-        
         this.domElement.querySelector('.sidebar-content')
-            .innerHTML = this.sidebarLinksHTML;
-
+        .innerHTML = this.getSidebarLinksHTML();
+        
 		this.domElement.querySelector('.hamburger')
-			.addEventListener("click", this.toggleMenu);
+        .addEventListener("click", this.toggleMenu);
+        
+        this.addClickEventListenerToSidebar();
 
-		this.domElement.querySelector('.fa-folder')
-			.addEventListener("click", this.mainPage);
-
-		this.domElement.querySelector('.fa-soundcloud')
-			.addEventListener("click", this.soundsPage);
-
-		this.domElement.querySelector('.logo')
-            .addEventListener("click", this.mainPage);
-            
         this.router = new Router(document.querySelector('.main'));
 	}
 }
