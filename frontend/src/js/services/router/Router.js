@@ -9,7 +9,7 @@ class Router {
         this.routes = [
             {
                 path: "/",
-                component: Dashboard,
+                component: Projects,
                 data: {
                     title: "Projects"
                 }
