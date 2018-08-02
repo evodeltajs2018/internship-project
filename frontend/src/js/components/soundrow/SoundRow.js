@@ -1,3 +1,6 @@
+import Component from "../Component";
+import "./SoundRow.css";
+
 class SoundRow extends Component {
     constructor(container, sound) {
         super(container, "sounds-grid-row");
@@ -40,3 +43,5 @@ class SoundRow extends Component {
 
     }
 }
+
+export default SoundRow;

@@ -1,13 +1,6 @@
-<<<<<<< HEAD
-import Projects from '../../views/projects/Projects';
-import SoundsGrid from '../../views/soundsgrid/SoundsGrid';
-import NotFound from '../../views/notfound/NotFound';
-
-=======
 import Projects from "../../views/projects/Projects";
-import Dummy from "../../views/dummy/Dummy";
+import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import NotFound from "../../views/notfound/NotFound";
->>>>>>> dev
 
 class Router {
     constructor(container) {

@@ -29,3 +29,5 @@ class SoundsGridRepository {
 		xhr.send();
 	}
 }
+
+export default SoundsGridRepository;

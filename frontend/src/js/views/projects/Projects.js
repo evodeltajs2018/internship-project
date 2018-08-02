@@ -1,11 +1,8 @@
 import Component from "../../components/Component";
 import ProjectsRepository from "../../repositories/ProjectsRepository";
-<<<<<<< HEAD
-=======
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
->>>>>>> dev
 
 class Projects extends Component {
 	constructor(container) {

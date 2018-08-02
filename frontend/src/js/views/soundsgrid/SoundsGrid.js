@@ -1,3 +1,9 @@
+import "./SoundsGrid.css";
+import Component from "../../components/Component";
+import SoundsGridRepository from "../../repositories/SoundsGridRepository";
+import SoundRow from "../../components/soundrow/SoundRow";
+
+
 class SoundsGrid extends Component {
     constructor(container) {
         super(container, "sounds-grid-container");
