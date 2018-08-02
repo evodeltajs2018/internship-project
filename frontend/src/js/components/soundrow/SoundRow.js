@@ -1,6 +1,7 @@
 class SoundRow extends Component {
     constructor(container, sound) {
         super(container, "sounds-grid-row");
+      
         this.sound = sound;
         console.log(this.sound);
     }
@@ -33,6 +34,8 @@ class SoundRow extends Component {
         
         this.deleteButton.addEventListener("click", () => {
             console.log("clicked delete on " + this.sound.id);
+            this.soundsRepository.deleteSound(this.sound.id, () => {this.unrender();});
+
         });
 
     }

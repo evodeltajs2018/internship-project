@@ -15,7 +15,7 @@ class Router {
                 path: "/404",
                 component: NotFound
             }
-        ];        
+        ];
     }
 
     init() {

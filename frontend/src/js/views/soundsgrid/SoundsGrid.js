@@ -7,6 +7,7 @@ class SoundsGrid extends Component {
     }
 
     getData() {
+        console.log("getting data");
         this.soundsRepository.getData((data) => {
             this.data = data;
             console.log(this.data);
@@ -30,6 +31,7 @@ class SoundsGrid extends Component {
             //console.log(this.data);
             for (let row of this.data) {
                 this.htmlRow = new SoundRow(this.grid, row);
+                this.htmlRow.soundsRepository = this.soundsRepository;
                 this.htmlRow.render();
             }
         }

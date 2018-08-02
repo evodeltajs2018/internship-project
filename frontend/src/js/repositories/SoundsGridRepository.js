@@ -17,10 +17,11 @@ class SoundsGridRepository {
 
 	deleteSound(soundId, onSuccess) {
 		const xhr = new XMLHttpRequest();
-		xhr.open("DELETE", "http://localhost:5000/sounds", true);
-		
+		xhr.open("DELETE", "http://localhost:5000/sounds/" + soundId, true);
+
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
+				//console.log(this.responseText);
 				onSuccess();
 			}
 		};
