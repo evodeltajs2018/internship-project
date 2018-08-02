@@ -1,0 +1,27 @@
+.sounds-grid-container {
+    padding-left: 120px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.sounds-cell {
+    word-wrap: break-word;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.sounds-cell {
+    width: 30%;
+    padding: 15px;
+    padding-left: 40px;
+    
+}
+
+#sounds-grid-header {
+    background-color: #cccccc;
+}
