@@ -1,7 +1,8 @@
 .cards {
     display: flex;
     flex-wrap: wrap;
-    padding:100px;
+    padding-left:180px;
+    padding-top:20px;
 }
 .content{
     padding:15px;
@@ -9,7 +10,7 @@
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
-    margin:30px;
+    margin:20px;
     flex-direction: column;
     width:320px;
     overflow: hidden;

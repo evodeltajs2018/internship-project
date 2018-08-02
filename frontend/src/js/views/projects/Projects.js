@@ -17,24 +17,25 @@ class Projects extends Component {
 		});
 	}
 
+	deleteProject(id) {
+		this.projectsRepo.deleteProject(id);
+	}
+
 	render() {
 
-		this.domElement.innerHTML = `<div class="cards"><div class="modals"></div></div>`;
+		this.domElement.innerHTML = `<div class="modals"></div><div class="cards"></div>`;
 
-		const data = JSON.parse(JSON.stringify(this.data));
+		// const data = JSON.parse(JSON.stringify(this.data));
 
-		if(data){
-			for (let project of data.projects){
-				this.card = new Card(this.domElement.querySelector(".cards"),project);
+		if (this.data) {
+			for (let project of this.data) {
+				this.card = new Card(this.domElement.querySelector(".cards"), project);
+				this.card.repo = this.projectsRepo;
 				this.card.render();
 			}
 		}
 
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
-
-		this.modal = new Modal(this.domElement.querySelector(".modals"),"Delete Project","Are you sure you want to delete this project?");
-		this.modal.render();
-		this.modal.closeButtonHandler();
 	}
 }

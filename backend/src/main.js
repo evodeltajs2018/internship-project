@@ -4,6 +4,8 @@ const app = express();
 
 app.use(cors());
 
-require("./routes/ProjectsRoute")(app);
+const ProjectController = require("./routes/ProjectController");
+// require("./routes/ProjectController")(app);
+const projectController = new ProjectController(app);
 
 app.listen(5000, () => console.log("Listening on port 5000..."));
