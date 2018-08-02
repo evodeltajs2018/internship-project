@@ -6,7 +6,7 @@ import "./App.scss";
 class App extends Component {
 	constructor(container) {
         super(container, "app");
-        // this.router = new Router();
+        this.router = new Router();
         this.menuService = new MenuService();
         this.sidebarLinks = this.menuService.getSidebarLinks();
     }
