@@ -1,3 +1,8 @@
+import Component from "../../components/Component";
+import SoundRepository from "../../repositories/SoundRepository";
+import Router from "../../repositories/ProjectsRepository";
+import "./Sound.css";
+
 class Sound extends Component {
     constructor(container) {
         super(container, "add-sound");
@@ -19,10 +24,11 @@ class Sound extends Component {
             type: document.querySelector('#type').value,
             submit: document.querySelector('#submit').value
         }
+        const requestData = `name=${form.name}&type=${form.type}`;
+        SoundRepository.sendData(requestData);
+/*         const request = new XMLHttpRequest();
 
-        const request = new XMLHttpRequest();
-
-        /*         request.onload = () => {
+                 request.onload = () => {
                     let responseObject = null;
         
                     try {
@@ -30,14 +36,14 @@ class Sound extends Component {
                     } catch (e) {
                         console.log ('Could not parse JSON');
                     }
-                } */
+                } 
 
         const requestData = `name=${form.name}&type=${form.type}`;
         console.log(requestData);
 
         request.open('POST', 'http://localhost:5000/sound');
         request.setRequestHeader('Content-type', 'application/json');
-        request.send(requestData);
+        request.send(requestData); */
     }
 
     render() {
@@ -70,5 +76,6 @@ class Sound extends Component {
         });
         this.cancelButton.render();
     }
-
 }
+
+export default Sound;

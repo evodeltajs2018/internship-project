@@ -1,6 +1,7 @@
 import Projects from "../../views/projects/Projects";
 import Dummy from "../../views/dummy/Dummy";
 import NotFound from "../../views/notfound/NotFound";
+import Sound from "../../views/sound/Sound";
 
 class Router {
     constructor(container) {

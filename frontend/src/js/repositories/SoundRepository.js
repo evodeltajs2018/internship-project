@@ -2,7 +2,7 @@ class SoundRepository {
 	constructor() {
 	}
 
-	sendData(onSuccess) {
+	sendData(requestData) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", "http://localhost:5000/sound", true);
 
@@ -15,3 +15,5 @@ class SoundRepository {
 		xhr.send(requestData);
 	}
 }
+
+export default SoundRepository;

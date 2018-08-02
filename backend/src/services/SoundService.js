@@ -29,12 +29,13 @@ class SoundService {
     }
 
     getSoundById(id) {
-        for (let i = 0; i < this.sounds.length; i++) {
+        return this.sounds.filter(sound => id == sound.id);
+        /* for (let i = 0; i < this.sounds.length; i++) {
             if (i == id - 1) {
                 return this.sounds[id - 1];
             }
         }
-        return 0;
+        return 0; */
     }
 }
 
