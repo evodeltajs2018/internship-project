@@ -1,3 +1,6 @@
+import Component from "../../components/Component";
+import "./AddingCard.css";
+
 class AddingCard extends Component{
     constructor(container){
         super(container,"card");
@@ -15,3 +18,5 @@ class AddingCard extends Component{
     }
 
 }
+
+export default AddingCard;

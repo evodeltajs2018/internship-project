@@ -1,3 +1,9 @@
+import Component from "../../components/Component";
+import ProjectsRepository from "../../repositories/ProjectsRepository";
+import AddingCard from "../../components/card/AddingCard";
+import Card from "../../components/card/Card";
+import Modal from "../../components/modal/Modal";
+
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
@@ -39,3 +45,5 @@ class Projects extends Component {
 		this.addingCard.render();
 	}
 }
+
+export default Projects;

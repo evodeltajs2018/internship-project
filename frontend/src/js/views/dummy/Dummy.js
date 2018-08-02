@@ -1,3 +1,7 @@
+import Button from "../../components/button/Button";
+import Component from "../../components/Component";
+
+
 class Dummy extends Component {
     constructor(container) {
         super(container, "dashboard");
@@ -30,3 +34,5 @@ class Dummy extends Component {
         this.refreshButton.render();
     }
 }
+
+export default Dummy;

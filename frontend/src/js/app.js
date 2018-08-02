@@ -1,3 +1,8 @@
+import Component from "./components/Component";
+import MenuService from "./services/MenuService";
+import Router from "./services/router/Router";
+import "./App.scss";
+
 class App extends Component {
 	constructor(container) {
         super(container, "app");
@@ -9,7 +14,7 @@ class App extends Component {
 	toggleMenu() {
 		document.querySelector('.sidebar').classList.toggle('hide-sidebar');
     }
-    
+
     getRouteFromMenuElement(value) {
         return this.sidebarLinks.find((v) => v.name == value).route;
     }
@@ -29,7 +34,7 @@ class App extends Component {
             <li>${element.name}</li>
             `
         });
-        
+
         return this.sidebarLinksHTML;
     }
 
@@ -41,12 +46,12 @@ class App extends Component {
 
     addClickEventListenerToSidebar() {
         const element = this.domElement.querySelectorAll('.menu-element');
-        
+
         for(let i = 0; i < element.length; i++) {
             element[i].addEventListener("click", (e) => { this.loadPage(e.target) });
         }
     }
-    
+
     initRouter() {
         this.router.container = document.querySelector('.main');
         this.router.init();
@@ -70,13 +75,13 @@ class App extends Component {
             <div class="main"></div>
         </div>
         `;
-        
+
         this.domElement.querySelector('.sidebar-content')
         .innerHTML = this.getSidebarLinksHTML();
-        
+
 		this.domElement.querySelector('.hamburger')
         .addEventListener("click", this.toggleMenu);
-        
+
         this.addClickEventListenerToSidebar();
 
         this.initRouter();

@@ -1,9 +1,14 @@
+<<<<<<< HEAD
+class Modal extends Component {
+    constructor(container, title, text) {
+=======
 import Component from "../Component";
 import Button from "../button/Button";
 import "./Modal.css";
 
-class Modal extends Component {
-    constructor(container, title, text) {
+class Modal extends Component{
+    constructor(container, title, text){
+>>>>>>> dev
         super(container, "modal");
         this.title = title;
         this.text = text;
