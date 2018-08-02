@@ -18,3 +18,5 @@ class MenuService {
         return this.sidebarLinks;
     }
 }
+
+export default MenuService;
