@@ -1,3 +1,7 @@
+import Component from "../../components/Component";
+import Button from "../button/Button";
+import "./Card.css";
+
 class Card extends Component{
     constructor(container,project){
         super(container,"card");
@@ -44,3 +48,5 @@ class Card extends Component{
     }
 
 }
+
+export default Card;

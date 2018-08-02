@@ -1,3 +1,7 @@
+import Component from "../../components/Component";
+import Button from "../../components/button/Button";
+import "./NotFound.css";
+
 class NotFound extends Component {
 	constructor(container) {
 		super(container, "not-found");
@@ -21,7 +25,6 @@ class NotFound extends Component {
 
 		this.refreshButton.render();
 	}
-
-
-
 }
+
+export default NotFound;
