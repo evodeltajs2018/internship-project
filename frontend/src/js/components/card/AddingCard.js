@@ -1,5 +1,6 @@
 import Component from "../../components/Component";
 import "./AddingCard.scss";
+import Router from "../../services/router/Router";
 
 class AddingCard extends Component{
     constructor(container){
@@ -7,6 +8,7 @@ class AddingCard extends Component{
     }
 
     addProject(){
+        // Router.goToUrl("/project"); - to do
     }
 
     render(){

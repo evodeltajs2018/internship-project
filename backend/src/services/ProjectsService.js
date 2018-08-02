@@ -23,7 +23,6 @@ class ProjectsService{
 
     deleteById(id){
         for(let i=0; i<this.projects.length; i++){
-            console.log(this.projects[i].id);
             if(this.projects[i].id == id){
                 this.projects.splice(i,1);
             }

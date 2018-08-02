@@ -29,27 +29,10 @@
     padding:5px;
     font-style:bold;
 }
+.modalTitle{
+    font-weight: bold;
+}
 .closeButton{
     float:right;
     font-size:20px;
-}
-.cancelButton{
-    float:right;
-    border:none;
-    outline:none;
-    color:grey;
-    background:transparent;
-    padding:10px;
-    margin-right:10px;
-}
-.confirmButton{
-    border:none;
-    outline:none;
-    color:white;
-    background:#00B8DB;
-    padding:10px;
-    margin-left:10px;
-}
-.modalTitle{
-    font-weight: bold;
 }
