@@ -1,5 +1,5 @@
 import Component from "../../components/Component";
-import "./AddingCard.css";
+import "./AddingCard.scss";
 
 class AddingCard extends Component{
     constructor(container){

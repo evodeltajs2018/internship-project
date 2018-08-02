@@ -1,6 +1,6 @@
 import Component from "../../components/Component";
 import Button from "../../components/button/Button";
-import "./NotFound.css";
+import "./NotFound.scss";
 
 class NotFound extends Component {
 	constructor(container) {
