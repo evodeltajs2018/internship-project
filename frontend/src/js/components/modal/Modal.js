@@ -1,6 +1,6 @@
 import Component from "../Component";
 import Button from "../button/Button";
-import "./Modal.css";
+import "./Modal.scss";
 
 class Modal extends Component {
     constructor(container, title, text) {

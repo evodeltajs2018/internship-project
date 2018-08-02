@@ -1,6 +1,7 @@
 import Component from "../../components/Component";
 import Button from "../button/Button";
-import "./Card.css";
+import Modal from "../modal/Modal";
+import "./Card.scss";
 
 class Card extends Component {
     constructor(container, project) {
