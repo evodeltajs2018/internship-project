@@ -15,3 +15,5 @@ class DashboardRepository {
 		xhr.send();
 	}
 }
+
+export default DashboardRepository;

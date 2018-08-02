@@ -1,3 +1,7 @@
+import Component from "../Component";
+import Button from "../button/Button";
+import "./Modal.css";
+
 class Modal extends Component{
     constructor(container, title, text){
         super(container, "modal");
@@ -34,3 +38,5 @@ class Modal extends Component{
     }
 
 }
+
+export default Modal;

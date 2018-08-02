@@ -15,3 +15,5 @@ class ProjectsRepository {
 		xhr.send();
 	}
 }
+
+export default ProjectsRepository;
