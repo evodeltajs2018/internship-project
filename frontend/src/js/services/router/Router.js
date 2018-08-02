@@ -1,3 +1,7 @@
+import Projects from "../../views/projects/Projects";
+import Dummy from "../../views/dummy/Dummy";
+import NotFound from "../../views/notfound/NotFound";
+
 class Router {
     constructor(container) {
         this.container = container;
@@ -72,3 +76,5 @@ class Router {
     }
 
 }
+
+export default Router;
