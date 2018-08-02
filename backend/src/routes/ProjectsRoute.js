@@ -1,5 +1,25 @@
 const sql = require("mssql");
 
+class SoundController {
+	constructor(app) {
+	 this.app = app;
+   
+	 app.get("/sound", (req, res) => {
+	  this.getAll(req, res);
+	 });
+   
+	 app.delete("/project", (req, res) => {
+	  this.getAll(req, res);
+	 });
+	}
+   
+	getAll(req, res) {
+	 res.json({
+		 name: 1
+	 });
+	}
+   }
+
 function projectsRoute(app) {
 	app.get("/projects", (req, res) => {
 		// const config = {

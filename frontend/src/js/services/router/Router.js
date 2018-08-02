@@ -14,6 +14,10 @@ class Router {
             {
                 path: "/404",
                 component: NotFound
+            },
+            {
+                path: "/sound",
+                component: Sound
             }
         ];        
     }

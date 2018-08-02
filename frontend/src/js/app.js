@@ -7,7 +7,9 @@ class App extends Component {
     }
 
 	toggleMenu() {
-		document.querySelector('.sidebar').classList.toggle('hide-sidebar');
+        document.querySelector('.sidebar').classList.toggle('hide-sidebar');
+        document.querySelector('.main').classList.toggle('main-width');
+
     }
     
     getRouteFromMenuElement(value) {
