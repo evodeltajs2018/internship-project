@@ -36,7 +36,7 @@ class Sound extends Component {
         console.log(requestData);
 
         request.open('POST', 'http://localhost:5000/sound');
-        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('Content-type', 'application/json');
         request.send(requestData);
     }
 
