@@ -4,7 +4,7 @@ const app = express();
 
 app.use(cors());
 
-require("./routes/DashboardRoute")(app);
+require("./routes/ProjectsRoute")(app);
 require("./routes/GenresRoute")(app);
 require("./routes/ProjectRoute")(app);
 
