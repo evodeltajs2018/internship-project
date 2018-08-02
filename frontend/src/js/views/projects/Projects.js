@@ -1,3 +1,6 @@
+import Component from "../../components/Component";
+import ProjectsRepository from "../../repositories/ProjectsRepository";
+
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
@@ -38,3 +41,5 @@ class Projects extends Component {
 		this.modal.closeButtonHandler();
 	}
 }
+
+export default Projects;

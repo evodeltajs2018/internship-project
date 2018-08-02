@@ -1,3 +1,8 @@
+import Projects from '../../views/projects/Projects';
+import SoundsGrid from '../../views/soundsgrid/SoundsGrid';
+import NotFound from '../../views/notfound/NotFound';
+
+
 class Router {
     constructor(container) {
         this.container = container;
@@ -72,3 +77,5 @@ class Router {
     }
 
 }
+
+export default Router;

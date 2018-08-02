@@ -40,3 +40,5 @@ class SoundsGrid extends Component {
     }
 
 }
+
+export default SoundsGrid;
