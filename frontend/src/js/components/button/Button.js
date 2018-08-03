@@ -1,3 +1,6 @@
+import Component from "../Component";
+import "./Button.scss";
+
 class Button extends Component {
 	constructor(container, text = "Click me", buttonClass, onClick = () => {}) {
 		super(container, "button");
@@ -16,3 +19,5 @@ class Button extends Component {
 			.addEventListener("click", this.onClick);
 	}
 }
+
+export default Button;

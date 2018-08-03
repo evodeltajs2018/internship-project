@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<<<<<<< HEAD
+
+<head>
+
+	<title>BeatMaker</title>
+	<link rel="icon" href="/src/img/logo.png">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/src/js/components/button/Button.css">
+	<link rel="stylesheet" href="/src/js/components/card/Card.css">
+	<link rel="stylesheet" href="/src/js/components/card/AddingCard.css">
+	<link rel="stylesheet" href="/src/js/components/button/Button.css">
+	<link rel="stylesheet" href="/src/js/components/modal/Modal.css">
+	<link rel="stylesheet" href="/src/css/App.css">
+	<link rel="stylesheet" href="/src/js/views/notfound/NotFound.css">
+	<link rel="stylesheet" href="/src/js/views/project/Project.css">
+</head>
+
+<body>
+
+	<script src="/src/js/components/Component.js"></script>
+	<script src="/src/js/repositories/DashboardRepository.js"></script>
+	<script src="/src/js/repositories/ProjectsRepository.js"></script>
+
+	
+	
+	<script src="/src/js/services/MenuService.js"></script>
+	<script src="/src/js/components/button/Button.js"></script>
+	<script src="/src/js/components/card/Card.js"></script>
+	<script src="/src/js/components/modal/Modal.js"></script>
+	<script src="/src/js/components/card/AddingCard.js"></script>
+	<script src="/src/js/views/dashboard/Dashboard.js"></script>
+	<script src="/src/js/views/projects/Projects.js"></script>
+	<script src="/src/js/views/project/Project.js"></script>
+	<script src="/src/js/views/dummy/Dummy.js"></script>
+	<script src="/src/js/views/notfound/NotFound.js"></script>
+	<script src="/src/js/services/router/Router.js"></script>
+	<script src="/src/js/App.js"></script>
+</body>
+
+</html>
+=======
+	<head>
+		<title>BeatMaker</title>
+		<link rel="icon" href="/src/img/logo.png">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/build/bundle.css">
+	</head>
+	<body>
+		
+		<script src="/build/bundle.js"></script>
+	</body>
+</html>
+>>>>>>> dev

@@ -1,12 +1,18 @@
-import Component from "../../components/Component";
-import Button from "../button/Button";
-import Router from "../../services/router/Router";
-import "./Card.scss";
-
+<<<<<<< HEAD
 class Card extends Component {
     constructor(container, project) {
         super(container, "card");
         this.project = project;
+=======
+import Component from "../../components/Component";
+import Button from "../button/Button";
+import "./Card.scss";
+
+class Card extends Component{
+    constructor(container,project){
+        super(container,"card");
+        this.project=project;
+>>>>>>> dev
     }
 
     deleteButtonHandler(idProjectParam) {

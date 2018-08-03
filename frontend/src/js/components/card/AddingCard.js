@@ -1,3 +1,7 @@
+import Component from "../../components/Component";
+import Router from "../../services/router/Router";
+import "./AddingCard.scss";
+
 class AddingCard extends Component{
     constructor(container){
         super(container,"card");
@@ -16,3 +20,5 @@ class AddingCard extends Component{
     }
 
 }
+
+export default AddingCard;

@@ -1,3 +1,10 @@
+import Component from "../../components/Component";
+import ProjectsRepository from "../../repositories/ProjectsRepository";
+import AddingCard from "../../components/card/AddingCard";
+import Card from "../../components/card/Card";
+import Modal from "../../components/modal/Modal";
+import Router from "../../services/router/Router";
+
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
@@ -18,7 +25,7 @@ class Projects extends Component {
 	}
 
 	render() {
-
+		
 		this.domElement.innerHTML = `<div class="cards"><div class="modals"></div></div>`;
 
 		const data = JSON.parse(JSON.stringify(this.data));
@@ -38,3 +45,5 @@ class Projects extends Component {
 		this.modal.closeButtonHandler();
 	}
 }
+
+export default Projects;

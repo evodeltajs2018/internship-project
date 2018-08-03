@@ -1,3 +1,10 @@
+import Component from "../../components/Component";
+import ProjectsRepository from "../../repositories/ProjectsRepository";
+import Button from "../../components/button/Button";
+import Modal from "../../components/modal/Modal";
+import Router from "../../services/router/Router";
+import "./Project.scss";
+
 class Project extends Component {
     constructor(container, projectId = 0) {
         super(container, "project");
@@ -8,7 +15,7 @@ class Project extends Component {
         this.genres = null;
         this.description = "";
 
-        this.dashboardRepo = new DashboardRepository();
+        this.dashboardRepo = new ProjectsRepository();
         this.getGenres();
 
         if (projectId != null && projectId != 0) {
@@ -116,5 +123,4 @@ class Project extends Component {
     }
 }
 
-
-
+export default Project;

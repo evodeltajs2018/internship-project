@@ -1,3 +1,8 @@
+import Projects from "../../views/projects/Projects";
+import Project from "../../views/project/Project";
+import Dummy from "../../views/dummy/Dummy";
+import NotFound from "../../views/notfound/NotFound";
+
 class Router {
     constructor(container) {
         this.container = container;
@@ -53,7 +58,6 @@ class Router {
         let urlPath = null;
 
 
-
         let match = url.match(/\/([^\/]+)\/?$/);
 
         if (match) {
@@ -85,7 +89,7 @@ class Router {
         if (route.component) {
             this.setNewCurrentComponent(route);
         } else {
-            console.error("invalid route");
+            console.error("invalid path");
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
@@ -103,3 +107,5 @@ class Router {
     }
 
 }
+
+export default Router;
