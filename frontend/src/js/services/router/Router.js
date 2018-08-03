@@ -66,11 +66,15 @@ class Router {
             if (isNaN(parameter)) {
                 urlPath = url;
                 parameter = null;
-
             }
             else {
+                console.log(url );
+                console.log(urlPath );
                 urlPath = url.substring(0, url.length - parameter.length - 1);
                 parameter = match[1];
+              if(urlPath.length == 0){
+                urlPath = url; 
+              }
             }
         }
         else{

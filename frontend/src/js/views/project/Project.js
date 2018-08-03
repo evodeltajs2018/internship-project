@@ -1,12 +1,12 @@
 import Component from "../../components/Component";
-import ProjectsRepository from "../../repositories/ProjectsRepository";
+import ProjectRepository from "../../repositories/ProjectRepository";
 import Button from "../../components/button/Button";
 import Modal from "../../components/modal/Modal";
 import Router from "../../services/router/Router";
 import "./Project.scss";
 
 class Project extends Component {
-    constructor(container, projectId = 0) {
+    constructor(container, projectId = null) {
         super(container, "project");
 
         this.projectId = projectId;
@@ -15,30 +15,31 @@ class Project extends Component {
         this.genres = null;
         this.description = "";
 
-        this.dashboardRepo = new ProjectsRepository();
+        this.ProjectRepository = new ProjectRepository();
         this.getGenres();
 
-        if (projectId != null && projectId != 0) {
+        if (projectId != null) {
             this.getProject(projectId);
         }
     }
 
     getGenres() {
-        this.dashboardRepo.getGenres((genres) => {
+        this.ProjectRepository.getGenres((genres) => {
             this.genres = genres;
             this.render();
         });
     }
 
     getProject(projectId) {
-        this.dashboardRepo.getProject((project) => {
+        this.ProjectRepository.getProject((project) => {
 
             this.projectName = project["Name"];
             this.description = project["Description"];
             this.selectedGenre = project["Genre"];
 
             this.render();
-        }, projectId);
+        }, 
+        projectId);
     }
 
     createGenresOptions(genres) {

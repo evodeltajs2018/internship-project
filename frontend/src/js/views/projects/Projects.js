@@ -1,5 +1,5 @@
 import Component from "../../components/Component";
-import ProjectsRepository from "../../repositories/ProjectsRepository";
+import ProjectRepository from "../../repositories/ProjectRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
@@ -9,7 +9,7 @@ class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
-		this.projectsRepo = new ProjectsRepository();
+		this.ProjectRepository = new ProjectRepository();
 
 		this.data = null;
 
@@ -18,7 +18,7 @@ class Projects extends Component {
 	}
 
 	getData() {
-		this.projectsRepo.getData((data) => {
+		this.ProjectRepository.getData((data) => {
 			this.data = data;
 			this.render();
 		});

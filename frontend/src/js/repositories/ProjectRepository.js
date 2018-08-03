@@ -1,4 +1,4 @@
-class ProjectsRepository {
+class ProjectRepository {
 	constructor() {
 	}
 
@@ -44,4 +44,4 @@ class ProjectsRepository {
 	}
 }
 
-export default ProjectsRepository;
+export default ProjectRepository;
