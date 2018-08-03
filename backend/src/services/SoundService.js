@@ -22,10 +22,39 @@ class SoundService {
                 type: { id: 4, name: "Pop"}
             }
         ]
+        
+        this.types = [
+            { 
+                id: 1,
+                name: 'beep'
+            },
+            { 
+                id: 2,
+                name: 'boop'
+            },
+            { 
+                id: 3,
+                name: 'poop'
+            },
+            { 
+                id: 4,
+                name: 'troc'
+            }
+        ]
     }
 
-    getSounds() {
+    addSounds(data) {
+        this.sounds.push({ 
+                            id: this.sounds.length + 1,
+                            name: data.name,
+                            type: {id: data.type, name: 'Toate, for now'} 
+                        });
+        console.log(this.sounds);
         return this.sounds;
+    }
+
+    getTypes() {
+        return this.types;
     }
 
     getSoundById(id) {

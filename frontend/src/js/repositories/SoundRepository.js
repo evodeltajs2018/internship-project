@@ -2,9 +2,24 @@ class SoundRepository {
 	constructor() {
 	}
 
-	sendData(requestData) {
+	sendData(data) {
 		const xhr = new XMLHttpRequest();
+		
+		xhr.onload = function () {
+			console.log(this);
+		}
+		
 		xhr.open("POST", "http://localhost:5000/sound", true);
+		
+		xhr.setRequestHeader("Content-Type", "application/json");
+
+		data = JSON.stringify(data);
+		xhr.send(data);
+	}
+
+	getSoundTypes(onSuccess) {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", "http://localhost:5000/sound", true);
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -12,8 +27,8 @@ class SoundRepository {
 			}
 		};
 
-		xhr.send(requestData);
+		xhr.send();
 	}
 }
 
-export default SoundRepository;
+export default new SoundRepository();

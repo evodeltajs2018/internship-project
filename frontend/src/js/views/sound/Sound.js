@@ -1,49 +1,45 @@
 import Component from "../../components/Component";
 import SoundRepository from "../../repositories/SoundRepository";
-import Router from "../../repositories/ProjectsRepository";
-import "./Sound.css";
+import Router from "../../services/router/Router";
+import Button from "../../components/button/Button";
+import "./Sound.scss";
 
 class Sound extends Component {
     constructor(container) {
         super(container, "add-sound");
         this.router = new Router();
 
+        this.getSoundsTypesHTML();
     }
 
-    addButtonHandler() {
-        console.log("Submit the form");
+    getSoundsTypesHTML() {
+        this.typesElement = ``;
+		SoundRepository.getSoundTypes((data) => {
+            this.data = data;
+            for (let i = 0; i < this.data[0].length; i++) {
+                this.typesElement += `
+                    <option value="${this.data[0][i].id}">${this.data[0][i].name}</option>
+                `
+            }
+            document.querySelector("#type").innerHTML = this.typesElement;
+		});
     }
 
-    cancelButtonHandler() {
+    handleSoundsPage() {
         Router.goToUrl('/sounds');
     }
 
-    submitForm() {
+    getFormData() {
         const form = {
             name: document.querySelector('#name').value,
             type: document.querySelector('#type').value,
-            submit: document.querySelector('#submit').value
         }
-        const requestData = `name=${form.name}&type=${form.type}`;
-        SoundRepository.sendData(requestData);
-/*         const request = new XMLHttpRequest();
+        return form;
+    }
 
-                 request.onload = () => {
-                    let responseObject = null;
-        
-                    try {
-                        responseObject = JSON.parse(request.responseText);
-                    } catch (e) {
-                        console.log ('Could not parse JSON');
-                    }
-                } 
-
-        const requestData = `name=${form.name}&type=${form.type}`;
-        console.log(requestData);
-
-        request.open('POST', 'http://localhost:5000/sound');
-        request.setRequestHeader('Content-type', 'application/json');
-        request.send(requestData); */
+    createNewSound(form) {
+        SoundRepository.sendData(form);
+        this.handleSoundsPage();
     }
 
     render() {
@@ -55,24 +51,21 @@ class Sound extends Component {
                 </div>
                 <div>
                     <label for="type">Type:*</label>
-                    <input type="text" id="type"></input>
+                    <select type="type" id="type">
+                    </select>
                 </div>
                 <div>
                 Upload Sound:* <i class="fas fa-cloud-upload-alt fa-1x" style="color: gray"></i>
                 </div>
-                <button type="submit" class="confirmButton" id="submit"}>Confirm</button>
+                <button class="confirmButton" id="submit"}>Confirm</button>
             </div>
             `;
-        /*         this.addButton = new Button(this.domElement.querySelector(".sound-form"),"Confirm","confirmButton",()=>{
-                        this.addButtonHandler();
-                });
-                this.addButton.render(); */
 
         this.domElement.querySelector('#submit')
-            .addEventListener("click", () => this.submitForm());
+            .addEventListener("click", () => this.createNewSound(this.getFormData()));
 
         this.cancelButton = new Button(this.domElement.querySelector(".sound-form"), "CANCEL", "cancelButton", () => {
-            this.cancelButtonHandler();
+            this.handleSoundsPage();
         });
         this.cancelButton.render();
     }
