@@ -1,5 +1,5 @@
 import Component from "../Component";
-import "./Button.css";
+import "./Button.scss";
 
 class Button extends Component {
 	constructor(container, text = "Click me", buttonClass, onClick = () => {}) {
