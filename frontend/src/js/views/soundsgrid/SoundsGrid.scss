@@ -1,0 +1,94 @@
+.sounds-grid-container {
+    padding-left: 120px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.sounds-cell, .actions-cell {
+    word-wrap: break-word;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.sounds-cell, .actions-cell {
+    padding: 15px;
+    padding-left: 40px;
+    padding-right: 0px;
+}
+
+.sounds-cell {
+    width: 40%;
+    /* min-width: 50px; */
+}
+
+.actions-cell {
+    width: 15%;
+    min-width: 150px;
+    word-wrap: none;
+}
+
+
+#sounds-grid-header {
+    background-color: #cccccc;
+}
+
+#sounds-pagination {
+    padding: 20px;
+    padding-right: 0px;
+    display: flex;
+    align-items: flex-end;
+}
+
+#sounds-pagination .button {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    border-collapse: collapse;
+}
+
+.pagination-button {
+    width: 40px;
+    height: 40px;
+    color: #428bca;
+    background: white;
+    
+    border: 1px solid #cccccc;
+    margin: 0;
+    transition-duration: 0.3s;
+}
+
+.pagination-button:focus {
+    outline: none;
+}
+
+.pagination-button:hover {
+    background: #eaeaea;
+}
+
+.current-page {
+    color: white;
+    background: #428bca;
+}
+
+.current-page:hover {
+    background: #458dcd;
+}
+
+.arrow-buttons-container {
+    button {
+        color: #428bca;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 10px;
+    }
+
+    i {
+        padding: 5px;
+    }
+}

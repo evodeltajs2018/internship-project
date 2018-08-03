@@ -2,12 +2,13 @@ class SoundsGridRepository {
 	constructor() {
 	}
 
-	getData(onSuccess) {
+	getData(pagination, onSuccess) {
 		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/sounds", true);
+		xhr.open("GET", `http://localhost:5000/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}`, true);
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
+				console.log(JSON.parse(this.responseText));
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};

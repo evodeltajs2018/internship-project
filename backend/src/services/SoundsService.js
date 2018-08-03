@@ -3,7 +3,7 @@ class SoundsService {
         this.sounds = [
             {
                 id: 1,
-                name: "Clap",
+                name: "Clap1",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -11,7 +11,7 @@ class SoundsService {
             },
             {
                 id: 2,
-                name: "Beat",
+                name: "Beat1",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -19,7 +19,7 @@ class SoundsService {
             },
             {
                 id: 3,
-                name: "Guitar wrum",
+                name: "Guitar wrum1",
                 type: {
                     id: 2,
                     name: "Guitar"
@@ -27,7 +27,7 @@ class SoundsService {
             },
             {
                 id: 4,
-                name: "Bass drop",
+                name: "Bass drop1",
                 type: {
                     id: 3,
                     name: "Bass"
@@ -35,7 +35,7 @@ class SoundsService {
             },
             {
                 id: 5,
-                name: "Swish",
+                name: "Swish1",
                 type: {
                     id: 4,
                     name: "Transition"
@@ -43,7 +43,7 @@ class SoundsService {
             },
             {
                 id: 6,
-                name: "Clap",
+                name: "Clap2",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -51,7 +51,7 @@ class SoundsService {
             },
             {
                 id: 7,
-                name: "Beat",
+                name: "Beat2",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -59,7 +59,7 @@ class SoundsService {
             },
             {
                 id: 8,
-                name: "Guitar wrum",
+                name: "Guitar wrum2",
                 type: {
                     id: 2,
                     name: "Guitar"
@@ -67,7 +67,7 @@ class SoundsService {
             },
             {
                 id: 9,
-                name: "Bass drop",
+                name: "Bass drop2",
                 type: {
                     id: 3,
                     name: "Bass"
@@ -75,7 +75,7 @@ class SoundsService {
             },
             {
                 id: 10,
-                name: "Swish",
+                name: "Swish2",
                 type: {
                     id: 4,
                     name: "Transition"
@@ -83,7 +83,7 @@ class SoundsService {
             },
             {
                 id: 11,
-                name: "Clap",
+                name: "Clap3",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -91,7 +91,7 @@ class SoundsService {
             },
             {
                 id: 12,
-                name: "Beat",
+                name: "Beat3",
                 type: {
                     id: 1,
                     name: "Percution"
@@ -99,34 +99,51 @@ class SoundsService {
             },
             {
                 id: 13,
-                name: "Guitar wrum",
+                name: "Guitar wrum3",
                 type: {
                     id: 2,
                     name: "Guitar"
                 }
             },
-            {
-                id: 14,
-                name: "Bass drop",
-                type: {
-                    id: 3,
-                    name: "Bass"
-                }
-            },
-            {
-                id: 15,
-                name: "Swish",
-                type: {
-                    id: 4,
-                    name: "Transition"
-                }
-            },
+            // {
+            //     id: 14,
+            //     name: "Bass drop3",
+            //     type: {
+            //         id: 3,
+            //         name: "Bass"
+            //     }
+            // },
+            // {
+            //     id: 15,
+            //     name: "Swish3",
+            //     type: {
+            //         id: 4,
+            //         name: "Transition"
+            //     }
+            // },
           
         ];
     }
 
-    getAll() {
-        return this.sounds;
+    getItems(page, itemsPerPage) {
+        let tempData = new Array();
+        for (let i = (page - 1) * itemsPerPage; this.sounds[i] && i < page * itemsPerPage; i++) {
+            console.log(this.sounds[i]);
+            tempData.push(this.sounds[i]);
+        }
+        return tempData;
+    }
+
+    getPageCount(itemsPerPage) {
+        return Math.ceil(this.sounds.length / itemsPerPage);
+    }
+
+    getAll(page, itemsPerPage) {
+        return {
+            data: this.getItems(page, itemsPerPage),
+            pageCount: this.getPageCount(itemsPerPage),
+            currentPage: page
+        }
     }
 
     delete(id) {

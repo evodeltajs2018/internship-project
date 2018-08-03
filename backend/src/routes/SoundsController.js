@@ -22,7 +22,15 @@ class SoundsController {
 	}
 
 	getAll(req, res) {
-		res.json(this.service.getAll());
+		console.log(req.query);
+		const page = req.query.page;
+		const itemsPerPage = req.query.perpage;
+		if (page && itemsPerPage) {
+			res.json(this.service.getAll(page, itemsPerPage));
+		} else {
+			res.json({});
+		}
+		
 	}
 
 	delete(id, req, res) {
