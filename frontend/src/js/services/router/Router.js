@@ -12,10 +12,14 @@ class Router {
                 component: Dummy
             },
             {
+                path: "/project",
+                component: Project
+            },
+            {
                 path: "/404",
                 component: NotFound
             }
-        ];        
+        ];
     }
 
     init() {
@@ -35,24 +39,51 @@ class Router {
         };
     }
 
-    setNewCurrentComponent(component) {
+    setNewCurrentComponent(route) {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
 
-        this.currentComponent = new component.component(this.container);
+        this.currentComponent = new route.component.component(this.container, route.param);
         this.currentComponent.render();
     }
 
     findRouteByUrl(url) {
-        return this.routes.find((route) => { return route.path === url });
+        let parameter = null;
+        let urlPath = null;
+
+
+
+        let match = url.match(/\/([^\/]+)\/?$/);
+
+        if (match) {
+            parameter = match[1];
+
+            if (isNaN(parameter)) {
+                urlPath = url;
+                parameter = null;
+
+            }
+            else {
+                urlPath = url.substring(0, url.length - parameter.length - 1);
+                parameter = match[1];
+            }
+        }
+        else{
+            urlPath = url;
+        }
+
+        return {
+            component: this.routes.find((route) => { return route.path === urlPath }),
+            param: parameter
+        };
     }
 
     renderByUrl(url) {
-        const component = this.findRouteByUrl(url);
+        const route = this.findRouteByUrl(url);
 
-        if (component) {
-            this.setNewCurrentComponent(component);
+        if (route.component) {
+            this.setNewCurrentComponent(route);
         } else {
             console.error("invalid route");
 
@@ -67,7 +98,7 @@ class Router {
         window.dispatchEvent(new Event("popstate"));
     }
 
-    getHistoryState() {
+    static getHistoryState() {
         return window.history.state;
     }
 

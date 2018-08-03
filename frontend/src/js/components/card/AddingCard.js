@@ -4,6 +4,7 @@ class AddingCard extends Component{
     }
 
     addProject(){
+        Router.goToUrl("/project");
     }
 
     render(){

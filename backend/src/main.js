@@ -4,7 +4,6 @@ const app = express();
 
 app.use(cors());
 
-require("./routes/ProjectsRoute")(app);
 require("./routes/GenresRoute")(app);
 require("./routes/ProjectRoute")(app);
 

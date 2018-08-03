@@ -1,14 +1,11 @@
 function genresRoute(app) {
 	app.get("/genres", (req, res) => {
 
+		let GenreService = require("../services/GenreService");
+		let genreService = new GenreService();
+		let genres = genreService.getAllGenres();
 		res.json({
-			"1": "Rock",
-			"2": "Pop",
-			"3": "Electronic",
-			"4": "Hip-Hop",
-			"5": "Clasic",
-			"6": "Dance",
-			"7": "Jazz"
+			genres
 		});
 	});
 }

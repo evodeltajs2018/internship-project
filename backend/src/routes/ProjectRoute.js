@@ -1,28 +1,48 @@
 function ProjectRoute(app) {
+	app.get("/projects", (req, res) => {
+
+		let ProjectService = require("../services/ProjectService");
+		let projectService = new ProjectService();
+		let projects = projectService.getAllProjects();
+
+		let GenreService = require("../services/GenreService");
+		let genreService = new GenreService();
+
+		 for (let i = 0; i < projects.length; i++) {
+		 	genre = genreService.getGenresById(projects[i].genre);
+		 	projects[i].genre = genre;
+             }
+
+		res.json({
+			projects
+		});
+	});
+
 	app.get("/project/:id", (req, res) => {
 
 		let id = req.params.id;
-		let name = "New Project Name...";
-		let description = "default description";
-		let genre = 0;
+		let name = "";
+		let genre = null;
+		let description = "";
 
-		if (id == "1") {
-			name = "Project 1";
-			description = "description1";
-			genre = 1;
-		}
+		let ProjectService = require("../services/ProjectService");
+		let projectService = new ProjectService();
+		let project = projectService.getProjectById(id);
 
-		if (id == "2") {
-			name = "Project 2";
-			description = "description2";
-			genre = 2;
+		if (typeof project !== 'undefined') {
+			name = project.name;
+			description = project.description;
+
+			let GenreService = require("../services/GenreService");
+			let genreService = new GenreService();
+			genre = genreService.getGenresById(project.genre);
 		}
 
 		res.json({
 			"Id": req.params.id,
 			"Name": name,
-			"Description": description,
 			"Genre": genre,
+			"Description": description,
 		});
 	});
 }

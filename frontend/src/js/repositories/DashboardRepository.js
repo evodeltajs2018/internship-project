@@ -31,6 +31,7 @@ class DashboardRepository {
 	getProject(onSuccess, id) {
 		const xhr = new XMLHttpRequest();
 		let url = "http://localhost:5000/project/" + id;
+		
 		xhr.open("GET", url, true);
 
 		xhr.onreadystatechange = function () {
