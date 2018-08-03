@@ -1,6 +1,6 @@
 import Component from "../../components/Component";
 import Button from "../button/Button";
-import "./Card.css";
+import "./Card.scss";
 
 class Card extends Component{
     constructor(container,project){
