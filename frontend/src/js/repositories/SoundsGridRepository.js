@@ -22,7 +22,7 @@ class SoundsGridRepository {
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
 				//console.log(this.responseText);
-				onSuccess();
+				onSuccess(JSON.parse(this.responseText));
 			}
 		};
 
@@ -30,4 +30,4 @@ class SoundsGridRepository {
 	}
 }
 
-export default SoundsGridRepository;
+export default new SoundsGridRepository();

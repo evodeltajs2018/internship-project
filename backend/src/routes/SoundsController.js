@@ -11,10 +11,12 @@ class SoundsController {
 
 	initRoutes() {
 		this.app.get("/sounds", (req, res) => {
+		
 			this.getAll(req, res);	
 		});
 
 		this.app.delete("/sounds/:id", (req, res) => {
+			
 			this.delete(req.params.id, req, res);
 		});
 	}
@@ -24,11 +26,12 @@ class SoundsController {
 	}
 
 	delete(id, req, res) {
-		
-		//console.log(req.params.id);
-		
-		this.service.delete(id);
-		res.json({});
+		const all = this.service.delete(id);
+		if (all) {
+			res.json(all);
+		} else {
+			res.json({});
+		}
 		
 	}
 	
