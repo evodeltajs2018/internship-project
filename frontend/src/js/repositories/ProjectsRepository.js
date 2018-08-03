@@ -33,4 +33,4 @@ class ProjectsRepository {
 
 }
 
-export default ProjectsRepository;
+export default new ProjectsRepository();

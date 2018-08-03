@@ -17,7 +17,7 @@ class ProjectController {
         res.json(this.service.getAll());
     }
 
-    deleteProject(id, req, res){
+    deleteProject(id, req, res) {
         this.service.deleteById(req.params.id);
         res.json({});
     }

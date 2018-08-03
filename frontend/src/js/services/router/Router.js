@@ -62,7 +62,7 @@ class Router {
         if (component) {
             this.setNewCurrentComponent(component);
         } else {
-            console.error("invalid route");
+            console.error("invalid path");
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
@@ -75,7 +75,7 @@ class Router {
         window.dispatchEvent(new Event("popstate"));
     }
 
-    getHistoryState() {
+    static getHistoryState() {
         return window.history.state;
     }
 

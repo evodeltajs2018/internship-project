@@ -27,13 +27,17 @@
     position: relative;
     height:20%;
 }
-.deleteButton{
+.deleteIcon{
+    cursor: pointer;
     position: absolute;
     top: 0px;
     right: 0px;
     padding:2%;
     font-size:30px;
     color:#E61610;
+}
+.deleteIcon:hover{
+    color:rgb(236, 81, 75);
 }
 .cardDescription{
     margin-bottom:20px;

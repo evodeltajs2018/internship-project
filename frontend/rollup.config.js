@@ -1,6 +1,6 @@
-import livereload from 'rollup-plugin-livereload';
-import serve from 'rollup-plugin-server';
-import scss from 'rollup-plugin-scss';
+import livereload from "rollup-plugin-livereload";
+import serve from "rollup-plugin-server";
+import scss from "rollup-plugin-scss";
 
 export default {
   input: 'src/js/App.js',
@@ -10,10 +10,12 @@ export default {
   },
   plugins: [
     serve({
+      open: true,
       verbose: true,
       port: 8080,
       host: 'localhost',
       contentBase: '',
+      historyApiFallback: true,
     }),
     livereload({
       watch: 'build',
