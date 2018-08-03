@@ -26,6 +26,8 @@ class Modal extends Component{
     }
 
     render(){
+       
+        console.log("modal rendere");
         this.domElement.innerHTML = `
         <div class="modalContent">
             <div class="modalHeader">${this.title}<i class="fa fa-close closeButton"></i></div>

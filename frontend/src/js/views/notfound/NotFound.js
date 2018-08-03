@@ -13,7 +13,7 @@ class NotFound extends Component {
             <div class="buttons"><a href="/">Go home</a></div>
 		`;
 
-		this.refreshButton.render();
+		
 	}
 }
 
