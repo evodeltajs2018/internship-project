@@ -16,6 +16,10 @@ class Router {
                 component: Dummy
             },
             {
+                path:"/newproject",
+                component: Dummy
+            },
+            {
                 path: "/404",
                 component: NotFound
             }
