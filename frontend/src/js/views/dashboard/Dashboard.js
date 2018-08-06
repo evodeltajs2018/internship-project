@@ -31,7 +31,7 @@ class Dashboard extends Component {
 		this.refreshButton.text = "Refresh";
 		this.refreshButton.onClick = () => {
 			this.getData();
-			Router.goToUrl("/sounds");
+			Navigator.goToUrl("/sounds");
 		};
 
 		this.refreshButton.render();

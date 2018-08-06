@@ -8,9 +8,18 @@
     &:hover{
         cursor: pointer;
     }
-    background:none;
-    border:none;
-    outline:none;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.confirmButton{
+    border: none;
+    outline: none;
+    color: white;
+    background: #00B8DB;
+    padding: 10px;
+    margin-left: 10px;
 }
 
 .cancelButton{

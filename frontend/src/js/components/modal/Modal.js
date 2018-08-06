@@ -33,6 +33,7 @@ class Modal extends Component {
         });
         this.cancelButton.render();
     }
+
 }
 
 export default Modal;
