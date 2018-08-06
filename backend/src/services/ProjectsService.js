@@ -14,6 +14,8 @@ class ProjectsService {
             id: 6, title: "Project Title 6", genre: "R&B", description: "Sixth example project card cause we need something to see but nothing it's ok"
         }, {
             id: 7, title: "Project Title 7", genre: "R&B", description: "Seventh example project card cause we need something to see but nothing it's ok"
+        },{
+            id: 8, title: "Project Title 8", genre: "Rap", description: "Eighth example project card cause we need something to see but nothing it's ok"
         }];
     }
 

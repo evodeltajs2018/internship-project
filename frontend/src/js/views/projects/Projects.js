@@ -20,18 +20,26 @@ class Projects extends Component {
 		});
 	}
 
+	deleteProject(id){
+		ProjectsRepository.deleteProject(id, () => {
+			this.getData();
+		});
+	}
+	
 	render() {
 		
 		this.domElement.innerHTML = `<div class="modals"></div><div class="cards"></div>`;
 
-		// const data = JSON.parse(JSON.stringify(this.data));
-
 		if (this.data) {
 			for (let project of this.data) {
 				this.card = new Card(this.domElement.querySelector(".cards"), project);
+				this.card.onDelete = (id) => {
+					this.deleteProject(id);
+				};
 				this.card.render();
 			}
 		}
+
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
 		

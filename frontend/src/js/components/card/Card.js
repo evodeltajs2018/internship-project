@@ -2,7 +2,6 @@ import Component from "../../components/Component";
 import Button from "../button/Button";
 import Modal from "../modal/Modal";
 import "./Card.scss";
-import ProjectsRepository from "../../repositories/ProjectsRepository";
 
 class Card extends Component {
     constructor(container, project) {
@@ -10,15 +9,13 @@ class Card extends Component {
         this.project = project;
     }
 
-    deleteButtonHandler(idProjectParam) {
+    deleteButtonHandler() {
         this.modal = new Modal(document.querySelector(".modals"), "Delete Project", "Are you sure you want to delete this project?");
         this.modal.render();
         this.modal.onConfirm = () => {
-            ProjectsRepository.deleteProject(this.project.id, () => { 
-                this.unrender()
-            });
+                this.onDelete(this.project.id);
+            };
         }
-    }
 
     openButtonHandler(idProjectParam) {
 
@@ -42,7 +39,7 @@ class Card extends Component {
         let idProject = this.project.id;
 
         this.domElement.querySelector(".deleteIcon").addEventListener("click", () => {
-            this.deleteButtonHandler(idProject);
+            this.deleteButtonHandler();
         });
 
         this.openButton = new Button(this.domElement.querySelector(".cardFooter"), "OPEN", "leftButton cardButton", () => {
