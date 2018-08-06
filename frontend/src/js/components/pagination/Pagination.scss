@@ -1,0 +1,118 @@
+.sounds-pagination {
+    padding: 20px;
+    padding-right: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    .pages {
+        align-items: center;
+        display: flex;
+                
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            color: #428bca;
+            background: white;
+            
+            border: 1px solid #ddd;
+            margin: 0;
+            transition-duration: 0.3s;
+        }
+
+        .pagination-button.prev-button {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+
+        .pagination-button.next-button {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+
+        .pagination-button, .arrow-button {
+            &:focus {
+                outline: none;
+            }
+            
+        }
+
+        .arrow-button {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .pagination-button {
+            &:hover {
+                background: #eaeaea;
+                cursor: pointer;
+            }
+            
+        }
+
+        .arrow-button, .pagination-button {
+            &:disabled {
+                color: #bbb;
+                cursor: not-allowed;
+            }
+            
+        }
+
+        .pagination-button {
+            &:disabled:hover {
+                background: white;
+                cursor: not-allowed;
+            }
+        }
+
+        .current-page {
+            color: white;
+            background: #428bca;
+            border: none;
+        }
+
+        .current-page:hover {
+            &:hover {
+                background: #458dcd;
+            }
+        }
+
+
+        .arrow-button {
+            color: #428bca;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        
+            margin: 10px;
+            i {
+                padding: 5px;
+            }
+        }
+
+    }
+
+    .button {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        border-collapse: collapse;
+    }
+
+    .page-info {
+        align-items: center;
+        padding: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        font-weight: 200;
+        span {
+            font-weight: bold;
+            padding: 5px;
+        }
+        font-size: 0.7em;
+    }
+}
+
+

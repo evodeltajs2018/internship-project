@@ -1,5 +1,6 @@
 import Component from "./components/Component";
 import MenuService from "./services/MenuService";
+import Navigator from "./services/router/Navigator";
 import Router from "./services/router/Router";
 import "./App.scss";
 
@@ -12,7 +13,9 @@ class App extends Component {
     }
 
 	toggleMenu() {
-		document.querySelector('.sidebar').classList.toggle('hide-sidebar');
+        document.querySelector('.sidebar').classList.toggle('hide-sidebar');
+        document.querySelector('.main').classList.toggle('main-width');
+
     }
 
     getRouteFromMenuElement(value) {
@@ -21,7 +24,7 @@ class App extends Component {
 
     loadPage(target) {
         this.handleTitleChange(target.getAttribute("value"));
-        Router.goToUrl(this.getRouteFromMenuElement(target.getAttribute("value")));
+        Navigator.goToUrl(this.getRouteFromMenuElement(target.getAttribute("value")));
     }
 
     getSidebarLinksHTML() {
