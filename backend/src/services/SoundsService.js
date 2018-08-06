@@ -105,22 +105,22 @@ class SoundsService {
                     name: "Guitar"
                 }
             },
-            // {
-            //     id: 14,
-            //     name: "Bass drop3",
-            //     type: {
-            //         id: 3,
-            //         name: "Bass"
-            //     }
-            // },
-            // {
-            //     id: 15,
-            //     name: "Swish3",
-            //     type: {
-            //         id: 4,
-            //         name: "Transition"
-            //     }
-            // },
+            {
+                id: 14,
+                name: "Bass drop3",
+                type: {
+                    id: 3,
+                    name: "Bass"
+                }
+            },
+            {
+                id: 15,
+                name: "Swish3",
+                type: {
+                    id: 4,
+                    name: "Transition"
+                }
+            },
 
         ];
     }
@@ -141,7 +141,8 @@ class SoundsService {
         return {
             data: this.getItems(page, itemsPerPage),
             pageCount: this.getPageCount(itemsPerPage),
-            currentPage: page
+            currentPage: page,
+            itemCount: this.sounds.length
         }
     }
 

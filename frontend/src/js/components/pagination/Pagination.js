@@ -10,17 +10,37 @@ class Pagination extends Component {
         this.currentPage = 1;
         this.itemsPerPage = 10;
         this.pageCount = null;
+        this.itemsThisPage = 0;
+        this.itemCount = 0;
     }
 
     setup() {
-        this.addPrevButton();
+        this.addPrevButtons();
         this.addPageButtons();
-        this.addNextButton();
-        this.addArrowButtons();
+        this.addNextButtons();
+        this.disableUnusableButtons();
+        this.setupPageInfo();
     }
 
-    addPrevButton() {
-        let button = new Button(this.domElement.querySelector("#pages"), "<<",
+    setupPageInfo() {
+        let startItemIndex = this.itemsPerPage * (this.currentPage - 1) + 1;
+        this.domElement.querySelector(".page-info").innerHTML = `
+            Showing <span>${startItemIndex}</span>
+            - 
+            <span>${startItemIndex + this.itemsThisPage - 1}</span> out of <span>${this.itemCount}</span> sounds
+        `;
+    }
+
+    addPrevButtons() {
+        let prevButton = new Button(this.domElement.querySelector(".pages"),
+            `<i class="fas fa-long-arrow-alt-left"></i>Previous page`,
+            "arrow-button prev-button",
+            () => {
+                this.changePageFunction(this.currentPage - 1);
+            });
+        prevButton.render();
+
+        let button = new Button(this.domElement.querySelector(".pages"), "<<",
             "pagination-button prev-button",
             () => {
                 this.changePageFunction(1);
@@ -28,13 +48,21 @@ class Pagination extends Component {
         button.render();
     }
 
-    addNextButton() {
-        let button = new Button(this.domElement.querySelector("#pages"), ">>",
+    addNextButtons() {
+        let button = new Button(this.domElement.querySelector(".pages"), ">>",
             "pagination-button next-button",
             () => {
                 this.changePageFunction(this.pageCount);
             });
         button.render();
+
+        let nextButton = new Button(this.domElement.querySelector(".pages"),
+            `Next page<i class="fas fa-long-arrow-alt-right"></i>`,
+            "arrow-button next-button",
+            () => {
+                this.changePageFunction(this.currentPage + 1);
+            });
+        nextButton.render();
     }
 
     addPageButtons() {
@@ -43,7 +71,7 @@ class Pagination extends Component {
             if (i == this.currentPage) {
                 buttonClass += " current-page";
             }
-            let button = new Button(this.domElement.querySelector("#pages"), i,
+            let button = new Button(this.domElement.querySelector(".pages"), i,
                 buttonClass,
                 () => {
                     this.changePageFunction(button.text);
@@ -75,32 +103,10 @@ class Pagination extends Component {
         }
     }
 
-    addArrowButtons() {
-        let arrowButtonsContainer = document.createElement("div");
-        arrowButtonsContainer.className = "arrow-buttons-container";
-        this.domElement.appendChild(arrowButtonsContainer);
-
-        let prevButton = new Button(arrowButtonsContainer,
-            `<i class="fas fa-long-arrow-alt-left"></i>Older`,
-            "arrow-button prev-button",
-            () => {
-                this.changePageFunction(this.currentPage - 1);
-            });
-        prevButton.render();
-
-        let nextButton = new Button(arrowButtonsContainer,
-            `Newer<i class="fas fa-long-arrow-alt-right"></i>`,
-            "arrow-button next-button",
-            () => {
-                this.changePageFunction(this.currentPage + 1);
-            });
-        nextButton.render();
-    }
-
-    
     render() {
         this.domElement.innerHTML = `
-            <div id="pages"></div>
+            <div class="page-info"></div>
+            <div class="pages"></div>
         `;
     }
 }

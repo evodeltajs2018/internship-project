@@ -1,5 +1,4 @@
 import Component from "../../components/Component";
-import Button from "../../components/button/Button";
 import "./NotFound.scss";
 
 class NotFound extends Component {

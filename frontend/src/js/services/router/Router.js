@@ -1,6 +1,8 @@
 import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import NotFound from "../../views/notfound/NotFound";
+import Dummy from "../../views/dummy/Dummy";
+import Navigator from "./Navigator";
 
 class Router {
     constructor(container) {
@@ -66,19 +68,10 @@ class Router {
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
-            Router.goToUrl("/404", { data: "404" });
+            Navigator.goToUrl("/404", { data: "404" });
         }
     }
-
-    static goToUrl(url, data = {}) {
-        window.history.pushState(data, "", url);
-        window.dispatchEvent(new Event("popstate"));
-    }
-
-    static getHistoryState() {
-        return window.history.state;
-    }
-
 }
+
 
 export default Router;
