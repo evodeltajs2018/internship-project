@@ -38,34 +38,48 @@ class SoundService {
             },
             { 
                 id: 4,
-                name: 'troc'
+                name: 'troczz'
+            },
+            { 
+                id: 5,
+                name: 'bass'
+            },
+            { 
+                id: 6,
+                name: 'guitar'
             }
         ]
     }
 
     addSounds(data) {
         this.sounds.push({ 
-                            id: this.sounds.length + 1,
-                            name: data.name,
-                            type: {id: data.type, name: 'Toate, for now'} 
-                        });
-        console.log(this.sounds);
+            id: this.sounds.length + 1,
+            name: data.name,
+            type: { id: data.type, name: this.getTypesById(data.type)[0].name } 
+        });
         return this.sounds;
+    }
+
+    editSound(data, paramId) {
+        const insert = {
+                id: parseInt(paramId),
+                name: data.name,
+                type: { id: data.type, name: this.getTypesById(data.type)[0].name }
+        }
+        this.sounds[paramId - 1] = insert;
+    }
+
+    getSoundById(id) {
+        return this.sounds.filter(sound => id == sound.id);
+    }
+
+    getTypesById(id) {
+        return this.types.filter(type => id == type.id);
     }
 
     getTypes() {
         return this.types;
     }
-
-    getSoundById(id) {
-        return this.sounds.filter(sound => id == sound.id);
-        /* for (let i = 0; i < this.sounds.length; i++) {
-            if (i == id - 1) {
-                return this.sounds[id - 1];
-            }
-        }
-        return 0; */
-    }
 }
 
-module.exports = SoundService;
+module.exports = new SoundService();
