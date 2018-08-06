@@ -1,4 +1,8 @@
 .modal {
+<<<<<<< HEAD
+=======
+    display: block; 
+>>>>>>> dev
     position: fixed; 
     z-index: 1;
     left: 0;
@@ -9,51 +13,45 @@
     background-color: rgb(0,0,0); 
     background-color: rgba(255, 255, 255, 0.76); 
     padding:5px;
-}
-.modalContent {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid grey;
-    width: 40%; 
-}
-.modalBody{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    height:80px;
-}
-.modalHeader{
-    border-bottom:1px solid grey;
-    padding:5px;
-    font-style:bold;
-}
-.closeButton{
-    float:right;
-    font-size:20px;
-}
-.cancelButton{
-    float:right;
-    border:none;
-    outline:none;
-    color:grey;
-    background:transparent;
-    padding:10px;
-    margin-right:10px;
-}
-.confirmButton{
-    border:none;
-    outline:none;
-    color:white;
-    background:#00B8DB;
-    padding:10px;
-    margin-left:10px;
+
+    .modalContent {
+        background-color: #fefefe;
+        margin: 15% auto; 
+        padding: 20px;
+        border: 1px solid #dadada;
+        width: 40%; 
+
+        .modalHeader{
+            border-bottom:1px solid #dadada;
+            padding:5px;
+            font-style:bold;
+
+            .modalTitle{
+                font-weight: bold;
+            }
+
+            .closeIcon{
+                cursor: pointer;
+                float:right;
+                font-size:20px;
+            }
+            .closeIcon:hover{
+                color: #353535;
+            }
+            
+        }
+
+        .modalBody{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            height:80px;
+        }
+
+    }
+
 }
 
-.modals {
-    position: absolute;
-    top: 0;
-    left: 0;    
-    width: 0;
-    height: 0;
-}
+
+
+

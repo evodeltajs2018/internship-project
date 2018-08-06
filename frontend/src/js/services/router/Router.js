@@ -16,6 +16,10 @@ class Router {
                 component: SoundsGrid
             },
             {
+                path:"/newproject",
+                component: Dummy
+            },
+            {
                 path: "/404",
                 component: NotFound
             }
