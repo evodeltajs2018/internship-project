@@ -1,6 +1,6 @@
 import "./SoundsGrid.scss";
 import Component from "../../components/Component";
-import SoundsGridRepository from "../../repositories/SoundsGridRepository";
+import SoundRepository from "../../repositories/SoundRepository";
 import SoundRow from "./soundrow/SoundRow";
 import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
@@ -15,7 +15,7 @@ class SoundsGrid extends Component {
     }
 
     getData() {
-        SoundsGridRepository.getData(
+        SoundRepository.getData(
             {
                 currentPage: this.pagination.currentPage,
                 itemsPerPage: this.pagination.itemsPerPage
@@ -63,7 +63,7 @@ class SoundsGrid extends Component {
                 this.soundRow.deleteHandler = (id) => {
                     let modal = new Modal(this.domElement.querySelector(".modals"), "Delete sound", "Are you sure you want to delete this sound?");
                     modal.onConfirm = () => {
-                        SoundsGridRepository.deleteSound(id, () => { this.getData() });
+                        SoundRepository.deleteSound(id, () => { this.getData() });
                     }
                     modal.render();
                 }
