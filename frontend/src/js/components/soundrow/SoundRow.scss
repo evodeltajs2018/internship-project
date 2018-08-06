@@ -1,0 +1,21 @@
+.sounds-grid-row {
+    border-bottom: 1px solid #cccccc;
+}
+
+.sound-action-buttons {
+    .fas {
+        font-size: 20px;
+        padding-left: 20px;
+        cursor: pointer;
+        transition-duration: 0.1s;
+        color: black;
+    }
+   
+}
+
+.sound-action-buttons {
+    .fas:hover {
+        color: #555;
+    }
+    
+}

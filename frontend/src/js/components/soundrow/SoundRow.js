@@ -2,7 +2,7 @@ import Component from "../Component";
 import Router from "../../services/router/Router";
 import Modal from "../modal/Modal";
 import SoundsGridRepository from "../../repositories/SoundsGridRepository";
-import "./SoundRow.css";
+import "./SoundRow.scss";
 
 class SoundRow extends Component {
     constructor(container, sound, reloadFunction) {
@@ -35,10 +35,10 @@ class SoundRow extends Component {
         });
 
         this.deleteButton.addEventListener("click", () => {
-            this.modal = new Modal(document.querySelector(".modals"), "Delete sound", "Are you sure you want to delete this sound?");
+            //this.modal = new Modal(document.querySelector(".modals"), "Delete sound", "Are you sure you want to delete this sound?");
             //this.modal.render();
-
-            SoundsGridRepository.deleteSound(this.sound.id, () => { this.reloadFunction(); });
+            this.deleteHandler(this.sound.id);
+           
         });
 
     }

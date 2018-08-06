@@ -11,18 +11,17 @@ class SoundsController {
 
 	initRoutes() {
 		this.app.get("/sounds", (req, res) => {
-		
-			this.getAll(req, res);	
+
+			this.getAll(req, res);
 		});
 
 		this.app.delete("/sounds/:id", (req, res) => {
-			
+
 			this.delete(req.params.id, req, res);
 		});
 	}
 
 	getAll(req, res) {
-		console.log(req.query);
 		const page = req.query.page;
 		const itemsPerPage = req.query.perpage;
 		if (page && itemsPerPage) {
@@ -30,7 +29,7 @@ class SoundsController {
 		} else {
 			res.json({});
 		}
-		
+
 	}
 
 	delete(id, req, res) {
@@ -40,9 +39,9 @@ class SoundsController {
 		} else {
 			res.json({});
 		}
-		
+
 	}
-	
+
 }
 
 module.exports = SoundsController;

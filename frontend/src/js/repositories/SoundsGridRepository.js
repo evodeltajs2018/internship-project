@@ -8,7 +8,7 @@ class SoundsGridRepository {
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				console.log(JSON.parse(this.responseText));
+				//console.log(JSON.parse(this.responseText));
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};

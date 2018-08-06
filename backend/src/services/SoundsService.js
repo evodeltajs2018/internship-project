@@ -121,14 +121,13 @@ class SoundsService {
             //         name: "Transition"
             //     }
             // },
-          
+
         ];
     }
 
     getItems(page, itemsPerPage) {
         let tempData = new Array();
         for (let i = (page - 1) * itemsPerPage; this.sounds[i] && i < page * itemsPerPage; i++) {
-            console.log(this.sounds[i]);
             tempData.push(this.sounds[i]);
         }
         return tempData;
@@ -154,7 +153,7 @@ class SoundsService {
             }
         }
         return false;
-       
+
     }
 }
 

@@ -8,69 +8,119 @@ class SoundsGrid extends Component {
     constructor(container) {
         super(container, "sounds-grid-container");
 
-       // this.soundsRepository = new SoundsGridRepository();
         this.pagination = {
             currentPage: 1,
-            itemsPerPage: 5
+            itemsPerPage: 3,
+            pageCount: null
         }
         this.getData();
-        
     }
 
     getData() {
-        console.log("get data");
         SoundsGridRepository.getData(this.pagination, (data) => {
-            console.log(data);
             this.data = data.data;
+            this.pagination.pageCount = data.pageCount;
             this.render();
             this.setupPagination(data.pageCount);
-		});
+            this.disableUnusableButtons();
+            if (this.pagination.pageCount < this.pagination.currentPage) {
+                this.goToPage(this.pagination.pageCount);
+            }
+        });
     }
 
-    carouselPage() {
-        setInterval(() => {
-            this.pagination.currentPage++;
-            this.getData();
-        }, 2000);
-        
+    addPrevButton() {
+        let button = new Button(this.soundsPagination.querySelector("#pages"), "<<",
+            "pagination-button prev-button",
+            () => {
+                this.goToPage(1);
+            });
+        button.render();
     }
 
-    setupPagination(pageCount) {
-        for (let i = 1; i <= pageCount; i++) {
+    addNextButton() {
+        let button = new Button(this.soundsPagination.querySelector("#pages"), ">>",
+            "pagination-button next-button",
+            () => {
+                this.goToPage(this.pagination.pageCount);
+            });
+        button.render();
+    }
+
+    addPageButtons() {
+        for (let i = 1; i <= this.pagination.pageCount; i++) {
             let buttonClass = "pagination-button";
             if (i == this.pagination.currentPage) {
                 buttonClass += " current-page";
             }
-            let button = new Button(this.soundsPagination, i,
-            buttonClass, 
-            () => {
-                //console.log(button);
-                this.pagination.currentPage = button.text;
-                this.getData();
-            });
+            let button = new Button(this.soundsPagination.querySelector("#pages"), i,
+                buttonClass,
+                () => {
+                    this.goToPage(button.text);
+                });
             button.render();
-            
+
         }
+    }
+
+    addArrowButtons() {
         let arrowButtonsContainer = document.createElement("div");
         arrowButtonsContainer.className = "arrow-buttons-container";
-
         this.soundsPagination.appendChild(arrowButtonsContainer);
-        let prevButton = new Button(arrowButtonsContainer, `<i class="fas fa-long-arrow-alt-left"></i>previous`, 
-        "arrow-button",
-        () => {
-            this.pagination.currentPage--;
-            this.getData();
-        });
-        
+
+        let prevButton = new Button(arrowButtonsContainer,
+            `<i class="fas fa-long-arrow-alt-left"></i>Older`,
+            "arrow-button prev-button",
+            () => {
+                this.goToPage(this.pagination.currentPage - 1);
+            });
         prevButton.render();
-        let nextButton = new Button(arrowButtonsContainer, `next<i class="fas fa-long-arrow-alt-right"></i>`, 
-        "arrow-button",
-        () => {
-            this.pagination.currentPage++;
-            this.getData();
-        });
-        
+
+        let nextButton = new Button(arrowButtonsContainer,
+            `Newer<i class="fas fa-long-arrow-alt-right"></i>`,
+            "arrow-button next-button",
+            () => {
+                this.goToPage(this.pagination.currentPage + 1);
+            });
         nextButton.render();
+    }
+
+    setupPagination() {
+        this.soundsPagination = this.domElement.querySelector("#sounds-pagination");
+        this.addPrevButton();
+        this.addPageButtons();
+        this.addNextButton();
+        this.addArrowButtons();
+
+    }
+
+    goToPage(page) {
+        this.pagination.currentPage = page;
+        this.getData();
+
+    }
+
+    disablePreviousButtons() {
+        document.querySelectorAll(".prev-button").forEach((btn) => { btn.disabled = true; });
+    }
+
+    disableNextButtons() {
+        document.querySelectorAll(".next-button").forEach((btn) => { btn.disabled = true; });
+    }
+
+    disableUnusableButtons() {
+        this.domElement.querySelectorAll(".arrow-button").forEach((btn) => { btn.disabled = false; });
+
+        if (this.pagination.pageCount <= 1) {
+            this.disableNextButtons();
+            this.disablePreviousButtons();
+        } else {
+            if (this.pagination.currentPage === 1) {
+                this.disablePreviousButtons();
+            } else if (this.pagination.currentPage === this.pagination.pageCount) {
+                this.disableNextButtons();
+            }
+        }
     }
 
     render() {
@@ -81,23 +131,23 @@ class SoundsGrid extends Component {
                 <div class="actions-cell">Actions</div>
             </div>
             <div id="sounds-grid"></div>
-            <div id="sounds-pagination"></div>
+            <div id="sounds-pagination"><div id="pages"></div></div>
             <div class="modals"></div>
 
         `;
 
         this.grid = this.domElement.querySelector("#sounds-grid");
-        this.soundsPagination = this.domElement.querySelector("#sounds-pagination");
-        
+
+
         if (this.data) {
             for (let row of this.data) {
-                this.htmlRow = new SoundRow(this.grid, row, () => {this.getData()});
-                this.htmlRow.render();
+                this.soundRow = new SoundRow(this.grid, row, () => { this.getData() });
+                this.soundRow.render();
+                this.soundRow.deleteHandler = (id) => {
+                    SoundsGridRepository.deleteSound(id, () => { this.getData() });
+                }
             }
         }
-
-        //this.soundsPagination.innerHTML = this.pagination.currentPage;
-       
     }
 
 }
