@@ -1,6 +1,8 @@
 import Projects from "../../views/projects/Projects";
-import Dummy from "../../views/dummy/Dummy";
+import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import NotFound from "../../views/notfound/NotFound";
+import Dummy from "../../views/dummy/Dummy";
+import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 
 class Router {
@@ -14,7 +16,7 @@ class Router {
             },
             {
                 path: "/sounds",
-                component: Dummy
+                component: SoundsGrid
             },
             {
                 path:"/newproject",
@@ -98,19 +100,10 @@ class Router {
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
-            Router.goToUrl("/404", { data: "404" });
+            Navigator.goToUrl("/404", { data: "404" });
         }
     }
-
-    static goToUrl(url, data = {}) {
-        window.history.pushState(data, "", url);
-        window.dispatchEvent(new Event("popstate"));
-    }
-
-    static getHistoryState() {
-        return window.history.state;
-    }
-
 }
+
 
 export default Router;

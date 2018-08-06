@@ -20,6 +20,46 @@ class SoundService {
                 id: 4,
                 name: "Project Title 4",
                 type: { id: 4, name: "Pop"}
+            },
+            { 
+                id: 5,
+                name: "Project Title 1",
+                type: { id: 1, name: "Rock"}
+            },
+            {
+                id: 6,
+                name: "Project Title 2",
+                type: { id: 2, name: "Manelica"}
+            },
+            {
+                id: 7,
+                name: "Project Title 3",
+                type: { id: 3, name: "Rapp"}
+            },
+            {
+                id: 8,
+                name: "Project Title 4",
+                type: { id: 4, name: "Pop"}
+            },
+            { 
+                id: 9,
+                name: "Project Title 1",
+                type: { id: 1, name: "Rock"}
+            },
+            {
+                id: 10,
+                name: "Project Title 2",
+                type: { id: 2, name: "Manelica"}
+            },
+            {
+                id: 11,
+                name: "Project Title 3",
+                type: { id: 3, name: "Rapp"}
+            },
+            {
+                id: 12,
+                name: "Project Title 4",
+                type: { id: 4, name: "Pop"}
             }
         ]
         
@@ -80,6 +120,39 @@ class SoundService {
     getTypes() {
         return this.types;
     }
+
+    getItems(page, itemsPerPage) {
+        let tempData = new Array();
+        for (let i = (page - 1) * itemsPerPage; this.sounds[i] && i < page * itemsPerPage; i++) {
+            tempData.push(this.sounds[i]);
+        }
+        return tempData;
+    }
+
+    getPageCount(itemsPerPage) {
+        return Math.ceil(this.sounds.length / itemsPerPage);
+    }
+
+    getAll(page, itemsPerPage) {
+        return {
+            data: this.getItems(page, itemsPerPage),
+            pageCount: this.getPageCount(itemsPerPage),
+            currentPage: page,
+            itemCount: this.sounds.length
+        }
+    }
+
+    delete(id) {
+        for (let i = 0; i < this.sounds.length; i++) {
+            if (this.sounds[i].id == id) {
+                this.sounds.splice(i, 1);
+                return this.getAll();
+            }
+        }
+        return false;
+
+    }
+
 }
 
 module.exports = new SoundService();
