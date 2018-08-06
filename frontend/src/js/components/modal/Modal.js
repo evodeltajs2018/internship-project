@@ -33,10 +33,6 @@ class Modal extends Component {
         });
         this.cancelButton.render();
     }
-
-    unrender(){
-        this.domElement.parentNode.innerHTML = "";
-    }
 }
 
 export default Modal;

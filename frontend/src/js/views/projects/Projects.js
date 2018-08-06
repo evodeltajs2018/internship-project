@@ -2,6 +2,7 @@ import Component from "../../components/Component";
 import ProjectsRepository from "../../repositories/ProjectsRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
+import Search from "../../components/search/Search";
 
 class Projects extends Component {
 	constructor(container) {
@@ -28,7 +29,13 @@ class Projects extends Component {
 	
 	render() {
 		
-		this.domElement.innerHTML = `<div class="modals"></div><div class="cards"></div>`;
+		this.domElement.innerHTML = `<div class="searches"></div><div class="modals"></div><div class="cards"></div>`;
+
+		this.search = new Search(this.domElement.querySelector(".searches"),"Name");
+		this.search.render();
+
+		this.search = new Search(this.domElement.querySelector(".searches"),"Genre");
+		this.search.render();
 
 		if (this.data) {
 			for (let project of this.data) {

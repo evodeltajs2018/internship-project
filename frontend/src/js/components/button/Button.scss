@@ -5,13 +5,14 @@
     float:right;
 }
 .cardButton{
+    &:hover{
+        cursor: pointer;
+    }
     background:none;
     border:none;
     outline:none;
 }
-.cardButton:hover{
-    cursor: pointer;
-}
+
 .cancelButton{
     cursor: pointer;
     float:right;
@@ -23,6 +24,9 @@
     margin-right:10px;
 }
 .confirmButton{
+    &:hover{
+        background:rgb(73, 210, 238);
+    }
     cursor: pointer;
     border:none;
     outline:none;
@@ -30,7 +34,4 @@
     background:#00B8DB;
     padding:10px;
     margin-left:10px;
-}
-.confirmButton:hover{
-    background:rgb(73, 210, 238);
 }

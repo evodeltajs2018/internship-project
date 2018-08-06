@@ -7,6 +7,10 @@
     min-height: 300px;
 
     .addingCardImage{
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(255, 255, 255);
+        }
         display:flex;
         align-items: center;
         justify-content: center;
@@ -16,11 +20,6 @@
         border-bottom:1px solid #C0C0C0;
         height:80%;
         font-size:80px;
-    }
-
-    .addingCardImage:hover{
-        cursor: pointer;
-        background-color: rgb(255, 255, 255);
     }
     
     .addingCardText{
