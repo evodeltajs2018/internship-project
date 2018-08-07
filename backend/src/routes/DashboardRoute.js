@@ -2,12 +2,12 @@ const sql = require("mssql");
 
 function dashboardRoute(app) {
 	app.get("/dashboard", (req, res) => {
-		// const config = {
+        // const config = {
         //     user: "internship_user",
         //     password: "internship_user",
         //     server: "localhost",
         //     database: "InternshipProject",
-		// 	port: 1333
+		// 	port: 1535
         // };
 
 		// sql.connect(config, err => {
