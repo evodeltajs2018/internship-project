@@ -36,6 +36,7 @@ class Sound extends Component {
         const form = {
             name: document.querySelector('#name').value,
             type: document.querySelector('#type').value,
+            value: this.bytearray
         }
         return form;
     }
@@ -93,6 +94,18 @@ class Sound extends Component {
         return validation;
     }
 
+    generateByteArray() {
+        const input = this.domElement.querySelector("#file");
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            this.bytearray = reader.result;
+            console.log(this.bytearray);
+        }
+
+        reader.readAsArrayBuffer(input.files[0]);
+}
+
     render() {
         this.domElement.innerHTML = `
             <div class="sound-label">
@@ -106,7 +119,10 @@ class Sound extends Component {
                         <div class="input-part">
                             <input type="text" id="name" placeholder="Name"></input>
                             <select type="type" id="type" required=""></select>
-                            <i class="fas fa-cloud-upload-alt fa-1x cursor-pointer" style="color: gray; float: right;"></i>
+                            <input type="file" name="file" id="file" class="inputfile" />
+                            <label for="file">
+                                <i class="fas fa-cloud-upload-alt cursor-pointer" style="color: gray; float: right;"></i>
+                            </label>
                         </div>
                         <div class="none hidden-text">
                             <div class="hidden required red">Required</div>
@@ -128,6 +144,9 @@ class Sound extends Component {
             this.domElement.querySelector('#submit')
                 .addEventListener("click", () => this.createNewSound(this.getFormData()));
         }
+
+        this.domElement.querySelector("#file")
+            .addEventListener("change", () => this.generateByteArray());
 
         this.cancelButton = new Button(this.domElement.querySelector(".form-buttons"), "CANCEL", "cancel-button cursor-pointer", () => {
             Navigator.goToUrl("/sounds");
