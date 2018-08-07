@@ -1,6 +1,6 @@
 import Component from "../../components/Component";
 import SoundRepository from "../../repositories/SoundRepository";
-import Router from "../../services/router/Router";
+import Navigator from "../../services/router/Navigator";
 import Button from "../../components/button/Button";
 import "./Sound.scss";
 
@@ -10,10 +10,6 @@ class Sound extends Component {
         this.soundId = soundId;
 
         this.getSoundsTypesHTML();
-    }
-
-    handleSoundsPage() {
-        Router.goToUrl('/sounds');
     }
 
     getSoundsById() {
@@ -47,14 +43,12 @@ class Sound extends Component {
     createNewSound(form) {
         if (this.verifyFormData()) {
             SoundRepository.sendData(form);
-            this.handleSoundsPage();
         }
     }
 
     editSoundById(form, id) {
         if (this.verifyFormData()) {
             SoundRepository.editSoundById(form, id);
-            this.handleSoundsPage();
         }
     }
 
@@ -136,7 +130,7 @@ class Sound extends Component {
         }
 
         this.cancelButton = new Button(this.domElement.querySelector(".form-buttons"), "CANCEL", "cancel-button cursor-pointer", () => {
-            this.handleSoundsPage();
+            Navigator.goToUrl("/sounds");
         });
         this.cancelButton.render();
     }

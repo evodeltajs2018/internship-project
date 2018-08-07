@@ -11,6 +11,27 @@ class SoundController {
         this.initRoutes();
     }
 
+    getAll(req, res) {
+		const page = req.query.page;
+		const itemsPerPage = req.query.perpage;
+		if (page && itemsPerPage) {
+			res.json(SoundService.getAll(page, itemsPerPage));
+		} else {
+			res.json({});
+		}
+
+	}
+
+	delete(id, req, res) {
+		const all = SoundService.delete(id);
+		if (all) {
+			res.json(all);
+		} else {
+			res.json({});
+		}
+
+	}
+
     initRoutes() {
         this.app.get("/sound/:id", (req, res) => {
             res.json([SoundService.getSoundById(req.params.id)][0][0]);
@@ -27,6 +48,14 @@ class SoundController {
         this.app.get("/sound", (req, res) => {
             res.json([SoundService.getTypes()]);
         });
+
+        this.app.get("/sounds", (req, res) => {
+			this.getAll(req, res);
+		});
+
+		this.app.delete("/sound/:id", (req, res) => {
+			this.delete(req.params.id, req, res);
+		});
     }
 }
 
