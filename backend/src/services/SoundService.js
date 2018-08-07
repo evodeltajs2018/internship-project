@@ -1,5 +1,8 @@
+const DbConnection = require("../dbConnection/Connection");
+
 class SoundService {
     constructor() {
+
         this.sounds = [
             { 
                 id: 1,
@@ -133,13 +136,34 @@ class SoundService {
         return Math.ceil(this.sounds.length / itemsPerPage);
     }
 
-    getAll(page, itemsPerPage) {
-        return {
-            data: this.getItems(page, itemsPerPage),
-            pageCount: this.getPageCount(itemsPerPage),
-            currentPage: page,
-            itemCount: this.sounds.length
-        }
+    getAll(page, itemsPerPage, onSuccess) {
+        console.log(page + " " + itemsPerPage);
+        DbConnection.executeQuery(`
+            SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
+            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            ORDER BY S.Id
+            OFFSET ${(page - 1) * itemsPerPage} ROWS
+            FETCH NEXT ${itemsPerPage} ROWS ONLY
+            `, 
+            (result) => {
+            onSuccess({
+                data: result.recordset.map((record) => {
+                    return {
+                        id: record.Id,
+                        name: record.Name,
+                        type: {
+                            id: record.SoundTypeId,
+                            name: record.TypeName
+                        }
+                    }
+                }),
+                pageCount: this.getPageCount(itemsPerPage),
+                currentPage: page,
+                itemCount: result.recordset.length
+            });
+        });
+       
+        
     }
 
     delete(id) {

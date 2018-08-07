@@ -15,7 +15,10 @@ class SoundController {
 		const page = req.query.page;
 		const itemsPerPage = req.query.perpage;
 		if (page && itemsPerPage) {
-			res.json(SoundService.getAll(page, itemsPerPage));
+            SoundService.getAll(page, itemsPerPage, (data) => {
+                res.json(data);
+            })
+			
 		} else {
 			res.json({});
 		}
