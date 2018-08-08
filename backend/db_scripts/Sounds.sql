@@ -1,9 +1,6 @@
 USE [InternshipProject]
 GO
 
-ALTER TABLE [dbo].[Sound] DROP CONSTRAINT [FK_Sound_Type]
-GO
-
 DROP TABLE IF EXISTS [dbo].[Sound]
     
 DROP TABLE IF EXISTS [dbo].[SoundType]

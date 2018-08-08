@@ -15,9 +15,9 @@ class SoundController {
 		const page = req.query.page;
 		const itemsPerPage = req.query.perpage;
 		if (page && itemsPerPage) {
-            SoundService.getAll(page, itemsPerPage, (data) => {
+            SoundService.getAll(page, itemsPerPage).then((data) => {
                 res.json(data);
-            })
+            });
 			
 		} else {
 			res.json({});
@@ -57,7 +57,7 @@ class SoundController {
 		});
 
 		this.app.delete("/sound/:id", (req, res) => {
-			this.delete(req.params.id, req, res);
+			res.json(this.delete(req.params.id, req, res));
 		});
     }
 }

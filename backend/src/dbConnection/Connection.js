@@ -15,18 +15,19 @@ class DbConnection {
 	}
 	
 	connect() {
-		this.connection = sql.connect(this.config, err => {
-			sql.close();
-		});
+		this.connection = sql.connect(this.config);
 	}
 
-	executeQuery(query, onSuccess) {
-		new sql.Request().query(query, (err, result) => {
-			if (err) {
-				console.log("sql error", err);
-				return null;
-			}
-			onSuccess(result);
+	executeQuery(query) {
+		return this.connection
+		.then(pool => {
+			return pool.request().query(query);
+		})
+		.then((result) => {
+			return result;
+		}).catch((err) => {
+			console.log(err);
+			return null;
 		});	
 		
 	}
