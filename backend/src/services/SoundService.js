@@ -1,90 +1,94 @@
+const DbConnection = require("../dbConnection/Connection");
+const DbMapper = require("../utils/DbMapper");
+
 class SoundService {
     constructor() {
+
         this.sounds = [
-            { 
+            {
                 id: 1,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock" }
             },
             {
                 id: 2,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica" }
             },
             {
                 id: 3,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp" }
             },
             {
                 id: 4,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop" }
             },
-            { 
+            {
                 id: 5,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock" }
             },
             {
                 id: 6,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica" }
             },
             {
                 id: 7,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp" }
             },
             {
                 id: 8,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop" }
             },
-            { 
+            {
                 id: 9,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock" }
             },
             {
                 id: 10,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica" }
             },
             {
                 id: 11,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp" }
             },
             {
                 id: 12,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop" }
             }
         ]
-        
+
         this.types = [
-            { 
+            {
                 id: 1,
                 name: 'beep'
             },
-            { 
+            {
                 id: 2,
                 name: 'boop'
             },
-            { 
+            {
                 id: 3,
                 name: 'poop'
             },
-            { 
+            {
                 id: 4,
                 name: 'troczz'
             },
-            { 
+            {
                 id: 5,
                 name: 'bass'
             },
-            { 
+            {
                 id: 6,
                 name: 'guitar'
             }
@@ -92,19 +96,19 @@ class SoundService {
     }
 
     addSounds(data) {
-        this.sounds.push({ 
+        this.sounds.push({
             id: this.sounds.length + 1,
             name: data.name,
-            type: { id: data.type, name: this.getTypesById(data.type)[0].name } 
+            type: { id: data.type, name: this.getTypesById(data.type)[0].name }
         });
         return this.sounds;
     }
 
     editSound(data, paramId) {
         const insert = {
-                id: parseInt(paramId),
-                name: data.name,
-                type: { id: data.type, name: this.getTypesById(data.type)[0].name }
+            id: parseInt(paramId),
+            name: data.name,
+            type: { id: data.type, name: this.getTypesById(data.type)[0].name }
         }
         this.sounds[paramId - 1] = insert;
     }
@@ -130,23 +134,44 @@ class SoundService {
     }
 
     getPageCount(itemsPerPage) {
-        return Math.ceil(this.sounds.length / itemsPerPage);
+        return DbConnection.executeQuery(`
+            SELECT CEILING(CAST(COUNT(*) AS FLOAT) / ${itemsPerPage}) AS itemCount FROM Sound
+            `).then((result) => {
+                return result;
+            }).catch((err) => {
+                console.log(err);
+                return null;
+            });
     }
 
     getAll(page, itemsPerPage) {
-        return {
-            data: this.getItems(page, itemsPerPage),
-            pageCount: this.getPageCount(itemsPerPage),
-            currentPage: page,
-            itemCount: this.sounds.length
-        }
+        return DbConnection.executeQuery(`
+            SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
+            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            ORDER BY S.Id
+            OFFSET ${(page - 1) * itemsPerPage} ROWS
+            FETCH NEXT ${itemsPerPage} ROWS ONLY
+            `)
+            .then((result) => {
+                return this.getPageCount(itemsPerPage).then((itemCount) => {
+                    return {
+                        data: result.recordset.map((record) => DbMapper.mapSound(record)),
+                        pageCount: itemCount.recordset[0].itemCount,
+                        currentPage: page,
+                        itemCount: result.recordset.length
+                    };
+                });
+
+            });
+
+
     }
 
     delete(id) {
         for (let i = 0; i < this.sounds.length; i++) {
             if (this.sounds[i].id == id) {
                 this.sounds.splice(i, 1);
-                return this.getAll();
+                return true;
             }
         }
         return false;
