@@ -9,6 +9,13 @@ class DbMapper {
             }
         }
     }
+
+    static mapType(type) {
+        return {
+            id: type.Id,
+            name: type.Name
+        }
+    }
 }
 
 module.exports = DbMapper;
