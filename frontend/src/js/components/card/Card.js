@@ -40,6 +40,7 @@ class Card extends Component {
 
         this.domElement.querySelector(".deleteIcon").addEventListener("click", () => {
             this.deleteButtonHandler();
+            document.querySelector("body").style.overflow = "hidden";
         });
 
         this.openButton = new Button(this.domElement.querySelector(".cardFooter"), "OPEN", "leftButton cardButton", () => {

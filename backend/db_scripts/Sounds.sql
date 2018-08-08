@@ -4,7 +4,7 @@ GO
 DROP TABLE IF EXISTS [dbo].[Sound]
     
 DROP TABLE IF EXISTS [dbo].[SoundType]
-
+GO
 
 SET ANSI_NULLS ON
 GO

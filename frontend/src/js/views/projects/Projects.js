@@ -3,6 +3,7 @@ import ProjectsRepository from "../../repositories/ProjectsRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
+import "./Projects.scss";
 
 class Projects extends Component {
 	constructor(container) {
@@ -10,9 +11,25 @@ class Projects extends Component {
 
 		this.data = null;
 		this.displayData = null;
+		this.filter = {};
 
 		this.getData();
 
+	}
+
+	allCards(array) {
+		this.domElement.querySelector(".cards").innerHTML = "";
+
+		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
+		this.addingCard.render();
+
+		if (this.displayData) {
+			for (let project of this.displayData) {
+				this.cardCreator(project);
+			}
+		}
+
+		
 	}
 
 	getData() {
@@ -29,29 +46,29 @@ class Projects extends Component {
 		this.card.onDelete = (id) => {
 			this.deleteProject(id);
 		};
-
 	}
-	
+
 	deleteProject(id) {
 		ProjectsRepository.deleteProject(id, () => {
 			this.getData();
 		});
 	}
 
-	filterProjects(inputValue, property) {
-		this.displayData = this.displayData.filter((project) =>
-			project[property].toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-		);
-		this.domElement.querySelector(".cards").innerHTML = "";
-		if (this.displayData) {
-			for (let i = 0; i < this.displayData.length; i++) {
-				this.cardCreator(this.displayData[i]);
-				this.domElement.querySelector(".cards").appendChild(this.card.domElement);
+	filterProjects(filter) {
+		this.displayData = this.data.filter((item) => {
+			for(let key in filter){
+				if(item[key].toLowerCase().indexOf(filter[key].toLowerCase()) == -1)
+					return false;
 			}
-		}
-		this.addingCard.render();
-		this.domElement.querySelector(".cards").appendChild(this.addingCard.domElement);
+			return true;
+		})
+
+		this.domElement.querySelector(".cards").innerHTML = "";
+
+		this.allCards(this.displayData);
+
 	}
+
 
 	render() {
 
@@ -59,34 +76,25 @@ class Projects extends Component {
 
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
-		this.searchTitle.domElement.querySelector(".search-input").addEventListener("change", () => {
-			if (this.searchTitle.domElement.querySelector(".search-input").value == "") {
-				this.displayData = this.data;
-				this.render();
-			} else {
-				this.filterProjects(this.searchTitle.domElement.querySelector(".search-input").value, "title");
-			}
+		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
+
+			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+
+			this.filterProjects(this.filter);
+
 		})
 
 		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
 		this.searchGenre.render();
-		this.searchGenre.domElement.querySelector(".search-input").addEventListener("change", () => {
-			if (this.searchGenre.domElement.querySelector(".search-input").value == "") {
-				this.displayData=this.data;
-				this.render();
-			} else {
-				this.filterProjects(this.searchGenre.domElement.querySelector(".search-input").value, "genre");
-			}
+		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
+			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+
+			this.filterProjects(this.filter);
 		})
 
-		if (this.data) {
-			for (let project of this.data) {
-				this.cardCreator(project);
-			}
-		}
-
-		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
-		this.addingCard.render();
+		this.allCards(this.data);
 
 	}
 }
