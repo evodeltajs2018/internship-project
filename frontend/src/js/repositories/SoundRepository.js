@@ -59,8 +59,12 @@ class SoundRepository {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
 				//Navigator.goToUrl("/sounds");
 			}
+<<<<<<< HEAD
 		};
 		
+=======
+		}
+>>>>>>> dev
 		data = JSON.stringify(data);
 		xhr.send(data);
 	}
@@ -71,11 +75,9 @@ class SoundRepository {
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				//console.log(JSON.parse(this.responseText));
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};
-
 		xhr.send();
 	}
 
@@ -85,11 +87,9 @@ class SoundRepository {
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				//console.log(this.responseText);
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};
-
 		xhr.send();
 	}
 

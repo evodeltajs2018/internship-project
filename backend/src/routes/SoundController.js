@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 class SoundController {
     constructor(app) {
         this.app = app;
-        
+
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -12,32 +12,64 @@ class SoundController {
     }
 
     getAll(req, res) {
-		const page = req.query.page;
-		const itemsPerPage = req.query.perpage;
-		if (page && itemsPerPage) {
-			res.json(SoundService.getAll(page, itemsPerPage));
-		} else {
-			res.json({});
-		}
+        const page = req.query.page;
+        const itemsPerPage = req.query.perpage;
+        if (page && itemsPerPage) {
+            SoundService.getAll(page, itemsPerPage).then((data) => {
+                res.json(data);
+            });
 
-	}
+        } else {
+            res.json({});
+        }
 
-	delete(id, req, res) {
-		const all = SoundService.delete(id);
-		if (all) {
-			res.json(all);
-		} else {
-			res.json({});
-		}
+    }
 
-	}
+    addSound(req, res) {
+        let sound = req.body;
+        SoundService.addSound(sound).then((result) => {
+            res.json(result);
+        })
+    }
+
+    deleteSound(req, res) {
+        let id = req.params.id;
+        SoundService.delete(id).then((result) => {
+            if (result) {
+                res.json(result);
+            } else {
+                res.json({});
+            }
+        });
+    }
+
+    editSound(req, res) {
+        let sound = req.body, id = req.params.id;
+        SoundService.editSound(sound, id).then((result) => {
+            res.json(result);
+        });
+    }
+
+    getTypes(req, res) {
+        SoundService.getTypes().then((result) => {
+            res.json(result);
+        });
+    }
+
+    getSoundById(req, res) {
+        let id = req.params.id;
+        SoundService.getSoundById(id).then((result) => {
+            res.json(result);
+        });
+    }
 
     initRoutes() {
         this.app.get("/sound/:id", (req, res) => {
-            res.json([SoundService.getSoundById(req.params.id)][0][0]);
+            this.getSoundById( req, res);
         });
 
         this.app.post("/sound", (req, res) => {
+<<<<<<< HEAD
             // #1 convert the string to a node buffer
             // #2 save with mssql the buffer
             const buf = Buffer.from(JSON.stringify(req.body.value));
@@ -58,25 +90,32 @@ class SoundController {
             // console.log(buf1);
             //console.log(buf.toString('utf8'));
             res.json([SoundService.addSounds(req.body)]);
+=======
+            this.addSound(req, res);
+>>>>>>> dev
         });
-        
+
         this.app.post("/sound/:id", (req, res) => {
+<<<<<<< HEAD
             const buf = Buffer.from(JSON.stringify(req.body.value));
             console.log(buf);
             res.json([SoundService.editSound(req.body, req.params.id)]);
+=======
+            this.editSound(req, res);
+>>>>>>> dev
         });
 
         this.app.get("/sound", (req, res) => {
-            res.json([SoundService.getTypes()]);
+            this.getTypes(req, res);
         });
 
         this.app.get("/sounds", (req, res) => {
-			this.getAll(req, res);
-		});
+            this.getAll(req, res);
+        });
 
-		this.app.delete("/sound/:id", (req, res) => {
-			this.delete(req.params.id, req, res);
-		});
+        this.app.delete("/sound/:id", (req, res) => {
+            this.deleteSound(req, res);
+        });
     }
 }
 
