@@ -9,6 +9,7 @@ class Projects extends Component {
 		super(container, "projects");
 
 		this.data = null;
+		this.displayData = null;
 
 		this.getData();
 
@@ -17,6 +18,7 @@ class Projects extends Component {
 	getData() {
 		ProjectsRepository.getData((data) => {
 			this.data = data;
+			this.displayData = data;
 			this.render();
 		});
 	}
@@ -36,29 +38,14 @@ class Projects extends Component {
 		});
 	}
 
-	filterProjectsByTitle(inputValue) {
-		const filterProjects = this.data.filter((project) =>
-			project.title.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+	filterProjects(inputValue, property) {
+		this.displayData = this.displayData.filter((project) =>
+			project[property].toLowerCase().indexOf(inputValue.toLowerCase()) > -1
 		);
 		this.domElement.querySelector(".cards").innerHTML = "";
-		if (filterProjects) {
-			for (let i = 0; i < filterProjects.length; i++) {
-				this.cardCreator(filterProjects[i]);
-				this.domElement.querySelector(".cards").appendChild(this.card.domElement);
-			}
-		}
-		this.addingCard.render();
-		this.domElement.querySelector(".cards").appendChild(this.addingCard.domElement);
-	}
-
-	filterProjectsByGenre(inputValue) {
-		const filterProjects = this.data.filter((project) =>
-			project.genre.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-		);
-		this.domElement.querySelector(".cards").innerHTML = "";
-		if (filterProjects) {
-			for (let i = 0; i < filterProjects.length; i++) {
-				this.cardCreator(filterProjects[i]);
+		if (this.displayData) {
+			for (let i = 0; i < this.displayData.length; i++) {
+				this.cardCreator(this.displayData[i]);
 				this.domElement.querySelector(".cards").appendChild(this.card.domElement);
 			}
 		}
@@ -72,21 +59,23 @@ class Projects extends Component {
 
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
-		this.searchTitle.domElement.querySelector(".search-input").addEventListener("input", () => {
+		this.searchTitle.domElement.querySelector(".search-input").addEventListener("change", () => {
 			if (this.searchTitle.domElement.querySelector(".search-input").value == "") {
+				this.displayData = this.data;
 				this.render();
 			} else {
-				this.filterProjectsByTitle(this.searchTitle.domElement.querySelector(".search-input").value);
+				this.filterProjects(this.searchTitle.domElement.querySelector(".search-input").value, "title");
 			}
 		})
 
 		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
 		this.searchGenre.render();
-		this.searchGenre.domElement.querySelector(".search-input").addEventListener("input", () => {
+		this.searchGenre.domElement.querySelector(".search-input").addEventListener("change", () => {
 			if (this.searchGenre.domElement.querySelector(".search-input").value == "") {
+				this.displayData=this.data;
 				this.render();
 			} else {
-				this.filterProjectsByGenre(this.searchGenre.domElement.querySelector(".search-input").value);
+				this.filterProjects(this.searchGenre.domElement.querySelector(".search-input").value, "genre");
 			}
 		})
 
