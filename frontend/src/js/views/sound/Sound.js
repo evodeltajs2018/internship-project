@@ -94,13 +94,24 @@ class Sound extends Component {
         return validation;
     }
 
+    saveByteArray(reportName, base64) {
+        var byte = new Uint8Array(base64);
+        var blob = new Blob([byte], {type : 'audio/ogg'});
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        var fileName = reportName + ".mp3";
+        link.download = fileName;
+        //link.click();
+        return byte;
+    };
+
     generateByteArray() {
         const input = this.domElement.querySelector("#file");
         const reader = new FileReader();
 
         reader.onload = () => {
-            this.bytearray = reader.result;
-            console.log(this.bytearray);
+            console.log(reader.result);
+            this.bytearray = this.saveByteArray("Test", reader.result); // Pentru test
         }
 
         reader.readAsArrayBuffer(input.files[0]);

@@ -8,12 +8,16 @@ class SoundRepository {
 		const xhr = new XMLHttpRequest();
 		
 		xhr.open("POST", "http://localhost:5000/sound", true);
+		// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		// xhr.setRequestHeader("Content-Type", "multipart/form-data");
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/sounds");
+				//Navigator.goToUrl("/sounds");
 			}
-		}
+		};
+
+		console.log(data.value.length);
 		data = JSON.stringify(data);
 		xhr.send(data);
 	}
@@ -40,9 +44,11 @@ class SoundRepository {
 				if (this.responseText == '') {
 					return Navigator.goToUrl('/sounds');
 				}
+				console.log(JSON.parse(this.responseText));
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};
+
 		xhr.send();
 	}
 
@@ -53,10 +59,9 @@ class SoundRepository {
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/sounds");
+				//Navigator.goToUrl("/sounds");
 			}
-		}
-		
+		};
 		
 		data = JSON.stringify(data);
 		xhr.send(data);

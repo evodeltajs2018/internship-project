@@ -4,62 +4,74 @@ class SoundService {
             { 
                 id: 1,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock"},
+                bytearray: []
             },
             {
                 id: 2,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica"},
+                bytearray: []
             },
             {
                 id: 3,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp"},
+                bytearray: []
             },
             {
                 id: 4,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop"},
+                bytearray: []
             },
             { 
                 id: 5,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock"},
+                bytearray: []
             },
             {
                 id: 6,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica"},
+                bytearray: []
             },
             {
                 id: 7,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp"},
+                bytearray: []
             },
             {
                 id: 8,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop"},
+                bytearray: []
             },
             { 
                 id: 9,
                 name: "Project Title 1",
-                type: { id: 1, name: "Rock"}
+                type: { id: 1, name: "Rock"},
+                bytearray: []
             },
             {
                 id: 10,
                 name: "Project Title 2",
-                type: { id: 2, name: "Manelica"}
+                type: { id: 2, name: "Manelica"},
+                bytearray: []
             },
             {
                 id: 11,
                 name: "Project Title 3",
-                type: { id: 3, name: "Rapp"}
+                type: { id: 3, name: "Rapp"},
+                bytearray: []
             },
             {
                 id: 12,
                 name: "Project Title 4",
-                type: { id: 4, name: "Pop"}
+                type: { id: 4, name: "Pop"},
+                bytearray: []
             }
         ]
         
@@ -95,16 +107,17 @@ class SoundService {
         this.sounds.push({ 
             id: this.sounds.length + 1,
             name: data.name,
-            type: { id: data.type, name: this.getTypesById(data.type)[0].name } 
+            type: { id: data.type, name: this.getTypesById(data.type)[0].name },
+            bytearray: data.value
         });
-        return this.sounds;
     }
 
     editSound(data, paramId) {
         const insert = {
                 id: parseInt(paramId),
                 name: data.name,
-                type: { id: data.type, name: this.getTypesById(data.type)[0].name }
+                type: { id: data.type, name: this.getTypesById(data.type).name },
+                bytearray: data.value
         }
         this.sounds[paramId - 1] = insert;
     }
