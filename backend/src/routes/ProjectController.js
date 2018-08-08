@@ -4,6 +4,14 @@ const bodyParser = require('body-parser');
 class ProjectController {
     constructor(app) {
         this.app = app;
+
+        const config = {
+            user: "internship_user",
+            password: "internship_user",
+            server: "localhost",
+            database: "InternshipProject",
+			port: 1535
+        };
         
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,39 +43,3 @@ class ProjectController {
 }
 
 module.exports = ProjectController;
-
-
-// //const sql = require("mssql");
-
-// class ProjectController {
-//     constructor(app) {
-
-
-
-
-
-
-//         const ProjectService = require("../services/ProjectsService.js");
-//         this.app = app;
-//         this.service = new ProjectService();
-
-//         app.get("/project", (req, res) => {
-//             this.getAll(req, res);
-//         });
-
-//         app.delete("/project/:id", (req, res) => {
-//             this.deleteProject(req.params.id, req, res);
-//         });
-//     }
-
-//     getAll(req, res) {
-//         res.json(this.service.getAll());
-//     }
-
-//     deleteProject(id, req, res) {
-//         this.service.deleteById(req.params.id);
-//         res.json({});
-//     }
-// }
-
-// module.exports = ProjectController;
