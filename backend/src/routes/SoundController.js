@@ -40,22 +40,29 @@ class SoundController {
         this.app.post("/sound", (req, res) => {
             // #1 convert the string to a node buffer
             // #2 save with mssql the buffer
-            let i = 0;
+            const buf = Buffer.from(JSON.stringify(req.body.value));
+            console.log(buf);
+            //console.log(buf.toString('binary'));
+
+            /* let i = 0;
             while (req.body.value[i] != null) {
                 i++;
             }
-            const buf1 = Buffer.alloc(i);
+            const buf = Buffer.alloc(i);
             for (let j = 0; j < i; j++) {
-                buf1[j] = req.body.value[j];
+                buf[j] = req.body.value[j];
                 // console.log(buf1[j]);
-            }
+            } */
 
             // const buf = new Buffer(req.body.value[3]);
             // console.log(buf1);
+            //console.log(buf.toString('utf8'));
             res.json([SoundService.addSounds(req.body)]);
         });
         
         this.app.post("/sound/:id", (req, res) => {
+            const buf = Buffer.from(JSON.stringify(req.body.value));
+            console.log(buf);
             res.json([SoundService.editSound(req.body, req.params.id)]);
         });
 

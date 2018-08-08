@@ -8,8 +8,6 @@ class SoundRepository {
 		const xhr = new XMLHttpRequest();
 		
 		xhr.open("POST", "http://localhost:5000/sound", true);
-		// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		// xhr.setRequestHeader("Content-Type", "multipart/form-data");
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
