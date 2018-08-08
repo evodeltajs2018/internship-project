@@ -1,13 +1,13 @@
 .sounds-pagination {
-    padding: 20px;
-    padding-right: 0px;
+    padding: 20px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    flex-wrap: wrap;
     .pages {
         align-items: center;
         display: flex;
+        
                 
         .pagination-button {
             width: 40px;

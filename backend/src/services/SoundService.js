@@ -2,135 +2,54 @@ const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
-    constructor() {
-
-        this.sounds = [
-            {
-                id: 1,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock" }
-            },
-            {
-                id: 2,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica" }
-            },
-            {
-                id: 3,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp" }
-            },
-            {
-                id: 4,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop" }
-            },
-            {
-                id: 5,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock" }
-            },
-            {
-                id: 6,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica" }
-            },
-            {
-                id: 7,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp" }
-            },
-            {
-                id: 8,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop" }
-            },
-            {
-                id: 9,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock" }
-            },
-            {
-                id: 10,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica" }
-            },
-            {
-                id: 11,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp" }
-            },
-            {
-                id: 12,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop" }
-            }
-        ]
-
-        this.types = [
-            {
-                id: 1,
-                name: 'beep'
-            },
-            {
-                id: 2,
-                name: 'boop'
-            },
-            {
-                id: 3,
-                name: 'poop'
-            },
-            {
-                id: 4,
-                name: 'troczz'
-            },
-            {
-                id: 5,
-                name: 'bass'
-            },
-            {
-                id: 6,
-                name: 'guitar'
-            }
-        ]
-    }
-
-    addSounds(data) {
-        this.sounds.push({
-            id: this.sounds.length + 1,
-            name: data.name,
-            type: { id: data.type, name: this.getTypesById(data.type)[0].name }
+    addSound(data) {
+        return DbConnection.executeQuery(`
+            INSERT INTO Sound(Name, SoundTypeId) VALUES
+            ('${data.name}', ${data.type})
+        `).then((result) => {
+            return result.rowsAffected[0] === 1;
         });
-        return this.sounds;
     }
 
     editSound(data, paramId) {
-        const insert = {
-            id: parseInt(paramId),
-            name: data.name,
-            type: { id: data.type, name: this.getTypesById(data.type)[0].name }
-        }
-        this.sounds[paramId - 1] = insert;
+        return DbConnection.executeQuery(`
+            UPDATE Sound SET
+            Name = '${data.name}',
+            SoundTypeId = ${data.type}
+            WHERE Id = ${paramId}
+        `).then((result) => {
+            return result.rowsAffected[0] === 1;
+        });
     }
 
     getSoundById(id) {
-        return this.sounds.filter(sound => id == sound.id);
+        return DbConnection.executeQuery(`
+            SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
+            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            WHERE S.Id = ${id}
+        `).then((result) => {
+            return DbMapper.mapSound(result.recordset[0]);
+        })
     }
 
     getTypesById(id) {
-        return this.types.filter(type => id == type.id);
+        return DbConnection.executeQuery(`
+            SELECT Id, Name 
+            FROM SoundType
+            WHERE Id = ${id}
+        `).then((result) => {
+            return result.recordset.map((type) => { return DbMapper.mapType(type); });
+        });
     }
 
     getTypes() {
-        return this.types;
-    }
+        return DbConnection.executeQuery(`
+            SELECT Id, Name 
+            FROM SoundType
+        `).then((result) => {
+            return result.recordset.map((type) => { return DbMapper.mapType(type); });
+        });
 
-    getItems(page, itemsPerPage) {
-        let tempData = new Array();
-        for (let i = (page - 1) * itemsPerPage; this.sounds[i] && i < page * itemsPerPage; i++) {
-            tempData.push(this.sounds[i]);
-        }
-        return tempData;
     }
 
     getPageCount(itemsPerPage) {
@@ -144,37 +63,47 @@ class SoundService {
             });
     }
 
+    getCount() {
+        return DbConnection.executeQuery(`
+            SELECT COUNT(*) AS Count FROM Sound
+        `).then((result) => {
+            return result;
+        }).catch((err) => {
+            console.log(err);
+            return null;
+        });
+    }
+
     getAll(page, itemsPerPage) {
         return DbConnection.executeQuery(`
             SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
             FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-            ORDER BY S.Id
+            ORDER BY S.Name
             OFFSET ${(page - 1) * itemsPerPage} ROWS
             FETCH NEXT ${itemsPerPage} ROWS ONLY
             `)
             .then((result) => {
                 return this.getPageCount(itemsPerPage).then((itemCount) => {
-                    return {
-                        data: result.recordset.map((record) => DbMapper.mapSound(record)),
-                        pageCount: itemCount.recordset[0].itemCount,
-                        currentPage: page,
-                        itemCount: result.recordset.length
-                    };
+                    return this.getCount().then((totalItemCount) => {
+                        return {
+                            data: result.recordset.map((record) => DbMapper.mapSound(record)),
+                            pageCount: itemCount.recordset[0].itemCount,
+                            currentPage: page,
+                            itemCount: totalItemCount.recordset[0].Count
+                        };
+                    })
+                    
                 });
 
             });
-
-
     }
 
     delete(id) {
-        for (let i = 0; i < this.sounds.length; i++) {
-            if (this.sounds[i].id == id) {
-                this.sounds.splice(i, 1);
-                return true;
-            }
-        }
-        return false;
+        return DbConnection.executeQuery(`
+            DELETE FROM Sound WHERE Id = ${id}
+        `).then((result) => {
+            return result.rowsAffected[0] === 1;
+        });
 
     }
 
