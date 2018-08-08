@@ -2,10 +2,44 @@
     display: inline;
 }
 .rightButton{
-    float:right;
+    float: right;
 }
 .cardButton{
-    background:none;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.confirmButton{
+    border: none;
+    outline: none;
+    color: white;
+    background: #00B8DB;
+    padding: 10px;
+    margin-left: 10px;
+}
+.cardButton:hover{
+    cursor: pointer;
+}
+.cancelButton{
+    cursor: pointer;
+    float:right;
     border:none;
     outline:none;
+    color:grey;
+    background:transparent;
+    padding:10px;
+    margin-right:10px;
+}
+.confirmButton{
+    cursor: pointer;
+    border:none;
+    outline:none;
+    color:white;
+    background:#00B8DB;
+    padding:10px;
+    margin-left:10px;
+}
+.confirmButton:hover{
+    background:rgb(73, 210, 238);
 }

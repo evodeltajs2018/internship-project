@@ -1,28 +1,42 @@
 import Projects from "../../views/projects/Projects";
-import Project from "../../views/project/Project";
-import Dummy from "../../views/dummy/Dummy";
+import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import NotFound from "../../views/notfound/NotFound";
+import Dummy from "../../views/dummy/Dummy";
+import Navigator from "./Navigator";
+import Sound from "../../views/sound/Sound";
+import Project from "../../views/project/Project";
 
 class Router {
     constructor(container) {
         this.container = container;
 
-        this.routes = [
-            {
+        this.routes = [{
                 path: "/",
                 component: Projects,
             },
             {
-                path: "/sounds",
-                component: Dummy
+                path: "/projects",
+                component: Projects,
             },
             {
                 path: "/project",
                 component: Project
             },
             {
+                path: "/sounds",
+                component: SoundsGrid
+            },
+            {
+                path: "/newproject",
+                component: Dummy
+            },
+            {
                 path: "/404",
                 component: NotFound
+            },
+            {
+                path: "/sound",
+                component: Sound
             }
         ];
     }
@@ -57,7 +71,6 @@ class Router {
         let parameter = null;
         let urlPath = null;
 
-
         let match = url.match(/\/([^\/]+)\/?$/);
 
         if (match) {
@@ -66,23 +79,19 @@ class Router {
             if (isNaN(parameter)) {
                 urlPath = url;
                 parameter = null;
-            }
-            else {
-                console.log(url );
-                console.log(urlPath );
+
+            } else {
                 urlPath = url.substring(0, url.length - parameter.length - 1);
                 parameter = match[1];
-              if(urlPath.length == 0){
-                urlPath = url; 
-              }
             }
-        }
-        else{
+        } else {
             urlPath = url;
         }
 
         return {
-            component: this.routes.find((route) => { return route.path === urlPath }),
+            component: this.routes.find((route) => {
+                return route.path === urlPath
+            }),
             param: parameter
         };
     }
@@ -93,23 +102,15 @@ class Router {
         if (route.component) {
             this.setNewCurrentComponent(route);
         } else {
-            console.error("invalid path");
+            console.error("invalid route");
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
-            Router.goToUrl("/404", { data: "404" });
+            Navigator.goToUrl("/404", {
+                data: "404"
+            });
         }
     }
-
-    static goToUrl(url, data = {}) {
-        window.history.pushState(data, "", url);
-        window.dispatchEvent(new Event("popstate"));
-    }
-
-    static getHistoryState() {
-        return window.history.state;
-    }
-
 }
 
 export default Router;

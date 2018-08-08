@@ -1,6 +1,6 @@
 import Button from "../../components/button/Button";
 import Component from "../../components/Component";
-import Router from "../../services/router/Router";
+import Navigator from "../../services/router/Navigator";
 
 class Dummy extends Component {
     constructor(container) {
@@ -28,7 +28,7 @@ class Dummy extends Component {
         this.refreshButton.text = "Refresh";
         this.refreshButton.onClick = () => {
 
-            Router.goToUrl("/");
+           Navigator.goToUrl("/");
 
         };
 

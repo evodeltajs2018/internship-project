@@ -36,14 +36,39 @@ class GenreService {
         return this.genres;
     }
 
-    getGenresById(id) {
-         for (let i = 0; i < this.genres.length; i++) {
-            if(this.genres[i].id == id) {
-                return this.genres[i];
+    getGenreById(id) {
+        return this.genres.filter(genre => id == genre.id);
+    }
+
+    addGenre(data) {
+        const newGenre = {
+            id: parseInt(paramId),
+            name: data.name,
+    }
+        this.genres.push(newGenre);
+        return this.genres[paramId - 1];
+    }
+
+    editGenre(data, paramId) {
+        const newGenre = {
+                id: parseInt(paramId),
+                name: data.name,
+        }
+        this.genres[paramId - 1] = newGenre;
+
+        return this.genres[paramId - 1];
+    }
+
+    deleteGenre(id) {
+        for (let i = 0; i < this.genres.length; i++) {
+            if (this.genres[i].id == id) {
+                this.genres.splice(i, 1);
+                return true;
             }
-         }
-        return null;
+        }
+        return false;
+
     }
 }
 
-module.exports = GenreService;
+module.exports = new GenreService();
