@@ -10,7 +10,7 @@ class Search extends Component{
     }
 
     render(){
-        this.domElement.innerHTML = `<div class="search-input-wrapper"><label for="name" class="label-input">${this.label}</label><input type="text" name="name" class="search-input" placeholder="&#xF002; Search"></input></div>`;
+        this.domElement.innerHTML = `<div class="search-input-wrapper"><label for="name" class="label-input">${this.label}</label><input type="text" name="${this.label}" class="search-input" placeholder="&#xF002 Search" value=""></input></div>`;
     }
 }
 

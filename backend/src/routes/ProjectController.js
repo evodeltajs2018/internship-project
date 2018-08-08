@@ -1,8 +1,29 @@
+const sql = require("mssql");
+
 class ProjectController {
     constructor(app) {
         const ProjectService = require("../services/ProjectsService.js");
         this.app = app;
         this.service = new ProjectService();
+
+        const config = {
+            user: "internship_user",
+            password: "internship_user",
+            server: "localhost",
+            database: "InternshipProject",
+			port: 1535
+        };
+
+		sql.connect(config, err => {
+			new sql.Request().query("select * from Users", (err, result) => {
+				if (err) {
+					console.log("sql error", err);
+					return;
+				}
+
+				console.log(result);
+			});
+		});
 
         app.get("/project", (req, res) => {
             this.getAll(req, res);
