@@ -41,6 +41,7 @@ html, body, .app {
 .sidebar {
     margin: 0;
     width: 120px;
+    min-width: 120px;
     height: 100%;
     background-color: #00c8f8;
     transition-duration: 0.5s;
@@ -67,6 +68,7 @@ html, body, .app {
 
 .hide-sidebar {
     width: 0;
+    min-width: 0;
     /* -webkit-transition: transform 0.5s ease-in-out;
     transition: transform 0.5s ease-in-out;
     -webkit-transform: translateX(-110%);

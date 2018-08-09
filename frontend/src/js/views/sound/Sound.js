@@ -23,9 +23,9 @@ class Sound extends Component {
         this.typesElement = `<option value="">Options</option>`;
         SoundRepository.getSoundTypes((data) => {
             this.data = data;
-            for (let i = 0; i < this.data[0].length; i++) {
+            for (let i = 0; i < this.data.length; i++) {
                 this.typesElement += `
-                    <option value="${this.data[0][i].id}">${this.data[0][i].name}</option>
+                    <option value="${this.data[i].id}">${this.data[i].name}</option>
                 `
             }
             document.querySelector("#type").innerHTML = this.typesElement;

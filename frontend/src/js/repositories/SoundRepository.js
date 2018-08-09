@@ -56,8 +56,6 @@ class SoundRepository {
 				Navigator.goToUrl("/sounds");
 			}
 		}
-		
-		
 		data = JSON.stringify(data);
 		xhr.send(data);
 	}
@@ -71,7 +69,6 @@ class SoundRepository {
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};
-
 		xhr.send();
 	}
 
@@ -81,11 +78,9 @@ class SoundRepository {
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				//console.log(this.responseText);
 				onSuccess(JSON.parse(this.responseText));
 			}
 		};
-
 		xhr.send();
 	}
 

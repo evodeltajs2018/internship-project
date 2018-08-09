@@ -45,6 +45,22 @@ class SoundsGrid extends Component {
 
     render() {
         this.domElement.innerHTML = `
+            <div class="searches">
+                <div class="search-input-wrapper">
+                    <label class="label-input">Name</label>
+                    <input type="text" class="search-input" placeholder="&#xF002 Search">
+                </div>
+
+                <div class="search-input-wrapper">
+                    <label class="label-input">Type</label>
+                    <input type="text" class="search-input"  placeholder="&#xF002 Search">
+                </div>
+                <a class="add-sound-btn" href="/sound">
+                    <i class="fas fa-plus"></i>
+                    Add new sound
+                </a>
+            </div>
+                
             <div id="sounds-grid-header">
                 <div class="sounds-cell">Name</div>
                 <div class="sounds-cell">Type</div>
