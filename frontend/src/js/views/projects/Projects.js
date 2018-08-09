@@ -2,47 +2,99 @@ import Component from "../../components/Component";
 import ProjectsRepository from "../../repositories/ProjectsRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
+import Search from "../../components/search/Search";
+import "./Projects.scss";
 
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
 		this.data = null;
+		this.displayData = null;
+		this.filter = {};
 
 		this.getData();
+
+	}
+
+	allCards(array) {
+		this.domElement.querySelector(".cards").innerHTML = "";
+
+		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
+		this.addingCard.render();
+
+		if (this.displayData) {
+			for (let project of this.displayData) {
+				this.cardCreator(project);
+			}
+		}
+
 
 	}
 
 	getData() {
 		ProjectsRepository.getData((data) => {
 			this.data = data;
+			this.displayData = data;
 			this.render();
 		});
 	}
 
-	deleteProject(id){
+	cardCreator(project) {
+		this.card = new Card(this.domElement.querySelector(".cards"), project);
+		this.card.render();
+		this.card.onDelete = (id) => {
+			this.deleteProject(id);
+		};
+	}
+
+	deleteProject(id) {
 		ProjectsRepository.deleteProject(id, () => {
 			this.getData();
 		});
 	}
-	
-	render() {
-		
-		this.domElement.innerHTML = `<div class="modals"></div><div class="cards"></div>`;
 
-		if (this.data) {
-			for (let project of this.data) {
-				this.card = new Card(this.domElement.querySelector(".cards"), project);
-				this.card.onDelete = (id) => {
-					this.deleteProject(id);
-				};
-				this.card.render();
+	filterProjects(filter) {
+		this.displayData = this.data.filter((item) => {
+			for (let key in filter) {
+				if (item[key].toLowerCase().indexOf(filter[key].toLowerCase()) === -1)
+					return false;
 			}
-		}
+			return true;
+		});
 
-		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
-		this.addingCard.render();
-		
+		this.domElement.querySelector(".cards").innerHTML = "";
+
+		this.allCards(this.displayData);
+	}
+
+
+	render() {
+
+		this.domElement.innerHTML = `<div class="searches"></div><div class="modals"></div><div class="cards"></div>`;
+
+		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
+		this.searchTitle.render();
+		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
+
+			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+			this.filterProjects(this.filter);
+
+		})
+
+		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
+		this.searchGenre.render();
+		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
+
+			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+
+			this.filterProjects(this.filter);
+		})
+
+		this.allCards(this.data);
+
 	}
 }
 

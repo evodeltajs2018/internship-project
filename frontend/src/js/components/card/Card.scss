@@ -1,52 +1,53 @@
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 100%;
+    display: grid;
+    padding: 1rem;
+    width:100%;
+    grid-template-columns: repeat(auto-fill,minmax(320px, 1fr));
+    grid-gap: 1rem;
+    align-content: flex-start;
 }
-.content{
+
+.content {
     padding: 15px;
 }
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
-    margin:20px;
+    margin: 20px;
     flex-direction: column;
-    width:320px;
+    width: 320px;
     overflow: hidden;
-    min-height: 300px;
-
-    .cardHeader{
-        border-bottom:1.5px solid #DCDCDC;
+    height: 300px;
+    .cardHeader {
+        border-bottom: 1.5px solid #DCDCDC;
         position: relative;
-        height:20%;
-
-        .deleteIcon{
+        height: 60px;
+        .deleteIcon {
             cursor: pointer;
             position: absolute;
             top: 0px;
             right: 0px;
-            padding:2%;
-            font-size:30px;
-            color:#E61610;
+            padding: 2%;
+            font-size: 30px;
+            color: #E61610;
         }
-
-        .deleteIcon:hover{
-            color:rgb(236, 81, 75);
+        .deleteIcon:hover {
+            color: rgb(236, 81, 75);
         }
     }
 
     .cardBody {
-        border-bottom:1px solid #C0C0C0;
+        height:180px;
+        border-bottom: 1px solid #C0C0C0;
         word-wrap: break-word;
-        text-align:center;
-        height:70%;
+        text-align: center;
     }
-
-    .cardDescription{
-        margin-bottom:20px;
+    .cardDescription {
+        margin-bottom: 20px;
+    }
+    .cardFooter{
+        height:80px;
     }
 
 }
-
-
-

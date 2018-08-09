@@ -14,6 +14,17 @@ class ProjectController {
 			port: 1535
         };
 
+		// sql.connect(config, err => {
+		// 	new sql.Request().query("select * from Users", (err, result) => {
+		// 		if (err) {
+		// 			console.log("sql error", err);
+		// 			return;
+		// 		}
+
+		// 		console.log(result);
+		// 	});
+		// });
+
         app.get("/project", (req, res) => {
             this.getAll(req, res);
         });

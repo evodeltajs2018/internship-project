@@ -1,34 +1,31 @@
 .addingCard{
-    display:flex;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin:20px;
     flex-direction: column;
-    width:320px;
+    height: 300px;
     min-height: 300px;
-
+    width: 320px;
     .addingCardImage{
         display:flex;
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(255, 255, 255);
+        }
         align-items: center;
         justify-content: center;
         background-color: #E3F2FD;
         color:#C0C0C0;
-        width:320px;
         border-bottom:1px solid #C0C0C0;
-        height:80%;
-        font-size:80px;
-    }
-
-    .addingCardImage:hover{
-        cursor: pointer;
-        background-color: rgb(255, 255, 255);
+        height:220px;
+        font-size:60px;
     }
     
     .addingCardText{
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        height:20%;
+        height:80px;
     }
 
 }

@@ -20,6 +20,7 @@ class Modal extends Component {
 
         this.domElement.querySelector(".closeIcon").addEventListener("click", () => {
             this.unrender();
+            document.querySelector("body").style.overflow = "auto";
         });
 
         this.confirmButton = new Button(this.domElement.querySelector(".modalFooter"), "Confirm", "confirmButton", () => {
@@ -30,6 +31,7 @@ class Modal extends Component {
 
         this.cancelButton = new Button(this.domElement.querySelector(".modalFooter"), "CANCEL", "cancelButton", () => {
             this.unrender();
+            document.querySelector("body").style.overflow = "auto";
         });
         this.cancelButton.render();
     }
