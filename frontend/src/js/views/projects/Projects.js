@@ -1,5 +1,5 @@
 import Component from "../../components/Component";
-import ProjectsRepository from "../../repositories/ProjectsRepository";
+import ProjectRepository from "../../repositories/ProjectRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
@@ -13,7 +13,7 @@ class Projects extends Component {
 		this.displayData = null;
 		this.filter = {};
 
-		this.getData();
+		this.getProjects();
 
 	}
 
@@ -29,11 +29,9 @@ class Projects extends Component {
 			}
 		}
 
-
 	}
-
-	getData() {
-		ProjectsRepository.getData((data) => {
+	getProjects() {
+		ProjectRepository.getProjects((data) => {
 			this.data = data;
 			this.displayData = data;
 			this.render();
@@ -49,16 +47,18 @@ class Projects extends Component {
 	}
 
 	deleteProject(id) {
-		ProjectsRepository.deleteProject(id, () => {
-			this.getData();
+		ProjectRepository.deleteProject(id, () => {
+			this.getProjects();
 		});
 	}
 
 	filterProjects(filter) {
 		this.displayData = this.data.filter((item) => {
-			for (let key in filter) {
-				if (item[key].toLowerCase().indexOf(filter[key].toLowerCase()) === -1)
-					return false;
+			if (item.name.toLowerCase().indexOf(filter.name.toLowerCase()) === -1) {
+				return false;
+			}
+			if (item.genre.name.toLowerCase().indexOf(filter.genreName.toLowerCase()) === -1) {
+				return false;
 			}
 			return true;
 		});
@@ -77,8 +77,8 @@ class Projects extends Component {
 		this.searchTitle.render();
 		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
 
-			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
 			this.filterProjects(this.filter);
 
 		})
@@ -87,8 +87,8 @@ class Projects extends Component {
 		this.searchGenre.render();
 		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
 
-			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
+			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
+			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
 
 			this.filterProjects(this.filter);
 		})

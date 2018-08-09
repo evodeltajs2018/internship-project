@@ -4,26 +4,34 @@ import NotFound from "../../views/notfound/NotFound";
 import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
+import Project from "../../views/project/Project";
 
 class Router {
     constructor(container) {
         this.container = container;
 
-        this.routes = [
-            {
+        this.routes = [{
                 path: "/",
                 component: Projects,
+            },
+            {
+                path: "/projects",
+                component: Projects,
+            },
+            {
+                path: "/project",
+                component: Project
             },
             {
                 path: "/sounds",
                 component: SoundsGrid
             },
             {
-                path:"/newproject",
+                path: "/newproject",
                 component: Dummy
             },
             {
-                path: "/404",
+                path: "/notfound",
                 component: NotFound
             },
             {
@@ -46,6 +54,7 @@ class Router {
     addPopStateEvent() {
         // called when URL is changed
         window.onpopstate = (event) => {
+            
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -59,11 +68,21 @@ class Router {
         this.currentComponent.render();
     }
 
+    static setActiveIcon(url){
+        const menuElements = document.querySelectorAll(".menu-element");
+        if(url == "/"){
+            menuElements[0].style.color = "powderblue";
+        }else{
+            menuElements[0].style.color = "gray";
+        }
+        // for (let i=0;i<menuElements.length;i++){
+        //     // if (menuElements)
+        // }
+    }
+
     findRouteByUrl(url) {
         let parameter = null;
         let urlPath = null;
-
-
 
         let match = url.match(/\/([^\/]+)\/?$/);
 
@@ -73,19 +92,22 @@ class Router {
             if (isNaN(parameter)) {
                 urlPath = url;
                 parameter = null;
+                Router.setActiveIcon(urlPath);
 
-            }
-            else {
+            } else {
                 urlPath = url.substring(0, url.length - parameter.length - 1);
+                // console.log(urlPath);
                 parameter = match[1];
             }
-        }
-        else{
+        } else {
             urlPath = url;
+            Router.setActiveIcon(urlPath);
         }
 
         return {
-            component: this.routes.find((route) => { return route.path === urlPath }),
+            component: this.routes.find((route) => {
+                return route.path === urlPath
+            }),
             param: parameter
         };
     }
@@ -98,12 +120,13 @@ class Router {
         } else {
             console.error("invalid route");
 
-            const notFound = this.findRouteByUrl("/404");
+            const notFound = this.findRouteByUrl("/notfound");
             this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/404", { data: "404" });
+            Navigator.goToUrl("/notfound", {
+                data: "404"
+            });
         }
     }
 }
-
 
 export default Router;

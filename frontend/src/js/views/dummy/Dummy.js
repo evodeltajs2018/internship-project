@@ -14,6 +14,7 @@ class Dummy extends Component {
 
 
     render() {
+        console.log(Router.getHistoryState());
         this.domElement.innerHTML = `
 			<h1>dumb component</h1>
 

@@ -1,46 +1,68 @@
-const sql = require("mssql");
+const ProjectService = require("../services/ProjectService");
+const bodyParser = require('body-parser');
 
 class ProjectController {
     constructor(app) {
-        const ProjectService = require("../services/ProjectsService.js");
         this.app = app;
-        this.service = new ProjectService();
 
-        const config = {
-            user: "internship_user",
-            password: "internship_user",
-            server: "localhost",
-            database: "InternshipProject",
-			port: 1535
-        };
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({
+            extended: true
+        }));
 
-		// sql.connect(config, err => {
-		// 	new sql.Request().query("select * from Users", (err, result) => {
-		// 		if (err) {
-		// 			console.log("sql error", err);
-		// 			return;
-		// 		}
+        this.initRoutes();
+    }
 
-		// 		console.log(result);
-		// 	});
-		// });
-
-        app.get("/project", (req, res) => {
-            this.getAll(req, res);
-        });
-
-        app.delete("/project/:id", (req, res) => {
-            this.deleteProject(req.params.id, req, res);
+    getAllProjects(res) {
+        ProjectService.getAllProjects().then((data) => {
+            res.json(data);
         });
     }
 
-    getAll(req, res) {
-        res.json(this.service.getAll());
+    getProjectById(req, res) {
+        ProjectService.getProjectById(req.params.id).then((data) => {
+            res.json(data);
+        });
     }
 
-    deleteProject(id, req, res) {
-        this.service.deleteById(req.params.id);
-        res.json({});
+    addProject(req, res) {
+        ProjectService.addProject(req.body).then((data) => {
+            res.json(data);
+        });
+    }
+
+    editProject(req, res) {
+        ProjectService.editProject(req.body).then((data) => {
+            res.json(data);
+        });
+    }
+
+    deleteProject(req, res) {
+        ProjectService.deleteProject(req.params.id).then((data) => {
+            res.json(data);
+        });
+    }
+
+    initRoutes() {
+        this.app.get("/projects", (req, res) => {
+            this.getAllProjects(res);
+        });
+
+        this.app.post("/projects", (req, res) => {
+            this.addProject(req, res);
+        });
+
+        this.app.get("/projects/:id", (req, res) => {
+            this.getProjectById(req, res);
+        });
+
+        this.app.put("/projects/:id", (req, res) => {
+            this.editProject(req, res);
+        });
+
+        this.app.delete("/projects/:id", (req, res) => {
+            this.deleteProject(req, res);
+        });
     }
 }
 

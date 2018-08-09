@@ -5,14 +5,14 @@ import Router from "./services/router/Router";
 import "./App.scss";
 
 class App extends Component {
-	constructor(container) {
+    constructor(container) {
         super(container, "app");
         this.router = new Router();
         this.menuService = new MenuService();
         this.sidebarLinks = this.menuService.getSidebarLinks();
     }
 
-	toggleMenu() {
+    toggleMenu() {
         document.querySelector('.sidebar').classList.toggle('hide-sidebar');
         document.querySelector('.main').classList.toggle('main-width');
 
@@ -47,11 +47,12 @@ class App extends Component {
         `;
     }
 
+
     addClickEventListenerToSidebar() {
         const element = this.domElement.querySelectorAll('.menu-element');
 
-        for(let i = 0; i < element.length; i++) {
-            element[i].addEventListener("click", (e) => { this.loadPage(e.target) });
+        for (let i = 0; i < element.length; i++) {
+            element[i].addEventListener("click", (e) => { this.loadPage(e.target); });
         }
     }
 
@@ -60,12 +61,12 @@ class App extends Component {
         this.router.init();
     }
 
-	render() {
+    render() {
         this.domElement.innerHTML = `
         <nav class="header">
             <i class="fas fa-bars hamburger"></i>
             <h1>BeatMaker</h1>
-            <img src="/src/img/logo.png" class="logo menu-element" value="Projects">
+            <img src="/src/img/logo.png" class="logo" value="Projects">
         </nav>
         <hr>
         <div class="page-title">
@@ -80,15 +81,15 @@ class App extends Component {
         `;
 
         this.domElement.querySelector('.sidebar-content')
-        .innerHTML = this.getSidebarLinksHTML();
+            .innerHTML = this.getSidebarLinksHTML();
 
-		this.domElement.querySelector('.hamburger')
-        .addEventListener("click", this.toggleMenu);
+        this.domElement.querySelector('.hamburger')
+            .addEventListener("click", this.toggleMenu);
 
         this.addClickEventListenerToSidebar();
 
         this.initRouter();
-	}
+    }
 }
 
 const app = new App(document.body);
