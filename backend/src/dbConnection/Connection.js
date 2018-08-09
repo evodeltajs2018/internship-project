@@ -10,12 +10,22 @@ class DbConnection {
 			port: 1535
 		};
 		this.connect();
-
-		
+		this.sql = sql;
 	}
 	
 	connect() {
 		this.connection = sql.connect(this.config);
+	}
+
+	executePoolRequest() {
+		return this.connection
+			.then(pool => {
+				return pool.request();
+			})
+			.catch((err) => {
+				console.log(err);
+				return null;
+			});	
 	}
 
 	executeQuery(query) {

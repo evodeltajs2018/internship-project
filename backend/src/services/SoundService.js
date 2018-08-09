@@ -11,16 +11,23 @@ class SoundService {
         });
     }
 
-    editSound(data, paramId, bytearray) {
-        return DbConnection.executeQuery(`
-            UPDATE Sound SET
-            Name = '${data.name}',
-            SoundTypeId = ${data.type},
-            Value = convert(VARBINARY(max), '${bytearray}')
-            WHERE Id = ${paramId}
-        `).then((result) => {
-            return result.rowsAffected[0] === 1;
-        });
+    editSound(paramId, name, typeId, bytearray) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('paramId', DbConnection.sql.Int, paramId)
+                    .input('name', DbConnection.sql.NVarChar(50), name)
+                    .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
+                    .query(`UPDATE Sound SET 
+                        Name = @name, 
+                        SoundTypeId = @soundtypeId,
+                        Value = @value
+                        WHERE Id = @paramId`
+                    )
+            })
+            .then(result => {
+                return result.rowsAffected[0] === 1;
+            });
     }
 
     getSoundById(id) {
@@ -29,13 +36,18 @@ class SoundService {
             FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
             WHERE S.Id = ${id}
         `).then((result) => {
-            // result.recordset[0].Value = result.recordset[0].Value.toString('binary');
-            // console.log(result.recordset[0].Value);
-            // result.recordset[0].Value = Buffer.from(JSON.stringify(result.recordset[0].Value));
-            // console.log(result.recordset[0].Value);
             return DbMapper.mapSound(result.recordset[0]);
         })
     }
+
+    getSoundDataById(id) {
+        return DbConnection.executeQuery(`
+            SELECT Value FROM Sound WHERE Id = ${id}`)
+        .then((result) => {
+            console.log(result.recordset[0].Value);
+            return result.recordset[0].Value;
+        })
+    } 
 
     getTypesById(id) {
         return DbConnection.executeQuery(`

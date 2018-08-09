@@ -50,23 +50,44 @@ class SoundRepository {
 		xhr.send();
 	}
 
+	playSound(buffer) {
+		const context = new AudioContext();
+		context.decodeAudioData(buffer, data => {
+			var source = context.createBufferSource(); // creates a sound source
+			source.buffer = data;                    // tell the source which sound to play
+			source.connect(context.destination);       // connect the source to the context's destination (the speakers)
+			source.start(0);  
+		})
+	}
+	
+
+	// 1. split tables
+	// 2. validate for sound
+	getSoundDataById(id) {
+		fetch(`http://localhost:5000/sound/audio/${id}`)
+		.then(response => response.arrayBuffer())
+		.then(arrayBuffer => {
+			this.playSound(arrayBuffer);
+		})
+	}
+
 	editSoundById(data, id) {
 		const xhr = new XMLHttpRequest();
+		const fd = new FormData();
+
+		for(name in data) {
+			fd.append(name, data[name]);
+		}
 		
-		xhr.open("POST", "http://localhost:5000/sound/" + id, true);
-		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.open("PUT", "http://localhost:5000/sound/" + id, true);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				//Navigator.goToUrl("/sounds");
+				// Navigator.goToUrl("/sounds");
 			}
-<<<<<<< HEAD
-		};
-		
-=======
 		}
->>>>>>> dev
-		data = JSON.stringify(data);
-		xhr.send(data);
+		// const result = JSON.stringify(data);
+
+		xhr.send(fd);
 	}
 
 	getData(pagination, onSuccess) {

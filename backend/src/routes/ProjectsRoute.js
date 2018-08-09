@@ -1,5 +1,3 @@
-const sql = require("mssql");
-
 function projectsRoute(app) {
 	app.get("/projects", (req, res) => {
 		res.json({

@@ -96,10 +96,10 @@ class Sound extends Component {
 
     saveByteArray(reportName, base64) {
         var byte = new Uint8Array(base64);
-        var blob = new Blob([byte], {type : 'audio/ogg'});
+        var blob = new Blob([byte], {type : 'audio/wav'});
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        var fileName = reportName + ".mp3";
+        var fileName = reportName + ".wav";
         link.download = fileName;
         //link.click();
         return byte;
@@ -111,7 +111,9 @@ class Sound extends Component {
 
         reader.onload = () => {
             console.log(reader.result);
-            this.bytearray = this.saveByteArray("Test", reader.result); // Pentru test
+            // this.bytearray = this.saveByteArray("Test", reader.result); // Pentru test
+            // this.bytearray = reader.result;
+            this.bytearray = input.files[0];
         }
 
         reader.readAsArrayBuffer(input.files[0]);
@@ -149,6 +151,7 @@ class Sound extends Component {
 
         if (this.soundId) {
             this.getSoundsById();
+            SoundRepository.getSoundDataById(this.soundId);
             this.domElement.querySelector('#submit')
                 .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId));
         } else {

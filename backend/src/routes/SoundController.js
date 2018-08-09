@@ -1,12 +1,10 @@
 const SoundService = require("../services/SoundService");
-const bodyParser = require('body-parser');
+const FileOpener = require('../utils/FileOpener');
+const multiparty = require('multiparty');
 
 class SoundController {
     constructor(app) {
         this.app = app;
-
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
 
         this.initRoutes();
     }
@@ -26,8 +24,8 @@ class SoundController {
     }
 
     addSound(req, res) {
-        let sound = req.body;
-        SoundService.addSound(sound).then((result) => {
+        let sound = req.body, buf = Buffer.from(JSON.stringify(req.body.value));
+        SoundService.addSound(sound, buf).then((result) => {
             res.json(result);
         })
     }
@@ -44,10 +42,26 @@ class SoundController {
     }
 
     editSound(req, res) {
-        let sound = req.body, id = req.params.id;
-        SoundService.editSound(sound, id).then((result) => {
-            res.json(result);
+
+        const form = new multiparty.Form();
+
+        form.parse(req, (err, fields, files) => {
+            console.log(err, fields, files);
+            const { id } = req.params;
+            const name = fields.name[0];
+            const type = fields.type[0];
+            const value = files.value[0];
+
+            FileOpener(value)
+                .then((data) => {
+                    SoundService.editSound(id, name, type, data).then((result) => {
+                        res.json(result);
+                    }); 
+                });
         });
+
+        form.on('error', err => console.log(err));
+        form.on('close', () =>  console.log('closed'));
     }
 
     getTypes(req, res) {
@@ -59,8 +73,16 @@ class SoundController {
     getSoundById(req, res) {
         let id = req.params.id;
         SoundService.getSoundById(id).then((result) => {
+            console.log(result);
             res.json(result);
         });
+    }
+
+    getSoundDataById(req, res) {
+        const { id } = req.params;
+        SoundService.getSoundDataById(id).then((result) => {
+            res.send(result);
+        })
     }
 
     initRoutes() {
@@ -68,41 +90,25 @@ class SoundController {
             this.getSoundById( req, res);
         });
 
+        this.app.get("/sound/audio/:id", (req, res) => {
+            this.getSoundDataById(req, res);
+        });
+
         this.app.post("/sound", (req, res) => {
-<<<<<<< HEAD
             // #1 convert the string to a node buffer
             // #2 save with mssql the buffer
             const buf = Buffer.from(JSON.stringify(req.body.value));
             console.log(buf);
             //console.log(buf.toString('binary'));
 
-            /* let i = 0;
-            while (req.body.value[i] != null) {
-                i++;
-            }
-            const buf = Buffer.alloc(i);
-            for (let j = 0; j < i; j++) {
-                buf[j] = req.body.value[j];
-                // console.log(buf1[j]);
-            } */
-
-            // const buf = new Buffer(req.body.value[3]);
-            // console.log(buf1);
-            //console.log(buf.toString('utf8'));
-            res.json([SoundService.addSounds(req.body)]);
-=======
             this.addSound(req, res);
->>>>>>> dev
         });
 
-        this.app.post("/sound/:id", (req, res) => {
-<<<<<<< HEAD
-            const buf = Buffer.from(JSON.stringify(req.body.value));
-            console.log(buf);
-            res.json([SoundService.editSound(req.body, req.params.id)]);
-=======
+        this.app.put("/sound/:id", (req, res) => {
+            // const buf = Buffer.from(JSON.stringify(req.body.value));
+            // console.log(buf);
+            //res.json([SoundService.editSound(req.body, req.params.id)]);
             this.editSound(req, res);
->>>>>>> dev
         });
 
         this.app.get("/sound", (req, res) => {
