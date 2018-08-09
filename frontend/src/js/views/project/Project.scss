@@ -10,6 +10,7 @@
     margin: 5px;
     text-align: left;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .item {
@@ -24,7 +25,10 @@
 
 .right{
     text-align: right;
+    width: 300px;
 }
+
+
 
 .project{
     display: flex; 

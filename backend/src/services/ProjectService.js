@@ -1,3 +1,6 @@
+const DbConnection = require("../dbConnection/Connection");
+const DbMapper = require("../utils/DbMapper");
+
 class ProjectService {
     constructor() {
         this.projects = [{
@@ -31,56 +34,65 @@ class ProjectService {
     }
 
     getAllProjects() {
-        return this.projects;
+        return DbConnection.executeQuery(`
+            SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName
+            FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+            ORDER BY P.Name
+            `)
+            .then((result) => {
+                return result.recordset.map((record) => DbMapper.mapProject(record));
+            });
     }
 
     getProjectById(id) {
-        return this.projects.filter(project => project.id == id);
+        return DbConnection.executeQuery(`
+            SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName
+            FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+            WHERE P.Id LIKE '${id}'
+        `)
+            .then((result) => {
+                return result.recordset.map((record) => DbMapper.mapProject(record));
+            });
     }
 
-    addProject(data) {
-        const genre = {
-            id: data.genreId,
-            name: "new gen"
-        };
-
-        const newProject = {
-            id: Math.floor(Math.random() * 20),
-            name: data.name,
-            description: data.description,
-            genre: genre
-        }
-        this.projects.push(newProject);
-        return true;
+    addProject(project) {
+        return DbConnection.executeQuery(`
+            INSERT INTO Project
+                (Name
+                ,GenreId
+                ,Description)
+            VALUES 
+                ('${project.name}', 
+                  ${project.genre.id}, 
+                 '${project.description}')
+        `)
+        .then((result) => {
+            return result.rowsAffected[0] === 1;
+        });
     }
 
-    editProject(data, id) {
-        const editGenre = {
-            id: data.genre.id,
-            name: data.genre.name
-        };
-
-        const editProject = {
-            id: parseInt(id),
-            name: data.name,
-            description: data.description,
-            genre: editGenre
-        }
-
-        this.deleteProject(id);
-        this.projects.push(editProject);
-
-        return editProject;
+    editProject(project) {
+        return DbConnection.executeQuery(`
+            UPDATE Project
+            SET 
+                Name = '${project.name}',
+                GenreId = ${project.genre.id},
+                Description = '${project.description}'
+            WHERE Id = ${project.id};  
+        `)
+        .then((result) => {
+            return result.rowsAffected[0] === 1;
+        });
     }
 
     deleteProject(id) {
-        for (let i = 0; i < this.projects.length; i++) {
-            if (this.projects[i].id == id) {
-                this.projects.splice(i, 1);
-                return true;
-            }
-        }
-        return false;
+        return DbConnection.executeQuery(`
+        DELETE FROM Project
+        WHERE Id = ${id};  
+    `)
+    .then((result) => {
+        return result.rowsAffected[0] === 1;
+    });
     }
 }
 

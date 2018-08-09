@@ -17,14 +17,12 @@ class Projects extends Component {
 		ProjectRepository.getProjects((data) => {
 			this.data = data;
 			this.render();
-
-			console.log(data);
 		});
 	}
 
 	deleteProject(id){
 		ProjectRepository.deleteProject(id, () => {
-			this.getData();
+			this.getProjects();
 		});
 	}
 	

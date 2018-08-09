@@ -16,22 +16,9 @@ class ProjectRepository {
 		xhr.send();
 	}
 
-	getGenres(onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/genres", true);
-
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-
-		xhr.send();
-	}
-
 	getProjectById(onSuccess, id) {
 		const xhr = new XMLHttpRequest();
-		let url = "http://localhost:5000/project/" + id;
+		let url = "http://localhost:5000/projects/" + id;
 
 		xhr.open("GET", url, true);
 
@@ -45,9 +32,9 @@ class ProjectRepository {
 	}
 
 	createProject(data) {
-		const xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();   
 		
-		xhr.open("POST", "http://localhost:5000/project", true);
+		xhr.open("POST", "http://localhost:5000/projects", true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -61,7 +48,7 @@ class ProjectRepository {
 	editProjectById(data, id) {
 		const xhr = new XMLHttpRequest();
 		
-		xhr.open("POST", "http://localhost:5000/project/" + id, true);
+		xhr.open("PUT", "http://localhost:5000/projects/" + id, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -75,7 +62,7 @@ class ProjectRepository {
 
 	deleteProject(projectId, onSuccess) {
 		const xhr = new XMLHttpRequest();
-		xhr.open("DELETE", "http://localhost:5000/project/" + projectId, true);
+		xhr.open("DELETE", "http://localhost:5000/projects/" + projectId, true);
 
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE) {

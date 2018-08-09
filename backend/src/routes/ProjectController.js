@@ -5,39 +5,63 @@ class ProjectController {
     constructor(app) {
         this.app = app;
 
-        const config = {
-            user: "internship_user",
-            password: "internship_user",
-            server: "localhost",
-            database: "InternshipProject",
-			port: 1535
-        };
-        
         this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.urlencoded({
+            extended: true
+        }));
 
         this.initRoutes();
     }
 
+    getAllProjects(res) {
+        ProjectService.getAllProjects().then((data) => {
+            res.json(data);
+        });
+    }
+
+    getProjectById(req, res) {
+        ProjectService.getProjectById(req.params.id).then((data) => {
+            res.json(data);
+        });
+    }
+
+    addProject(req, res) {
+        ProjectService.addProject(req.body).then((data) => {
+            res.json(data);
+        });
+    }
+
+    editProject(req, res) {
+        ProjectService.editProject(req.body).then((data) => {
+            res.json(data);
+        });
+    }
+
+    deleteProject(req, res) {
+        ProjectService.deleteProject(req.params.id).then((data) => {
+            res.json(data);
+        });
+    }
+
     initRoutes() {
         this.app.get("/projects", (req, res) => {
-            res.json(ProjectService.getAllProjects());
-		});
-
-        this.app.get("/project/:id", (req, res) => {
-            res.json([ProjectService.getProjectById(req.params.id)][0][0]);
+            this.getAllProjects(res);
         });
 
-        this.app.post("/project", (req, res) => {
-            res.json([ProjectService.addProject(req.body)]);
-        });
-        
-        this.app.post("/project/:id", (req, res) => {
-            res.json([ProjectService.editProject(req.body, req.params.id)]);
+        this.app.post("/projects", (req, res) => {
+            this.addProject(req, res);
         });
 
-		this.app.delete("/project/:id", (req, res) => {
-            res.json([ProjectService.deleteProject(req.body, req.params.id)]);
+        this.app.get("/projects/:id", (req, res) => {
+            this.getProjectById(req, res);
+        });
+
+        this.app.put("/projects/:id", (req, res) => {
+            this.editProject(req, res);
+        });
+
+        this.app.delete("/projects/:id", (req, res) => {
+            this.deleteProject(req, res);
         });
     }
 }
