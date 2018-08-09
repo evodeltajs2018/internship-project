@@ -1,157 +1,38 @@
-<<<<<<< HEAD
-class SoundService {
-    constructor() {
-        this.sounds = [
-            { 
-                id: 1,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock"},
-                bytearray: []
-            },
-            {
-                id: 2,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica"},
-                bytearray: []
-            },
-            {
-                id: 3,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp"},
-                bytearray: []
-            },
-            {
-                id: 4,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop"},
-                bytearray: []
-            },
-            { 
-                id: 5,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock"},
-                bytearray: []
-            },
-            {
-                id: 6,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica"},
-                bytearray: []
-            },
-            {
-                id: 7,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp"},
-                bytearray: []
-            },
-            {
-                id: 8,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop"},
-                bytearray: []
-            },
-            { 
-                id: 9,
-                name: "Project Title 1",
-                type: { id: 1, name: "Rock"},
-                bytearray: []
-            },
-            {
-                id: 10,
-                name: "Project Title 2",
-                type: { id: 2, name: "Manelica"},
-                bytearray: []
-            },
-            {
-                id: 11,
-                name: "Project Title 3",
-                type: { id: 3, name: "Rapp"},
-                bytearray: []
-            },
-            {
-                id: 12,
-                name: "Project Title 4",
-                type: { id: 4, name: "Pop"},
-                bytearray: []
-            }
-        ]
-        
-        this.types = [
-            { 
-                id: 1,
-                name: 'beep'
-            },
-            { 
-                id: 2,
-                name: 'boop'
-            },
-            { 
-                id: 3,
-                name: 'poop'
-            },
-            { 
-                id: 4,
-                name: 'troczz'
-            },
-            { 
-                id: 5,
-                name: 'bass'
-            },
-            { 
-                id: 6,
-                name: 'guitar'
-            }
-        ]
-    }
-
-    addSounds(data) {
-        this.sounds.push({ 
-            id: this.sounds.length + 1,
-            name: data.name,
-            type: { id: data.type, name: this.getTypesById(data.type)[0].name },
-            bytearray: data.value
-=======
 const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
-    addSound(data) {
+    addSound(data, bytearray) {
         return DbConnection.executeQuery(`
-            INSERT INTO Sound(Name, SoundTypeId) VALUES
-            ('${data.name}', ${data.type})
+            INSERT INTO Sound(Name, SoundTypeId, Value) VALUES
+            ('${data.name}', ${data.type}, convert(VARBINARY(max), '${bytearray}'))
         `).then((result) => {
             return result.rowsAffected[0] === 1;
->>>>>>> dev
         });
     }
 
-    editSound(data, paramId) {
-<<<<<<< HEAD
-        const insert = {
-                id: parseInt(paramId),
-                name: data.name,
-                type: { id: data.type, name: this.getTypesById(data.type).name },
-                bytearray: data.value
-        }
-        this.sounds[paramId - 1] = insert;
-=======
+    editSound(data, paramId, bytearray) {
         return DbConnection.executeQuery(`
             UPDATE Sound SET
             Name = '${data.name}',
-            SoundTypeId = ${data.type}
+            SoundTypeId = ${data.type},
+            Value = convert(VARBINARY(max), '${bytearray}')
             WHERE Id = ${paramId}
         `).then((result) => {
             return result.rowsAffected[0] === 1;
         });
->>>>>>> dev
     }
 
     getSoundById(id) {
         return DbConnection.executeQuery(`
-            SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
+            SELECT S.Id, S.Name, S.SoundTypeId, S.Value, ST.Name AS TypeName
             FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
             WHERE S.Id = ${id}
         `).then((result) => {
+            // result.recordset[0].Value = result.recordset[0].Value.toString('binary');
+            // console.log(result.recordset[0].Value);
+            // result.recordset[0].Value = Buffer.from(JSON.stringify(result.recordset[0].Value));
+            // console.log(result.recordset[0].Value);
             return DbMapper.mapSound(result.recordset[0]);
         })
     }
