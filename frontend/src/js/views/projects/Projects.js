@@ -29,7 +29,7 @@ class Projects extends Component {
 			}
 		}
 
-		
+
 	}
 
 	getData() {
@@ -56,17 +56,16 @@ class Projects extends Component {
 
 	filterProjects(filter) {
 		this.displayData = this.data.filter((item) => {
-			for(let key in filter){
-				if(item[key].toLowerCase().indexOf(filter[key].toLowerCase()) == -1)
+			for (let key in filter) {
+				if (item[key].toLowerCase().indexOf(filter[key].toLowerCase()) === -1)
 					return false;
 			}
 			return true;
-		})
+		});
 
 		this.domElement.querySelector(".cards").innerHTML = "";
 
 		this.allCards(this.displayData);
-
 	}
 
 
@@ -80,7 +79,6 @@ class Projects extends Component {
 
 			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
 			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
-
 			this.filterProjects(this.filter);
 
 		})
@@ -88,6 +86,7 @@ class Projects extends Component {
 		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
 		this.searchGenre.render();
 		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
+
 			this.filter.title = this.searchTitle.domElement.querySelector(".search-input").value;
 			this.filter.genre = this.searchGenre.domElement.querySelector(".search-input").value;
 
