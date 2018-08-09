@@ -5,6 +5,7 @@ import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
+import SidebarService from "../../services/sidebar service/SidebarService";
 
 class Router {
     constructor(container) {
@@ -68,17 +69,7 @@ class Router {
         this.currentComponent.render();
     }
 
-    static setActiveIcon(url){
-        const menuElements = document.querySelectorAll(".menu-element");
-        if(url == "/"){
-            menuElements[0].style.color = "powderblue";
-        }else{
-            menuElements[0].style.color = "gray";
-        }
-        // for (let i=0;i<menuElements.length;i++){
-        //     // if (menuElements)
-        // }
-    }
+    
 
     findRouteByUrl(url) {
         let parameter = null;
@@ -92,16 +83,16 @@ class Router {
             if (isNaN(parameter)) {
                 urlPath = url;
                 parameter = null;
-                Router.setActiveIcon(urlPath);
+                SidebarService.setActiveIcon(urlPath);
 
             } else {
                 urlPath = url.substring(0, url.length - parameter.length - 1);
-                // console.log(urlPath);
+                SidebarService.setActiveIcon(urlPath);
                 parameter = match[1];
             }
         } else {
             urlPath = url;
-            Router.setActiveIcon(urlPath);
+            SidebarService.setActiveIcon(urlPath);
         }
 
         return {
