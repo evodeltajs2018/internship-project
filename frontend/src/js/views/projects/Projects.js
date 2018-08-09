@@ -1,5 +1,5 @@
 import Component from "../../components/Component";
-import ProjectsRepository from "../../repositories/ProjectsRepository";
+import ProjectRepository from "../../repositories/ProjectRepository";
 import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
@@ -13,7 +13,7 @@ class Projects extends Component {
 		this.displayData = null;
 		this.filter = {};
 
-		this.getData();
+		this.getProjects();
 
 	}
 
@@ -31,9 +31,8 @@ class Projects extends Component {
 
 
 	}
-
-	getData() {
-		ProjectsRepository.getData((data) => {
+	getProjects() {
+		ProjectRepository.getProjects((data) => {	
 			this.data = data;
 			this.displayData = data;
 			this.render();
@@ -49,8 +48,8 @@ class Projects extends Component {
 	}
 
 	deleteProject(id) {
-		ProjectsRepository.deleteProject(id, () => {
-			this.getData();
+		ProjectRepository.deleteProject(id, () => {
+			this.getProjects();
 		});
 	}
 

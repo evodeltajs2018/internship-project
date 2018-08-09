@@ -4,22 +4,30 @@ import NotFound from "../../views/notfound/NotFound";
 import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
+import Project from "../../views/project/Project";
 
 class Router {
     constructor(container) {
         this.container = container;
 
-        this.routes = [
-            {
+        this.routes = [{
                 path: "/",
                 component: Projects,
+            },
+            {
+                path: "/projects",
+                component: Projects,
+            },
+            {
+                path: "/project",
+                component: Project
             },
             {
                 path: "/sounds",
                 component: SoundsGrid
             },
             {
-                path:"/newproject",
+                path: "/newproject",
                 component: Dummy
             },
             {
@@ -63,8 +71,6 @@ class Router {
         let parameter = null;
         let urlPath = null;
 
-
-
         let match = url.match(/\/([^\/]+)\/?$/);
 
         if (match) {
@@ -74,18 +80,18 @@ class Router {
                 urlPath = url;
                 parameter = null;
 
-            }
-            else {
+            } else {
                 urlPath = url.substring(0, url.length - parameter.length - 1);
                 parameter = match[1];
             }
-        }
-        else{
+        } else {
             urlPath = url;
         }
 
         return {
-            component: this.routes.find((route) => { return route.path === urlPath }),
+            component: this.routes.find((route) => {
+                return route.path === urlPath
+            }),
             param: parameter
         };
     }
@@ -100,10 +106,11 @@ class Router {
 
             const notFound = this.findRouteByUrl("/404");
             this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/404", { data: "404" });
+            Navigator.goToUrl("/404", {
+                data: "404"
+            });
         }
     }
 }
-
 
 export default Router;

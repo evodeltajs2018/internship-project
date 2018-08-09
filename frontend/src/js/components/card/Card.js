@@ -1,4 +1,5 @@
 import Component from "../../components/Component";
+import Navigator from "../../services/router/Navigator";
 import Button from "../button/Button";
 import Modal from "../modal/Modal";
 import "./Card.scss";
@@ -13,26 +14,26 @@ class Card extends Component {
         this.modal = new Modal(document.querySelector(".modals"), "Delete Project", "Are you sure you want to delete this project?");
         this.modal.render();
         this.modal.onConfirm = () => {
-                this.onDelete(this.project.id);
-            };
-        }
-
+            this.onDelete(this.project.id);
+        };
+    }
+ 
     openButtonHandler(idProjectParam) {
 
     }
 
     editButtonHandler(idProjectParam) {
-
+        Navigator.goToUrl("/project/" + idProjectParam);
     }
 
     render() {
         this.domElement.innerHTML = `
-        <div class="cardHeader content"><i class="fa fa-times-circle deleteIcon"></i> <div>${this.project.title}<br>${this.project.genre}</div></div>
+        <div class="cardHeader content"><i class="fa fa-times-circle deleteIcon"></i> <div>${this.project.name}<br>${this.project.genre.name}</div></div>
 
         <div class="cardBody content">
         <p class="cardText">${this.project.description}</p></div>
 
-        <div class="cardFooter content"><div class="cardDescription">Description</div>
+        <div class="cardFooter content">
         </div>
         `;
 
