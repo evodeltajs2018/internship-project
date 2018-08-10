@@ -52,20 +52,11 @@ class SoundService {
 
     }
 
-    getPageCount(itemsPerPage) {
+    getPageCount(itemsPerPage, filter) {
         return DbConnection.executeQuery(`
-            SELECT CEILING(CAST(COUNT(*) AS FLOAT) / ${itemsPerPage}) AS itemCount FROM Sound
-            `).then((result) => {
-                return result;
-            }).catch((err) => {
-                console.log(err);
-                return null;
-            });
-    }
-
-    getCount() {
-        return DbConnection.executeQuery(`
-            SELECT COUNT(*) AS Count FROM Sound
+            SELECT CEILING(CAST(COUNT(*) AS FLOAT) / ${itemsPerPage}) AS itemCount
+            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            WHERE LOWER(S.Name) LIKE LOWER('${filter.name}') + '%' AND ST.Name LIKE LOWER('${filter.type}') + '%'
         `).then((result) => {
             return result;
         }).catch((err) => {
@@ -74,28 +65,48 @@ class SoundService {
         });
     }
 
-    getAll(page, itemsPerPage) {
+    getCount(filter) {
+        return DbConnection.executeQuery(`
+            SELECT COUNT(*) AS Count 
+            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            WHERE LOWER(S.Name) LIKE LOWER('${filter.name}') + '%' AND ST.Name LIKE LOWER('${filter.type}') + '%'
+        `).then((result) => {
+            return result;
+        }).catch((err) => {
+            console.log(err);
+            return null;
+        });
+    }
+
+    getAll(page, itemsPerPage, filter) {
+        if (page === 0) {
+            page = 1;
+        }
         return DbConnection.executeQuery(`
             SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
             FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+            WHERE LOWER(S.Name) LIKE LOWER('${filter.name}') + '%' AND ST.Name LIKE LOWER('${filter.type}') + '%'
             ORDER BY S.Name
             OFFSET ${(page - 1) * itemsPerPage} ROWS
             FETCH NEXT ${itemsPerPage} ROWS ONLY
             `)
-            .then((result) => {
-                return this.getPageCount(itemsPerPage).then((itemCount) => {
-                    return this.getCount().then((totalItemCount) => {
-                        return {
-                            data: result.recordset.map((record) => DbMapper.mapSound(record)),
-                            pageCount: itemCount.recordset[0].itemCount,
-                            currentPage: page,
-                            itemCount: totalItemCount.recordset[0].Count
-                        };
+        .then((result) => {
+            return this.getPageCount(itemsPerPage, filter)
+                .then((itemCount) => {
+                    return this.getCount(filter)
+                        .then((totalItemCount) => {
+                            const pageCount = itemCount.recordset[0].itemCount;
+                            return {
+                                data: result.recordset.map((record) => DbMapper.mapSound(record)),
+                                pageCount: pageCount,
+                                currentPage: page < pageCount ? Number.parseInt(page) : Number.parseInt(pageCount),
+                                itemCount: totalItemCount.recordset[0].Count
+                            };
                     })
-                    
-                });
 
             });
+
+        });
     }
 
     delete(id) {

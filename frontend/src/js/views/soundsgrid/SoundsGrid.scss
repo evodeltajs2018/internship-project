@@ -6,55 +6,18 @@
     font-family: Arial, Helvetica, sans-serif;    
     transition-duration: 0.2s;
 }
-@media (max-width: 1050px) {
+@media (max-width: 1080px) {
     .sounds-grid-container {
         padding: 0;
     }
 }
 
-.searches {
-    display: flex;
-    justify-content: space-between;
-    align-self: center;
+.no-sounds {
+    font-size: 20px;
+    display: flex;  
+    justify-content: center;
     padding: 10px;
-    flex-wrap: wrap;
-
-    
-    .add-sound-btn {
-        margin: 20px;
-        font-size: 20px;
-        background-color: #00b8db;
-        color: black;
-        padding: 20px;
-        border-radius: 30px;
-        text-decoration: none;
-        transition-duration: 0.3s;
-
-        &:hover {
-            background-color: #00c9ed;
-        }
-    }
-
-    .search-input-wrapper {
-        margin: 20px 0;
-        align-self: center;
-    }
-    .label-input{
-        padding: 10px;
-    }
-    .search-input{
-        border-radius: 15px;
-        border: 1px solid grey;
-        outline: none;
-        font-size: 17px;
-        padding-left: 10px;
-        font-family: Arial, FontAwesome;
-    }
-    
-
 }
-
-
 
 
 
