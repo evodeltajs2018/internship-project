@@ -6,24 +6,30 @@ class GenreService {
     }
 
     getAllGenres() {
-        return DbConnection.executeQuery(`
-            SELECT Id, Name 
-            FROM genre
-            ORDER BY Name
-            `)
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.query(`SELECT Id, Name FROM genre ORDER BY Name`)
+            })
             .then((result) => {
-                return result.recordset.map((record) => DbMapper.mapGenre(record));
+                return result.recordset.map((record) => {
+                    return DbMapper.mapGenre(record)
+                });
+            })
+            .catch(err => {
+                console.log(err);
             });
     }
 
     getGenreById(id) {
-        return DbConnection.executeQuery(`
-        SELECT Id, Name 
-        FROM genre
-		WHERE Id LIKE '${id}'
-        `)
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('id', DbConnection.sql.Int, id)
+                    .query(`SELECT Id, Name FROM genre WHERE Id LIKE @id`)
+            })
             .then((result) => {
-                return result.recordset.map((record) => DbMapper.mapGenre(record));
+                return result.recordset.map((record) => {
+                    return DbMapper.mapGenre(record)
+                });
             });
     }
 }

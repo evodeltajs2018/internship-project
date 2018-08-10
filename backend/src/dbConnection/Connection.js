@@ -9,6 +9,7 @@ class DbConnection {
             database: "InternshipProject",
 			port: 1535
 		};
+		this.sql = sql;
 		this.connect();
 
 		
@@ -16,6 +17,17 @@ class DbConnection {
 	
 	connect() {
 		this.connection = sql.connect(this.config);
+	}
+
+	executePoolRequest() {
+		return this.connection
+			.then(pool => {
+				return pool.request();
+			})
+			.catch((err) => {
+				console.log(err);
+				return null;
+			});	
 	}
 
 	executeQuery(query) {
