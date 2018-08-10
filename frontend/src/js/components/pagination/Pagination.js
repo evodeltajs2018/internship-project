@@ -23,11 +23,20 @@ class Pagination extends Component {
     }
 
     setupPageInfo() {
-        let startItemIndex = this.itemsPerPage * (this.currentPage - 1) + 1;
+        // console.log(this);
+        if (this.currentPage === 0) {
+            this.currentPage = 1;
+        }
+        let startItemIndex = this.itemsPerPage * (this.currentPage - 1);
+        let endItemIndex = startItemIndex + this.itemsThisPage;
+        if (this.pageCount) {
+            startItemIndex++;
+        }
+        
         this.domElement.querySelector(".page-info").innerHTML = `
             Showing <span>${startItemIndex}</span>
             - 
-            <span>${startItemIndex + this.itemsThisPage - 1}</span> out of <span>${this.itemCount}</span> sounds
+            <span>${ endItemIndex }</span> out of <span>${this.itemCount}</span> sounds
         `;
     }
 

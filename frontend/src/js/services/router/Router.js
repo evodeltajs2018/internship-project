@@ -31,7 +31,7 @@ class Router {
                 component: Dummy
             },
             {
-                path: "/404",
+                path: "/notfound",
                 component: NotFound
             },
             {
@@ -104,11 +104,9 @@ class Router {
         } else {
             console.error("invalid route");
 
-            const notFound = this.findRouteByUrl("/404");
+            const notFound = this.findRouteByUrl("/notfound");
             this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/404", {
-                data: "404"
-            });
+            Navigator.goToUrl("/notfound", { data: "404" });
         }
     }
 }

@@ -15,7 +15,12 @@ class SoundController {
         const page = req.query.page;
         const itemsPerPage = req.query.perpage;
         if (page && itemsPerPage) {
-            SoundService.getAll(page, itemsPerPage).then((data) => {
+            SoundService.getAll(page, itemsPerPage, 
+                { 
+                    name: req.query.name, 
+                    type: req.query.type 
+                })
+                .then((data) => {
                 res.json(data);
             });
 
@@ -65,7 +70,7 @@ class SoundController {
 
     initRoutes() {
         this.app.get("/sound/:id", (req, res) => {
-            this.getSoundById( req, res);
+            this.getSoundById(req, res);
         });
 
         this.app.post("/sound", (req, res) => {

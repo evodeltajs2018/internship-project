@@ -15,7 +15,7 @@
             color: #428bca;
             background: white;
             
-            border: 1px solid #ddd;
+            border: 1px solid #bbb;
             margin: 0;
             transition-duration: 0.3s;
         }
@@ -55,7 +55,7 @@
         .arrow-button, .pagination-button {
             &:disabled {
                 color: #bbb;
-                cursor: not-allowed;
+                cursor: default;
             }
             
         }
@@ -63,7 +63,7 @@
         .pagination-button {
             &:disabled:hover {
                 background: white;
-                cursor: not-allowed;
+                cursor: default;
             }
         }
 
@@ -83,7 +83,7 @@
         .arrow-button {
             color: #428bca;
             background: white;
-            border: 1px solid #ddd;
+            border: 1px solid #bbb;
             border-radius: 20px;
         
             margin: 10px;
