@@ -4,7 +4,7 @@ import "./AddingCard.scss";
 
 class AddingCard extends Component{
     constructor(container){
-        super(container,"addingCard");
+        super(container,"adding-card");
     }
 
     addProject(){
@@ -12,9 +12,9 @@ class AddingCard extends Component{
     }
 
     render(){
-        this.domElement.innerHTML = `<div class="addingCardImage"><i class="fa fa-plus-circle addButton"></i></div><div class="addingCardText">ADD NEW PROJECT</div>`;
+        this.domElement.innerHTML = `<div class="adding-card-image"><i class="fa fa-plus-circle add-button"></i></div><div class="adding-card-text">ADD NEW PROJECT</div>`;
 
-        this.domElement.querySelector(".addingCardImage").addEventListener("click",()=>{
+        this.domElement.querySelector(".adding-card-image").addEventListener("click",()=>{
             this.addProject();
         });
     }

@@ -64,10 +64,9 @@ class App extends Component {
         this.domElement.innerHTML = `
         <nav class="header">
             <i class="fas fa-bars hamburger"></i>
-            <h1>BeatMaker</h1>
-            <img src="/src/img/logo.png" class="logo" value="Projects">
+            <h1>Splicer</h1>
+            <div />
         </nav>
-        <hr>
         <div class="page-title">
             <h2>Projects</h2>
         </div>

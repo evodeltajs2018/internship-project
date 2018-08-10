@@ -3,7 +3,8 @@
 }
 
 body {
-	margin: 0;
+    margin: 0;
+    color:white;
 	padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -15,7 +16,7 @@ html, body, .app {
 
 .header {
     height: 72px;
-    background-color: #f7f6f6;
+    background-color: #131313;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,7 +29,7 @@ html, body, .app {
 
 .hamburger {
     cursor: pointer;
-    color: #00a4d3;
+    color: white;
     font-size: 36px;
     transform: scale(1.4,1);
     margin-left: 25px;
@@ -42,8 +43,8 @@ html, body, .app {
     margin: 0;
     width: 120px;
     min-width: 120px;
-    min-height: calc(100vh - 125px);
-    background-color: #00c8f8;
+    min-height: calc(100vh - 122px);
+    background-color: #3f3f3f;
     transition-duration: 0.5s;
     overflow: hidden;
     /* -webkit-transition: transform 0.5s ease-in-out;
@@ -87,7 +88,7 @@ html, body, .app {
     width: 100%;
     padding-left: 15px;
     height: 50px;
-    background-color: #00a4d3;
+    background-color: #3f3f3f;
     display: flex;
     align-items: center;
 }
@@ -102,6 +103,7 @@ hr {
     display: flex;
     margin: 0;
     width: 100%;
+    background-color:#131313;
     justify-content: center;
 }
 
