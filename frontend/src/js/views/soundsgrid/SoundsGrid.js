@@ -5,21 +5,25 @@ import SoundRow from "./soundrow/SoundRow";
 import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
+import SoundFilter from "./filter/SoundFilter";
 
 class SoundsGrid extends Component {
     constructor(container) {
         super(container, "sounds-grid-container");
 
         this.pagination = new Pagination(this.domElement, (page) => { this.goToPage(page) });
+        this.data = [];
+        this.setup();
         this.getData();
     }
 
-    getData() {
+    getData(filter = { name: "", type: "" }) {
         SoundRepository.getData(
             {
                 currentPage: this.pagination.currentPage,
-                itemsPerPage: this.pagination.itemsPerPage
+                itemsPerPage: this.pagination.itemsPerPage,
             },
+            filter,
             (data) => {
                 this.data = data.data;
                 this.render();
@@ -39,28 +43,15 @@ class SoundsGrid extends Component {
     }
 
     goToPage(page) {
-        this.pagination.currentPage = page;
-        this.getData();
+        if (page > 0) {
+            this.pagination.currentPage = page;
+            this.getData(this.filterBar.getFilterData());
+        }
     }
 
-    render() {
+    setup() {
         this.domElement.innerHTML = `
-            <div class="searches">
-                <div class="search-input-wrapper">
-                    <label class="label-input">Name</label>
-                    <input type="text" class="search-input" placeholder="&#xF002 Search">
-                </div>
-
-                <div class="search-input-wrapper">
-                    <label class="label-input">Type</label>
-                    <input type="text" class="search-input"  placeholder="&#xF002 Search">
-                </div>
-                <a class="add-sound-btn" href="/sound">
-                    <i class="fas fa-plus"></i>
-                    Add new sound
-                </a>
-            </div>
-                
+            <div id="filter-bar"></div>
             <div id="sounds-grid-header">
                 <div class="sounds-cell">Name</div>
                 <div class="sounds-cell">Type</div>
@@ -70,26 +61,40 @@ class SoundsGrid extends Component {
             <div class="sounds-pagination"></div>
             <div class="modals"></div>
         `;
+        this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
+        this.filterBar.render();
+    }
 
+    deletehandler(id) {
+        let modal = new Modal(
+            this.domElement.querySelector(".modals"),
+            "Delete sound",
+            "Are you sure you want to delete this sound?"
+        );
+        modal.onConfirm = () => {
+            SoundRepository.deleteSound(id, () => { this.getData() });
+        }
+        modal.render();
+    }
+
+    renderTable() {
         this.grid = this.domElement.querySelector("#sounds-grid");
-        if (this.data) {
+        if (this.data.length) {
             for (let row of this.data) {
                 this.soundRow = new SoundRow(this.grid, row, () => { this.getData() });
                 this.soundRow.render();
-                this.soundRow.deleteHandler = (id) => {
-                    let modal = new Modal(this.domElement.querySelector(".modals"), "Delete sound", "Are you sure you want to delete this sound?");
-                    modal.onConfirm = () => {
-                        SoundRepository.deleteSound(id, () => { this.getData() });
-                    }
-                    modal.render();
-                }
-
-                this.soundRow.editHandler = (id) => {
-                    Navigator.goToUrl("/sound/" + id);
-                }
+                this.soundRow.deleteHandler = (id) => this.deletehandler(id);
+                this.soundRow.editHandler = (id) => { Navigator.goToUrl("/sound/" + id); }
             }
+        } else {
+            this.domElement.querySelector("#sounds-grid").innerHTML = `<div class="no-sounds">No sounds</div>`;
         }
+    }
 
+    render() {
+        this.domElement.querySelector("#sounds-grid").innerHTML = "";
+        this.domElement.querySelector(".sounds-pagination").innerHTML = "";
+        this.renderTable();
         this.pagination.domElement = this.domElement.querySelector(".sounds-pagination");
         this.pagination.render();
     }

@@ -60,9 +60,11 @@ class SoundRepository {
 		xhr.send(data);
 	}
 
-	getData(pagination, onSuccess) {
+	getData(pagination, filter, onSuccess) {
+		const name = filter.name;
+		const type = filter.type;
 		const xhr = new XMLHttpRequest();
-		xhr.open("GET", `http://localhost:5000/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}`, true);
+		xhr.open("GET", `http://localhost:5000/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`, true);
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
