@@ -24,7 +24,8 @@ class Project extends Component {
 
     getGenresHTML() {
         this.typesElement = `<option value=""></option>`;
-        GenreRepository.getGenres((data) => {
+        GenreRepository.getGenres()
+        .then((data) => {
             this.data = data;
 
             for (let i = 0; i < this.data.length; i++) {
@@ -37,7 +38,8 @@ class Project extends Component {
     }
 
     getProject(projectId) {
-        ProjectRepository.getProjectById((data) => {
+        ProjectRepository.getProjectById(projectId)
+        .then(data => {
             if (data.length > 0) {
                 document.querySelector('#name').value = data[0].name;
                 document.querySelector('#genre').value = data[0].genre.id;
@@ -45,7 +47,7 @@ class Project extends Component {
             } else {
                 Navigator.goToUrl("/projects");
             }
-        }, projectId);
+        });
     }
 
     getFormData() {
@@ -63,13 +65,13 @@ class Project extends Component {
 
     createProject(form) {
         if (this.verifyFormData()) {
-            ProjectRepository.createProject(form);
+            ProjectRepository.addProject(form).then(response => Navigator.goToUrl("/"));
         }
     }
 
     editProjectById(form, id) {
         if (this.verifyFormData()) {
-            ProjectRepository.editProjectById(form, id);
+            ProjectRepository.editProjectById(form, id).then(response => Navigator.goToUrl("/"));
         }
     }
 

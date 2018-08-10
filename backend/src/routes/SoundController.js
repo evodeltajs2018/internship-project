@@ -1,12 +1,8 @@
 const SoundService = require("../services/SoundService");
-const bodyParser = require('body-parser');
 
 class SoundController {
     constructor(app) {
         this.app = app;
-
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
 
         this.initRoutes();
     }
@@ -69,19 +65,19 @@ class SoundController {
     }
 
     initRoutes() {
-        this.app.get("/sound/:id", (req, res) => {
+        this.app.get("/sounds/:id", (req, res) => {
             this.getSoundById(req, res);
         });
 
-        this.app.post("/sound", (req, res) => {
+        this.app.post("/sounds", (req, res) => {
             this.addSound(req, res);
         });
 
-        this.app.post("/sound/:id", (req, res) => {
+        this.app.put("/sounds/:id", (req, res) => {
             this.editSound(req, res);
         });
 
-        this.app.get("/sound", (req, res) => {
+        this.app.get("/types", (req, res) => {
             this.getTypes(req, res);
         });
 
@@ -89,7 +85,7 @@ class SoundController {
             this.getAll(req, res);
         });
 
-        this.app.delete("/sound/:id", (req, res) => {
+        this.app.delete("/sounds/:id", (req, res) => {
             this.deleteSound(req, res);
         });
     }

@@ -31,7 +31,7 @@ class Projects extends Component {
 
 	}
 	getProjects() {
-		ProjectRepository.getProjects((data) => {
+		ProjectRepository.getProjects().then((data) => {
 			this.data = data;
 			this.displayData = data;
 			this.render();
@@ -47,7 +47,7 @@ class Projects extends Component {
 	}
 
 	deleteProject(id) {
-		ProjectRepository.deleteProject(id, () => {
+		ProjectRepository.deleteProject(id).then(() => {
 			this.getProjects();
 		});
 	}

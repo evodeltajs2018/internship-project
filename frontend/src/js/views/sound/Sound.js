@@ -1,5 +1,6 @@
 import Component from "../../components/Component";
 import SoundRepository from "../../repositories/SoundRepository";
+import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 import Navigator from "../../services/router/Navigator";
 import Button from "../../components/button/Button";
 import "./Sound.scss";
@@ -13,15 +14,17 @@ class Sound extends Component {
     }
 
     getSoundsById() {
-        SoundRepository.getSoundById((data) => {
-            document.querySelector('#name').value = data.name;
-            document.querySelector('#type').value = data.type.id;
-        }, this.soundId);
+        SoundRepository.getSoundById(this.soundId)
+        .then(response => {
+            document.querySelector('#name').value = response.name;
+            document.querySelector('#type').value = response.type.id;
+        });
     }
 
     getSoundsTypesHTML() {
         this.typesElement = `<option value="">Options</option>`;
-        SoundRepository.getSoundTypes((data) => {
+        SoundTypeRepository.getSoundTypes()
+        .then((data) => {
             this.data = data;
             for (let i = 0; i < this.data.length; i++) {
                 this.typesElement += `
@@ -42,13 +45,13 @@ class Sound extends Component {
 
     createNewSound(form) {
         if (this.verifyFormData()) {
-            SoundRepository.sendData(form);
+            SoundRepository.sendData(form).then(response => Navigator.goToUrl("/sounds"));
         }
     }
 
     editSoundById(form, id) {
         if (this.verifyFormData()) {
-            SoundRepository.editSoundById(form, id);
+            return SoundRepository.editSoundById(form, id);
         }
     }
 
@@ -123,7 +126,8 @@ class Sound extends Component {
         if (this.soundId) {
             this.getSoundsById();
             this.domElement.querySelector('#submit')
-                .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId));
+                .addEventListener("click", 
+                    () => this.editSoundById(this.getFormData(), this.soundId).then(() => {Navigator.goToUrl("/sounds");}));
         } else {
             this.domElement.querySelector('#submit')
                 .addEventListener("click", () => this.createNewSound(this.getFormData()));

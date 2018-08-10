@@ -1,91 +1,62 @@
-import Navigator from "../services/router/Navigator";
+import Config from "../utils/Config";
 
 class SoundRepository {
 	constructor() {
+		this.baseurl = Config.server.url + ":" + Config.server.port;
 	}
 
 	sendData(data) {
-		const xhr = new XMLHttpRequest();
+		return fetch(this.baseurl +"/sounds", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		})
+		.then(response => response.json())
+		.catch(err => console.error(err));
 		
-		xhr.open("POST", "http://localhost:5000/sound", true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/sounds");
-			}
-		}
-		data = JSON.stringify(data);
-		xhr.send(data);
 	}
 
-	getSoundTypes(onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/sound", true);
-
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-
-		xhr.send();
-	}
-
-	getSoundById(onSuccess, id) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/sound/" + id, true);
-
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				if (this.responseText == '') {
-					return Navigator.goToUrl('/sounds');
-				}
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-		xhr.send();
+	getSoundById(id) {
+		return fetch(this.baseurl + "/sounds/" + id)
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
 	editSoundById(data, id) {
-		const xhr = new XMLHttpRequest();
-		
-		xhr.open("POST", "http://localhost:5000/sound/" + id, true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/sounds");
+		return fetch(this.baseurl + "/sounds/" + id, {
+			method: "PUT",
+			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json"
 			}
-		}
-		data = JSON.stringify(data);
-		xhr.send(data);
+		})
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
-	getData(pagination, filter, onSuccess) {
+	getAllSounds(pagination, filter) {
 		const name = filter.name;
 		const type = filter.type;
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", `http://localhost:5000/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`, true);
 
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-		xhr.send();
+		return fetch(
+			this.baseurl +`/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
+		)
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
-	deleteSound(soundId, onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("DELETE", "http://localhost:5000/sound/" + soundId, true);
-
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
+	deleteSound(soundId) {
+		return fetch(
+			this.baseurl + "/sounds/" + soundId,
+			{
+				method: "DELETE"
 			}
-		};
-		xhr.send();
+		)
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
-
 }
 
 export default new SoundRepository();
