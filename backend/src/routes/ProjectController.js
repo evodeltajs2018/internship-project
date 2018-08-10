@@ -1,14 +1,8 @@
 const ProjectService = require("../services/ProjectService");
-const bodyParser = require('body-parser');
 
 class ProjectController {
     constructor(app) {
         this.app = app;
-
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({
-            extended: true
-        }));
 
         this.initRoutes();
     }

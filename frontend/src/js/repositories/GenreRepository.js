@@ -1,19 +1,14 @@
-import Navigator from "../services/router/Navigator";
+import Config from "../utils/Config";
 
 class GenreRepository {
-	constructor() {}
+	constructor() {
+		this.baseurl = Config.server.url + ":" + Config.server.port;
+	}
 
-	getGenres(onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/genres", true);
-
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-
-		xhr.send();
+	getGenres() {
+		return fetch(this.baseurl +"/genres")
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 }
 

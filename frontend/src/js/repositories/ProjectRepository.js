@@ -1,76 +1,52 @@
-import Navigator from "../services/router/Navigator";
+import Config from "../utils/Config";
 
 class ProjectRepository {
-	constructor() {}
-
-	getProjects(onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://localhost:5000/projects", true);
-
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-
-		xhr.send();
+	constructor() {
+		this.baseurl = Config.server.url + ":" + Config.server.port;
 	}
 
-	getProjectById(onSuccess, id) {
-		const xhr = new XMLHttpRequest();
-		let url = "http://localhost:5000/projects/" + id;
-
-		xhr.open("GET", url, true);
-
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess(JSON.parse(this.responseText));
-			}
-		};
-
-		xhr.send();
+	getProjects() {
+		return fetch(this.baseurl + "/projects")
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
-	createProject(data) {
-		const xhr = new XMLHttpRequest();   
-		
-		xhr.open("POST", "http://localhost:5000/projects", true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/projects");
+	getProjectById(id) {
+		return fetch(this.baseurl + "/projects/" + id)
+		.then(response => response.json())
+		.catch(err => console.error(err));
+	}
+
+	addProject(data) {
+		return fetch(this.baseurl + "/projects", {
+			method: "POST",
+			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json"
 			}
-		}
-		data = JSON.stringify(data);
-		xhr.send(data);
+		})
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
 	editProjectById(data, id) {
-		const xhr = new XMLHttpRequest();
-		
-		xhr.open("PUT", "http://localhost:5000/projects/" + id, true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				Navigator.goToUrl("/projects");
+		return fetch(this.baseurl + "/projects/" + id, {
+			method: "PUT",
+			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json"
 			}
-		}
-		
-		data = JSON.stringify(data);
-		xhr.send(data);
+		})
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 
-	deleteProject(projectId, onSuccess) {
-		const xhr = new XMLHttpRequest();
-		xhr.open("DELETE", "http://localhost:5000/projects/" + projectId, true);
-
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				onSuccess();
-			}
-		};
-
-		xhr.send();
+	deleteProject(projectId) {
+		return fetch(this.baseurl +"/projects/" + projectId, {
+			method: "DELETE"
+		})
+		.then(response => response.json())
+		.catch(err => console.error(err));
 	}
 }
 
