@@ -5,15 +5,17 @@ import Button from "../../components/button/Button";
 import "./Sound.scss";
 
 class Sound extends Component {
-    constructor(container, soundId = null) {
+    constructor(container, soundId = null, uploadClicked = false) {
         super(container, "add-sound");
         this.soundId = soundId;
+        this.buffer = null;
+        this.uploadClicked = uploadClicked;
 
         this.getSoundsTypesHTML();
     }
 
     getSoundsById() {
-        SoundRepository.getSoundById((data) => {
+        return SoundRepository.getSoundById((data) => {
             document.querySelector('#name').value = data.name;
             document.querySelector('#type').value = data.type.id;
         }, this.soundId);
@@ -36,7 +38,7 @@ class Sound extends Component {
         const form = {
             name: document.querySelector('#name').value,
             type: document.querySelector('#type').value,
-            value: this.bytearray
+            value: this.arraybuffer
         }
         return form;
     }
@@ -57,8 +59,11 @@ class Sound extends Component {
         const form = this.getFormData();
         const nameWarning = document.querySelectorAll('.hidden')[0];
         const typeWarning = document.querySelectorAll('.hidden')[1];
+        const soundWarning = document.querySelectorAll('.hidden')[2];
         const nameInput = document.querySelector("#name");
         const typeInput = document.querySelector("#type");
+        const soundInput = document.querySelector("#upload");
+        const uploadFile = document.querySelector("#file");
         let validation = true;
 
         document.querySelector('.hidden-text').classList.remove('none');
@@ -87,37 +92,84 @@ class Sound extends Component {
             typeWarning.classList.add('required');
         }
 
-        if (validation == true) {
-            document.querySelector('.hidden-text').classList.add('none');
+        if (uploadFile.files[0] == undefined) {
+            document.querySelector("#upload").classList.add('wrong-input');
+            soundWarning.className = 'block red hidden';
+            uploadFile.addEventListener('change', () => {
+                soundWarning.className = 'hidden required red';
+                soundInput.className = 'fas fa-cloud-upload-alt cursor-pointer';
+            })
+            validation = false;
+        } else {
+            document.querySelector('#upload').classList.remove('wrong-input');
+            soundWarning.classList.add('required');
         }
 
         return validation;
     }
-
-    saveByteArray(reportName, base64) {
-        var byte = new Uint8Array(base64);
-        var blob = new Blob([byte], {type : 'audio/wav'});
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        var fileName = reportName + ".wav";
-        link.download = fileName;
-        //link.click();
-        return byte;
-    };
 
     generateByteArray() {
         const input = this.domElement.querySelector("#file");
         const reader = new FileReader();
 
         reader.onload = () => {
-            console.log(reader.result);
-            // this.bytearray = this.saveByteArray("Test", reader.result); // Pentru test
-            // this.bytearray = reader.result;
-            this.bytearray = input.files[0];
+            if (!this.uploadClicked) {
+                this.createPlayButton();
+            }
+                document.querySelector('#name').value = input.files[0].name;
+                this.buffer = reader.result;
+                this.uploadClicked = true;
+                this.arraybuffer = input.files[0];
         }
 
         reader.readAsArrayBuffer(input.files[0]);
-}
+    }
+
+    copyBuffer(src)  {
+        const dst = new ArrayBuffer(src.byteLength);
+        new Uint8Array(dst).set(new Uint8Array(src));
+        return dst;
+    }
+
+    playSound() {
+        const context = new AudioContext();
+        const buffer = this.copyBuffer(this.buffer);
+        context.decodeAudioData(buffer).then((data) => {
+            const source = context.createBufferSource();
+            
+            source.buffer = data;
+            source.connect(context.destination);
+            source.start(0);
+        })
+    }
+
+    getSound() {
+        return SoundRepository.getSoundDataById(this.soundId).then(res => this.buffer = res);
+    }
+
+    createPlayButton() {
+        this.domElement.querySelector('.upload-play').insertAdjacentHTML('beforeend', `
+            <i class="fas fa-play-circle" id="play-sound"></i>
+            `);
+        this.domElement.querySelector('#play-sound')
+            .addEventListener("click", () => this.playSound());
+    }
+
+    handleEditSound() {
+        this.getSoundsById();
+        this.getSound()
+        .then(() => {
+            this.uploadClicked = true;
+            this.createPlayButton();
+            this.domElement.querySelector('#submit')
+            .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId));
+        })
+    }
+
+    handleAddSound() {
+        this.domElement.querySelector('#submit')
+            .addEventListener("click", () => this.createNewSound(this.getFormData()));
+    }
 
     render() {
         this.domElement.innerHTML = `
@@ -125,19 +177,22 @@ class Sound extends Component {
                 <div class="sound-form">
                     <div class="form-row">
                         <div class="text-part">
-                            <label for="name">Name:<span class="red">*</span></label>
-                            <label for="type">Type:<span class="red">*</span></label>
-                            <label>Upload Sound:<span class="red">*</span></label>
+                            <label class='margin-top-menu' for="name">Name:<span class="red">*</span></label>
+                            <label class='margin-top-menu' for="type">Type:<span class="red">*</span></label>
+                            <label class='margin-top-menu'>Upload Sound:<span class="red">*</span></label>
                         </div>
                         <div class="input-part">
-                            <input type="text" id="name" placeholder="Name"></input>
-                            <select type="type" id="type" required=""></select>
-                            <input type="file" name="file" id="file" class="inputfile" />
-                            <label for="file">
-                                <i class="fas fa-cloud-upload-alt cursor-pointer" style="color: gray; float: right;"></i>
-                            </label>
+                            <input class='margin-top-menu' type="text" id="name" placeholder="Name"></input>
+                            <select class='margin-top-menu' type="type" id="type" required=""></select>
+                            <input type="file" name="file" id="file" class="inputfile" accept="audio/mp3,audio/wav"/>
+                            <div class='upload-play margin-top-menu' '>
+                                <label for="file" id='upload'>
+                                    <i class="fas fa-cloud-upload-alt cursor-pointer" id="upload" style="width: 50%"></i>
+                                </label>
+                            </div>
                         </div>
                         <div class="none hidden-text">
+                            <div class="hidden required red">Required</div>
                             <div class="hidden required red">Required</div>
                             <div class="hidden required red">Required</div>
                         </div>
@@ -150,13 +205,9 @@ class Sound extends Component {
             `;
 
         if (this.soundId) {
-            this.getSoundsById();
-            SoundRepository.getSoundDataById(this.soundId);
-            this.domElement.querySelector('#submit')
-                .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId));
+            this.handleEditSound();
         } else {
-            this.domElement.querySelector('#submit')
-                .addEventListener("click", () => this.createNewSound(this.getFormData()));
+            this.handleAddSound();
         }
 
         this.domElement.querySelector("#file")

@@ -34,12 +34,33 @@
                     flex-direction: column;
                 }
 
+                #upload {
+                    width: 25px;
+                    height: 20px;
+                }
+
+                .play-sound {
+                    cursor: pointer;
+                }
+
+                .upload-play {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                i {
+                    color: gray;
+                    width: 20px;
+                    height: 20px;
+                }
+
                 .red {
                     color: red;
                 }
             }
 
-            .input-part *, .text-part * {
+            .margin-top-menu {
                 margin-top: 20px;
                 width: 200px;
             }

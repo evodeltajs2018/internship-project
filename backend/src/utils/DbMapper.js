@@ -3,6 +3,7 @@ class DbMapper {
         return {
             id: sound.Id,
             name: sound.Name,
+            byteArrayId: sound.ByteArrayId,
             type: {
                 id: sound.SoundTypeId,
                 name: sound.TypeName

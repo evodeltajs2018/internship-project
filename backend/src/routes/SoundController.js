@@ -24,11 +24,30 @@ class SoundController {
     }
 
     addSound(req, res) {
-        let sound = req.body, buf = Buffer.from(JSON.stringify(req.body.value));
-        SoundService.addSound(sound, buf).then((result) => {
+        
+        const form = new multiparty.Form();
+
+        form.parse(req, (err, fields, files) => {
+            const { id } = req.params;
+            const name = fields.name[0];
+            const type = fields.type[0];
+            const value = files.value[0];
+
+            FileOpener(value)
+                .then((data) => {
+                    SoundService.addSound(id, name, type, data).then((result) => {
+                        res.json(result);
+                    }); 
+                });
+        });
+
+        form.on('error', err => console.log(err));
+        form.on('close', () =>  console.log('closed'));
+    }
+        /* SoundService.addSound(sound, buf).then((result) => {
             res.json(result);
         })
-    }
+    } */
 
     deleteSound(req, res) {
         let id = req.params.id;
@@ -46,7 +65,6 @@ class SoundController {
         const form = new multiparty.Form();
 
         form.parse(req, (err, fields, files) => {
-            console.log(err, fields, files);
             const { id } = req.params;
             const name = fields.name[0];
             const type = fields.type[0];
@@ -73,7 +91,6 @@ class SoundController {
     getSoundById(req, res) {
         let id = req.params.id;
         SoundService.getSoundById(id).then((result) => {
-            console.log(result);
             res.json(result);
         });
     }
@@ -86,32 +103,23 @@ class SoundController {
     }
 
     initRoutes() {
-        this.app.get("/sound/:id", (req, res) => {
+        this.app.get("/sounds/:id", (req, res) => {
             this.getSoundById( req, res);
         });
 
-        this.app.get("/sound/audio/:id", (req, res) => {
+        this.app.get("/sounds/audio/:id", (req, res) => {
             this.getSoundDataById(req, res);
         });
 
-        this.app.post("/sound", (req, res) => {
-            // #1 convert the string to a node buffer
-            // #2 save with mssql the buffer
-            const buf = Buffer.from(JSON.stringify(req.body.value));
-            console.log(buf);
-            //console.log(buf.toString('binary'));
-
+        this.app.post("/sounds", (req, res) => {
             this.addSound(req, res);
         });
 
-        this.app.put("/sound/:id", (req, res) => {
-            // const buf = Buffer.from(JSON.stringify(req.body.value));
-            // console.log(buf);
-            //res.json([SoundService.editSound(req.body, req.params.id)]);
+        this.app.put("/sounds/:id", (req, res) => {
             this.editSound(req, res);
         });
 
-        this.app.get("/sound", (req, res) => {
+        this.app.get("/types", (req, res) => {
             this.getTypes(req, res);
         });
 
@@ -119,7 +127,7 @@ class SoundController {
             this.getAll(req, res);
         });
 
-        this.app.delete("/sound/:id", (req, res) => {
+        this.app.delete("/sounds/:id", (req, res) => {
             this.deleteSound(req, res);
         });
     }

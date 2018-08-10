@@ -2,14 +2,27 @@ const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
-    addSound(data, bytearray) {
-        return DbConnection.executeQuery(`
+    addSound(name, typeId, bytearray) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool
+                    .input('name', DbConnection.sql.NVarChar(50), name)
+                    .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('byteArrayId', DbConnection.sql.Int, paramId)
+                    .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
+                    .query(`INSERT INTO ByteArray VALUES (@value);
+                        INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
+            })
+            .then(result => {
+                return result.rowsAffected[0] === 1;
+            });
+    }
+        /* return DbConnection.executeQuery(`
             INSERT INTO Sound(Name, SoundTypeId, Value) VALUES
             ('${data.name}', ${data.type}, convert(VARBINARY(max), '${bytearray}'))
         `).then((result) => {
             return result.rowsAffected[0] === 1;
-        });
-    }
+        }); */
 
     editSound(paramId, name, typeId, bytearray) {
         return DbConnection.executePoolRequest()
@@ -17,12 +30,14 @@ class SoundService {
                 return pool.input('paramId', DbConnection.sql.Int, paramId)
                     .input('name', DbConnection.sql.NVarChar(50), name)
                     .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('byteArrayId', DbConnection.sql.Int, paramId)
                     .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
                     .query(`UPDATE Sound SET 
                         Name = @name, 
-                        SoundTypeId = @soundtypeId,
-                        Value = @value
-                        WHERE Id = @paramId`
+                        SoundTypeId = @soundtypeId
+                        WHERE Id = @paramId;
+                        UPDATE ByteArray SET Value = @value WHERE Id = @byteArrayId
+                        `
                     )
             })
             .then(result => {
@@ -32,7 +47,7 @@ class SoundService {
 
     getSoundById(id) {
         return DbConnection.executeQuery(`
-            SELECT S.Id, S.Name, S.SoundTypeId, S.Value, ST.Name AS TypeName
+            SELECT S.Id, S.Name, S.SoundTypeId, S.ByteArrayId AS ByteArrayId, ST.Name AS TypeName
             FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
             WHERE S.Id = ${id}
         `).then((result) => {
@@ -42,7 +57,7 @@ class SoundService {
 
     getSoundDataById(id) {
         return DbConnection.executeQuery(`
-            SELECT Value FROM Sound WHERE Id = ${id}`)
+            SELECT Value FROM ByteArray WHERE Id = ${id}`)
         .then((result) => {
             console.log(result.recordset[0].Value);
             return result.recordset[0].Value;
