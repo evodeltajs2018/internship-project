@@ -1,14 +1,8 @@
 const GenreService = require("../services/GenreService");
-const bodyParser = require('body-parser');
 
 class GenreController {
     constructor(app) {
         this.app = app;
-
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({
-            extended: true
-        }));
 
         this.initRoutes();
     }
