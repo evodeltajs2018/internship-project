@@ -117,7 +117,7 @@ class Router {
 
             const notFound = this.findRouteByUrl("/notfound");
             this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/notfound", {
+            Navigator.goToUrl("/notfound")
         }
     }
 }

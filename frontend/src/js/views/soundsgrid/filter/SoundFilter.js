@@ -33,7 +33,7 @@ class SoundFilter extends Component {
 
     render() {
         this.domElement.innerHTML = `
-            <div class="searches">
+            <div class="sound-searches">
                 <div class="search-input-wrapper">
                     <label class="label-input">Name</label>
                     <input type="text" class="search-input name-search" placeholder="&#xF002 Search">
