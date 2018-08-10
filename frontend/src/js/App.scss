@@ -48,6 +48,8 @@ html, body, .app {
     overflow: hidden;
     /* -webkit-transition: transform 0.5s ease-in-out;
     transition: transform 0.5s ease-in-out; */
+
+    
 }
 
 .sidebar-content {
@@ -55,6 +57,12 @@ html, body, .app {
     display: flex;
     align-items: center;
     flex-direction: column;
+    .menu-element{
+        color:gray;
+    }
+    .active-icon{
+        color:powderblue;
+    }
 }
 
 .sidebar-content li {

@@ -25,6 +25,7 @@ class Modal extends Component {
 
         this.confirmButton = new Button(this.domElement.querySelector(".modalFooter"), "Confirm", "confirmButton", () => {
             this.onConfirm();
+            document.querySelector("body").style.overflow = "auto";
             this.unrender();
         });
         this.confirmButton.render();

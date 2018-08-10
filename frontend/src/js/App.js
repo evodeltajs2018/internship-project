@@ -32,7 +32,7 @@ class App extends Component {
         this.sidebarLinks.map(element => {
             this.sidebarLinksHTML += `
             <li>
-                <i class="${element.icon} fa-3x menu-element" style="color: gray" value="${element.name}"></i>
+                <i class="${element.icon} fa-3x menu-element" value="${element.name}"></i>
             </li>
             <li>${element.name}</li>
             `
@@ -50,7 +50,6 @@ class App extends Component {
 
     addClickEventListenerToSidebar() {
         const element = this.domElement.querySelectorAll('.menu-element');
-
         for (let i = 0; i < element.length; i++) {
             element[i].addEventListener("click", (e) => { this.loadPage(e.target); });
         }
