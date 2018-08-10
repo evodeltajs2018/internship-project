@@ -1,0 +1,61 @@
+.sounds-grid-row {
+    border-bottom: 1px solid #cccccc;
+}
+
+.sound-action-buttons {
+    .fas {
+        font-size: 20px;
+        padding-left: 20px;
+        cursor: pointer;
+        transition-duration: 0.1s;
+        color: black;
+        &:hover {
+            color: #555;
+        }
+    }
+}
+
+#sounds-grid-header {
+    div:hover {
+        cursor: default;
+    }
+    
+}
+
+.sounds-cell, .actions-cell {
+    word-wrap: break-word;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    vertical-align: middle;
+    padding: 15px;
+    padding-left: 40px;
+    padding-right: 0px;
+}
+
+.sounds-cell {
+    width: calc(50% - 80px);
+    transition-duration: 0.2s;
+    text-align: left;
+}
+
+.actions-cell {
+
+    min-width: 150px;
+    word-wrap: none;
+}
+
+#sounds-grid-header {
+    background-color: #cccccc;
+}
+
+@media (max-width: 550px) {
+
+    .sounds-grid-header {
+        .sounds-cell {
+            padding: 5px;
+            text-align: center;
+        }
+    }
+    
+}

@@ -1,0 +1,76 @@
+.add-sound {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .sound-label {
+        width: 100%;
+        max-width: 500px;
+
+        .form-buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .sound-form {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .form-row {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                justify-content: center;
+
+                .text-part {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .red {
+                    color: red;
+                }
+            }
+
+            .input-part *, .text-part * {
+                margin-top: 20px;
+                width: 200px;
+            }
+            
+            .input-part {
+                display: flex;
+                flex-direction: column;
+
+                .wrong-input {
+                    border: 2px solid red;
+                }
+            }
+       
+            .hidden {
+                margin-left: 20px;
+                margin-top: 25px;
+            }
+
+            .hidden-text {
+                .none {
+                    display: none;
+                }
+
+                .required {
+                    visibility: hidden;
+                }
+                
+                .show {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

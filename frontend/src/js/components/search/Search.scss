@@ -1,0 +1,26 @@
+.searches {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+
+    .search-input-wrapper{
+        margin-left: 20px;
+        align-self: center;
+
+        .label-input{
+            padding: 10px;
+        }
+        
+        .search-input{
+            border-radius: 15px;
+            border: 1px solid grey;
+            outline: none;
+            font-size: 17px;
+            padding-left: 10px;
+            font-family: Arial, FontAwesome;
+        }
+    }
+}
+
+

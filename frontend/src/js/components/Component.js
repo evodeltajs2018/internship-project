@@ -7,4 +7,11 @@ class Component {
 
 		this.container.appendChild(this.domElement);
 	}
+
+	unrender() {
+		this.domElement.outerHTML = "";
+	}
+
 }
+
+export default Component;
