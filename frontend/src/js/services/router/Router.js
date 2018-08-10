@@ -5,6 +5,8 @@ import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
+import SidebarService from "../../services/sidebar service/SidebarService";
+import TitleService from "../../services/title service/TitleService";
 
 class Router {
     constructor(container) {
@@ -54,6 +56,7 @@ class Router {
     addPopStateEvent() {
         // called when URL is changed
         window.onpopstate = (event) => {
+            
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -67,6 +70,8 @@ class Router {
         this.currentComponent.render();
     }
 
+    
+
     findRouteByUrl(url) {
         let parameter = null;
         let urlPath = null;
@@ -79,13 +84,19 @@ class Router {
             if (isNaN(parameter)) {
                 urlPath = url;
                 parameter = null;
+                SidebarService.setActiveIcon(urlPath);
+                TitleService.setCurrentTitle();
 
             } else {
                 urlPath = url.substring(0, url.length - parameter.length - 1);
+                SidebarService.setActiveIcon(urlPath);
+                TitleService.setCurrentTitle();
                 parameter = match[1];
             }
         } else {
             urlPath = url;
+            SidebarService.setActiveIcon(urlPath);
+            TitleService.setCurrentTitle();
         }
 
         return {
@@ -106,7 +117,7 @@ class Router {
 
             const notFound = this.findRouteByUrl("/notfound");
             this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/notfound", { data: "404" });
+            Navigator.goToUrl("/notfound", {
         }
     }
 }
