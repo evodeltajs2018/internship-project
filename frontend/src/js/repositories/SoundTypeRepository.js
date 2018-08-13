@@ -9,7 +9,12 @@ class SoundTypeRepository {
         return fetch(this.baseurl + "/types")
         .then(response => response.json())
         .catch(err => console.error(err));
-	}
+  }
+    getIconSrcById(){
+      return fetch(this.baseyrl + "/splicer")
+      .then(response => response.json())
+      .catch(err => console.error(err));
+    }
 
 }
 

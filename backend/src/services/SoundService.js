@@ -31,8 +31,8 @@ class SoundService {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('id', DbConnection.sql.Int, id)
-                    .query(`SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
-            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
+                    .query(`SELECT S.Id, S.Name, S.SoundTypeId, T.Name AS TypeName
+            FROM Sound S INNER JOIN Types T ON S.SoundTypeId = T.Id
             WHERE S.Id = @id`)
             })
             .then((result) => {
@@ -44,7 +44,7 @@ class SoundService {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('id', DbConnection.sql.Int, id)
-                    .query(`SELECT Id, Name FROM SoundType WHERE Id = @id`)
+                    .query(`SELECT Id, Name FROM Types WHERE Id = @id`)
             })
             .then((result) => {
                 return result.recordset.map((type) => { 
@@ -56,7 +56,7 @@ class SoundService {
     getTypes() {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.query(`SELECT Id, Name FROM SoundType`)
+                return pool.query(`SELECT Id, Name FROM Types`)
             })
             .then((result) => {
                 return result.recordset.map((type) => { 
@@ -66,6 +66,32 @@ class SoundService {
 
     }
 
+    getIconSrcById(typeId){
+        return DbConnection.executePoolRequest()
+        .then(pool => {
+            return pool.input('typeId',DbConnection.sql.Int,typeId)
+            .query(`SELECT IconSrc FROM Types WHERE Id = @typeId`);
+        })
+        .then((result) => {
+            return result.recordset.map((type) => {
+                return DbMapper.mapType(type);
+            });
+        })
+    }
+
+    getSplicerSounds(){
+        return DbConnection.executePoolRequest()
+        .then(pool => {
+            return pool.query(`SELECT TOP 8 Id, Name, SoundTypeId FROM Sound`);
+        })
+        .then((result) => {
+
+            return result.recordset.map((type)=>{
+                return DbMapper.mapSound(type);
+            })
+        })
+    }
+
     getPageCount(itemsPerPage, filter) {
         return DbConnection.executePoolRequest()
             .then(pool => {
@@ -73,8 +99,8 @@ class SoundService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                    FROM Sound S INNER JOIN SoundType ST On S.SoundTypeId = ST.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'`)
+                    FROM Sound S INNER JOIN Types T On S.SoundTypeId = T.Id
+                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
             })
             .then((result) => {
                 return result;
@@ -90,8 +116,8 @@ class SoundService {
                 return pool.input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT COUNT(*) AS Count 
-            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-            WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'`)
+            FROM Sound S INNER JOIN Types T ON S.SoundTypeId = T.Id
+            WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
             })
             .then((result) => {
                 return result;
@@ -112,9 +138,9 @@ class SoundService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`
-                    SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
-                    FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'
+                    SELECT S.Id, S.Name, S.SoundTypeId, T.Name AS TypeName
+                    FROM Sound S INNER JOIN Types T ON S.SoundTypeId = T.Id
+                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'
                     ORDER BY S.Name
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY

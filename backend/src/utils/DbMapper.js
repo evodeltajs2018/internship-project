@@ -13,7 +13,8 @@ class DbMapper {
     static mapType(type) {
         return {
             id: type.Id,
-            name: type.Name
+            name: type.Name,
+            iconSrc: type.IconSrc
         }
     }
 

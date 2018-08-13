@@ -59,6 +59,19 @@ class SoundController {
             return res.json(result);
         });
     }
+
+    getSplicerSounds(req,res){
+        return SoundService.getSplicerSounds().then((result) =>{
+            return res.json(result);
+        })
+    }
+
+    getIconSrcById(req, res){
+        let id = req.params.id;
+        return SoundService.getIconSrcById(id).then((result) => {
+            return res.json(result);
+        })
+    }
 }
 
 module.exports = new SoundController();
