@@ -1,3 +1,5 @@
+@import "App.scss";
+
 .button {
     display: inline;
 }
@@ -10,41 +12,17 @@
     outline: none;
 }
 
-.confirmButton{
-    border: none;
-    outline: none;
-    color: white;
-    background: #00B8DB;
-    padding: 10px;
-    margin-left: 10px;
-
-  
-}
-
-.cancelButton{
-    cursor: pointer;
-    float:right;
-    border:none;
-    outline:none;
-    color:grey;
-    background:transparent;
-    padding:10px;
-    margin-right:10px;
-}
-
-
 .cursor-pointer {
     cursor: pointer;
 }
 
 .confirm-button {
-    background: #3f3f3f;
+    background: $backgroundSecondary;
     width: 80px;
     border: none;
     outline: none;
     color: white;
     padding: 10px;
-    margin-left: 20px;
     transform: scale(1);
     transition: .5s all;
 
@@ -55,11 +33,10 @@
 }
 
 .cancel-button{
+    cursor: pointer;
     color: grey;
-    float: right;
     border: none;
     outline: none;
     background: transparent;
     padding: 10px;
-    margin-right: 100px;
 }

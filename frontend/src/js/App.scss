@@ -1,3 +1,8 @@
+$backgroundPrimary: #131313;
+$backgroundSecondary: #3f3f3f;
+$menuActive: #ffffff;
+$menuInactive: #1f1f1f;
+
 * {
 	box-sizing: border-box;
 }
@@ -16,7 +21,7 @@ html, body, .app {
 
 .header {
     height: 72px;
-    background-color: #131313;
+    background-color: $backgroundPrimary;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,7 +49,7 @@ html, body, .app {
     width: 120px;
     min-width: 120px;
     min-height: calc(100vh - 122px);
-    background-color: #3f3f3f;
+    background-color: $backgroundSecondary;
     transition-duration: 0.5s;
     overflow: hidden;
     /* -webkit-transition: transform 0.5s ease-in-out;
@@ -59,10 +64,10 @@ html, body, .app {
     align-items: center;
     flex-direction: column;
     .menu-element{
-        color: #1f1f1f;;
+        color: $menuInactive;
     }
     .active-icon{
-        color:white;
+        color: $menuActive;
     }
 }
 
@@ -88,7 +93,7 @@ html, body, .app {
     width: 100%;
     padding-left: 15px;
     height: 50px;
-    background-color: #3f3f3f;
+    background-color: $backgroundSecondary;
     display: flex;
     align-items: center;
 }
@@ -103,7 +108,7 @@ hr {
     display: flex;
     margin: 0;
     width: 100%;
-    background-color:#131313;
+    background-color: $backgroundPrimary;
     justify-content: center;
 }
 

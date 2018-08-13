@@ -1,3 +1,5 @@
+@import "App.scss";
+
 .adding-card{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin:20px;
@@ -13,7 +15,7 @@
         align-items: center;
         justify-content: center;
         background-color: white;
-        color:#3f3f3f;
+        color: $backgroundSecondary;
         border-bottom:1px solid #C0C0C0;
         height:220px;
         font-size:60px;
@@ -21,7 +23,7 @@
     
     .adding-card-text{
         display: flex;
-        background-color: #3f3f3f;
+        background-color: $backgroundSecondary;
         align-items: center;
         justify-content: center;
         text-align: center;

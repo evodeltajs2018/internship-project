@@ -1,3 +1,5 @@
+@import "App.scss";
+
 .modal {
     display: block; 
     position: fixed; 
@@ -12,7 +14,7 @@
     padding:5px;
 
     .modal-content{
-        background-color: #3f3f3f;
+        background-color: $backgroundSecondary;
         margin: 15% auto; 
         padding: 20px;
         border: 1px solid #dadada;
@@ -45,6 +47,11 @@
             align-items: center;
             justify-content: center;
             height:80px;
+        }
+
+        .modal-footer{
+            display: flex;
+            justify-content: space-between;
         }
 
     }
