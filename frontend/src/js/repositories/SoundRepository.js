@@ -13,7 +13,6 @@ class SoundRepository {
 		}
 
 		xhr.open("POST", "http://localhost:5000/sounds", true);
-		//xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
 				Navigator.goToUrl("/sounds");
@@ -42,8 +41,8 @@ class SoundRepository {
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
-				if (this.responseText == '') {
-					return Navigator.goToUrl('/sounds');
+				if (this.responseText == 0) {
+					return Navigator.goToUrl('/404', { data: "404" });
 				}
 				onSuccess(JSON.parse(this.responseText));
 			}
@@ -60,14 +59,14 @@ class SoundRepository {
 		})
 	}
 
-	editSoundById(data, id) {
+	editSoundById(data, id, extension) {
 		const xhr = new XMLHttpRequest();
 		const fd = new FormData();
 
-		for(name in data) {
-			fd.append(name, data[name]);
-		}
-		
+		fd.append("name", data.name);
+		fd.append("type", data.type);
+		fd.append("value", new Blob([data.value], {type: `audio/${extension}`} ));
+
 		xhr.open("PUT", "http://localhost:5000/sounds/" + id, true);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE) {

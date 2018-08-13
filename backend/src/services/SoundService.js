@@ -2,27 +2,36 @@ const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
-    addSound(name, typeId, bytearray) {
+    addByteArray(bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool
-                    .input('name', DbConnection.sql.NVarChar(50), name)
-                    .input('soundTypeId', DbConnection.sql.Int, typeId)
-                    .input('byteArrayId', DbConnection.sql.Int, paramId)
                     .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
-                    .query(`INSERT INTO ByteArray VALUES (@value);
-                        INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
+                    .query(`
+                        INSERT INTO ByteArray VALUES (@value);
+                        SELECT SCOPE_IDENTITY() AS id;`);
             })
-            .then(result => {
-                return result.rowsAffected[0] === 1;
+            .then((result) => {
+                return result.recordset[0].id;
             });
     }
-        /* return DbConnection.executeQuery(`
-            INSERT INTO Sound(Name, SoundTypeId, Value) VALUES
-            ('${data.name}', ${data.type}, convert(VARBINARY(max), '${bytearray}'))
-        `).then((result) => {
-            return result.rowsAffected[0] === 1;
-        }); */
+
+    addSound(name, typeId, bytearray) {
+        return this.addByteArray(bytearray)
+        .then(lastId => {
+            return DbConnection.executePoolRequest()
+                .then(pool => {
+                    return pool
+                        .input('name', DbConnection.sql.NVarChar(50), name)
+                        .input('soundTypeId', DbConnection.sql.Int, typeId)
+                        .input('byteArrayId', DbConnection.sql.Int, lastId)
+                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
+                })
+                .then(result => {
+                    return result.rowsAffected[0] === 1;
+                });
+        })
+    }
 
     editSound(paramId, name, typeId, bytearray) {
         return DbConnection.executePoolRequest()
@@ -59,7 +68,6 @@ class SoundService {
         return DbConnection.executeQuery(`
             SELECT Value FROM ByteArray WHERE Id = ${id}`)
         .then((result) => {
-            console.log(result.recordset[0].Value);
             return result.recordset[0].Value;
         })
     } 
@@ -132,7 +140,8 @@ class SoundService {
 
     delete(id) {
         return DbConnection.executeQuery(`
-            DELETE FROM Sound WHERE Id = ${id}
+            DELETE FROM Sound WHERE Id = ${id};
+            DELETE FROM ByteArray WHERE Id = ${id};
         `).then((result) => {
             return result.rowsAffected[0] === 1;
         });

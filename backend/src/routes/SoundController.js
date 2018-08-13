@@ -28,14 +28,13 @@ class SoundController {
         const form = new multiparty.Form();
 
         form.parse(req, (err, fields, files) => {
-            const { id } = req.params;
             const name = fields.name[0];
             const type = fields.type[0];
             const value = files.value[0];
 
             FileOpener(value)
                 .then((data) => {
-                    SoundService.addSound(id, name, type, data).then((result) => {
+                    SoundService.addSound(name, type, data).then((result) => {
                         res.json(result);
                     }); 
                 });
@@ -44,10 +43,6 @@ class SoundController {
         form.on('error', err => console.log(err));
         form.on('close', () =>  console.log('closed'));
     }
-        /* SoundService.addSound(sound, buf).then((result) => {
-            res.json(result);
-        })
-    } */
 
     deleteSound(req, res) {
         let id = req.params.id;
@@ -74,8 +69,8 @@ class SoundController {
                 .then((data) => {
                     SoundService.editSound(id, name, type, data).then((result) => {
                         res.json(result);
-                    }); 
-                });
+                    });
+                }); 
         });
 
         form.on('error', err => console.log(err));

@@ -5,33 +5,14 @@ import Button from "../../components/button/Button";
 import "./Sound.scss";
 
 class Sound extends Component {
-    constructor(container, soundId = null, uploadClicked = false) {
+    constructor(container, soundId = null) {
         super(container, "add-sound");
+        this.extension = 'wav';
         this.soundId = soundId;
         this.buffer = null;
-        this.uploadClicked = uploadClicked;
+        this.uploadClicked = false;
 
-        this.getSoundsTypesHTML();
-    }
-
-    getSoundsById() {
-        return SoundRepository.getSoundById((data) => {
-            document.querySelector('#name').value = data.name;
-            document.querySelector('#type').value = data.type.id;
-        }, this.soundId);
-    }
-
-    getSoundsTypesHTML() {
-        this.typesElement = `<option value="">Options</option>`;
-        SoundRepository.getSoundTypes((data) => {
-            this.data = data;
-            for (let i = 0; i < this.data.length; i++) {
-                this.typesElement += `
-                    <option value="${this.data[i].id}">${this.data[i].name}</option>
-                `
-            }
-            document.querySelector("#type").innerHTML = this.typesElement;
-        });
+        this.createSoundTypesDropdown();
     }
 
     getFormData() {
@@ -41,18 +22,6 @@ class Sound extends Component {
             value: this.arraybuffer
         }
         return form;
-    }
-
-    createNewSound(form) {
-        if (this.verifyFormData()) {
-            SoundRepository.sendData(form);
-        }
-    }
-
-    editSoundById(form, id) {
-        if (this.verifyFormData()) {
-            SoundRepository.editSoundById(form, id);
-        }
     }
 
     verifyFormData() {
@@ -92,23 +61,24 @@ class Sound extends Component {
             typeWarning.classList.add('required');
         }
 
-        if (uploadFile.files[0] == undefined) {
-            document.querySelector("#upload").classList.add('wrong-input');
+        if (uploadFile.files[0] === undefined && this.soundId === null) {
+            document.querySelector("#upload").classList.add('wrong-upload');
             soundWarning.className = 'block red hidden';
             uploadFile.addEventListener('change', () => {
                 soundWarning.className = 'hidden required red';
                 soundInput.className = 'fas fa-cloud-upload-alt cursor-pointer';
             })
             validation = false;
+        } else if (this.soundId != null) {
+            ;
         } else {
-            document.querySelector('#upload').classList.remove('wrong-input');
+            document.querySelector('#upload').classList.remove('wrong-upload');
             soundWarning.classList.add('required');
         }
-
         return validation;
     }
 
-    generateByteArray() {
+    generateByteArrayFromFileInput() {
         const input = this.domElement.querySelector("#file");
         const reader = new FileReader();
 
@@ -116,13 +86,20 @@ class Sound extends Component {
             if (!this.uploadClicked) {
                 this.createPlayButton();
             }
-                document.querySelector('#name').value = input.files[0].name;
-                this.buffer = reader.result;
-                this.uploadClicked = true;
-                this.arraybuffer = input.files[0];
-        }
 
-        reader.readAsArrayBuffer(input.files[0]);
+            document.querySelector('#name').value = input.files[0].name;
+            document.querySelectorAll(".hidden")[0].className = "hidden required red";
+            document.querySelector("#name").className = "";
+            
+            this.extension = document.querySelector('#name').value.split(/[. ]+/).pop();
+            this.buffer = reader.result;
+            this.uploadClicked = true;
+            this.arraybuffer = input.files[0];
+        }
+        
+        if (input.value.length) {
+            reader.readAsArrayBuffer(input.files[0]);
+        }
     }
 
     copyBuffer(src)  {
@@ -136,15 +113,54 @@ class Sound extends Component {
         const buffer = this.copyBuffer(this.buffer);
         context.decodeAudioData(buffer).then((data) => {
             const source = context.createBufferSource();
-            
+
             source.buffer = data;
             source.connect(context.destination);
             source.start(0);
         })
     }
 
-    getSound() {
-        return SoundRepository.getSoundDataById(this.soundId).then(res => this.buffer = res);
+    getSoundsById() {
+        return SoundRepository.getSoundById((data) => {
+            document.querySelector('#name').value = data.name;
+            document.querySelector('#type').value = data.type.id;
+        }, this.soundId);
+    }
+
+    getSoundData() {
+        return SoundRepository.getSoundDataById(this.soundId).then(res => {
+            this.buffer = res;
+            this.arraybuffer = res;
+        });
+    }
+
+    createNewSound(form) {
+        if (this.verifyFormData() === true) {
+            SoundRepository.sendData(form);
+        }
+    }
+
+    editSoundById(form, id, extension) {
+        if (this.verifyFormData() === true) {
+            SoundRepository.editSoundById(form, id, extension);
+        }
+    }
+
+    handleAddSound() {
+        this.domElement.querySelector('#submit')
+            .addEventListener("click", () => this.createNewSound(this.getFormData()));
+    }
+
+    handleEditSound() {
+        this.getSoundsById();
+        this.getSoundData()
+        .then(() => {
+            this.extension = document.querySelector('#name').value.split(/[. ]+/).pop();
+            this.uploadClicked = true;
+            this.createPlayButton();
+            this.domElement.querySelector('#submit')
+                .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId, this.extension));
+        })
     }
 
     createPlayButton() {
@@ -155,20 +171,17 @@ class Sound extends Component {
             .addEventListener("click", () => this.playSound());
     }
 
-    handleEditSound() {
-        this.getSoundsById();
-        this.getSound()
-        .then(() => {
-            this.uploadClicked = true;
-            this.createPlayButton();
-            this.domElement.querySelector('#submit')
-            .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId));
-        })
-    }
-
-    handleAddSound() {
-        this.domElement.querySelector('#submit')
-            .addEventListener("click", () => this.createNewSound(this.getFormData()));
+    createSoundTypesDropdown() {
+        this.typesElement = `<option value="">Type</option>`;
+        SoundRepository.getSoundTypes((data) => {
+            this.data = data;
+            for (let i = 0; i < this.data.length; i++) {
+                this.typesElement += `
+                    <option value="${this.data[i].id}">${this.data[i].name}</option>
+                `
+            }
+            document.querySelector("#type").innerHTML = this.typesElement;
+        });
     }
 
     render() {
@@ -182,12 +195,12 @@ class Sound extends Component {
                             <label class='margin-top-menu'>Upload Sound:<span class="red">*</span></label>
                         </div>
                         <div class="input-part">
-                            <input class='margin-top-menu' type="text" id="name" placeholder="Name"></input>
-                            <select class='margin-top-menu' type="type" id="type" required=""></select>
+                            <input type="text" id="name" placeholder="Name"></input>
+                            <select type="type" id="type" required=""></select>
                             <input type="file" name="file" id="file" class="inputfile" accept="audio/mp3,audio/wav"/>
                             <div class='upload-play margin-top-menu' '>
-                                <label for="file" id='upload'>
-                                    <i class="fas fa-cloud-upload-alt cursor-pointer" id="upload" style="width: 50%"></i>
+                                <label for="file">
+                                    <i class="fas fa-cloud-upload-alt cursor-pointer" id="upload"></i>
                                 </label>
                             </div>
                         </div>
@@ -211,7 +224,7 @@ class Sound extends Component {
         }
 
         this.domElement.querySelector("#file")
-            .addEventListener("change", () => this.generateByteArray());
+            .addEventListener("change", () => this.generateByteArrayFromFileInput());
 
         this.cancelButton = new Button(this.domElement.querySelector(".form-buttons"), "CANCEL", "cancel-button cursor-pointer", () => {
             Navigator.goToUrl("/sounds");

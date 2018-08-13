@@ -50,8 +50,8 @@
                 }
 
                 i {
+                    margin: 0;
                     color: gray;
-                    width: 20px;
                     height: 20px;
                 }
 
@@ -76,6 +76,14 @@
                 .wrong-input {
                     border: 2px solid red;
                 }
+
+                .wrong-upload {
+                    color: red;
+                }
+            }
+
+            .input-part * {
+                margin-top: 20px;
             }
        
             .hidden {
