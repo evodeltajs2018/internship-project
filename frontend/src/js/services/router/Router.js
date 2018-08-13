@@ -5,8 +5,8 @@ import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
-import SidebarService from "../../services/sidebar service/SidebarService";
-import TitleService from "../../services/title service/TitleService";
+import SidebarService from "../../services/sidebar_service/SidebarService";
+import TitleService from "../../services/title_service/TitleService";
 
 class Router {
     constructor(container) {
