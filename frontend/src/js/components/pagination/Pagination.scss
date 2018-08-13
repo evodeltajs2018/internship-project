@@ -1,3 +1,4 @@
+
 .sounds-pagination {
     padding: 20px 0;
     display: flex;
@@ -12,8 +13,8 @@
         .pagination-button {
             width: 40px;
             height: 40px;
-            color: #428bca;
-            background: white;
+            color: white;
+            background: $backgroundSecondary;
             
             border: 1px solid #bbb;
             margin: 0;
@@ -32,8 +33,16 @@
 
 
         .pagination-button, .arrow-button {
+            &:hover{
+                background: white;
+                color: $backgroundSecondary;
+                cursor: pointer;
+            }
             &:focus {
                 outline: none;
+            }
+            &:disabled:hover{
+                background:$backgroundSecondary;
             }
             
         }
@@ -42,14 +51,6 @@
             &:hover {
                 cursor: pointer;
             }
-        }
-
-        .pagination-button {
-            &:hover {
-                background: #eaeaea;
-                cursor: pointer;
-            }
-            
         }
 
         .arrow-button, .pagination-button {
@@ -62,27 +63,27 @@
 
         .pagination-button {
             &:disabled:hover {
-                background: white;
                 cursor: default;
             }
         }
 
         .current-page {
             color: white;
-            background: #428bca;
+            background: $backgroundSecondary;
             border: none;
         }
 
         .current-page:hover {
             &:hover {
-                background: #458dcd;
+                background: $backgroundSecondary;
+                color:white;
             }
         }
 
 
         .arrow-button {
-            color: #428bca;
-            background: white;
+            color: white;
+            background: $backgroundSecondary;
             border: 1px solid #bbb;
             border-radius: 20px;
         
