@@ -1,3 +1,4 @@
+@import "./App.scss";
 
 .sound-searches {
     display: flex;
@@ -10,16 +11,12 @@
     .add-sound-btn {
         margin: 10px;
         font-size: 20px;
-        background-color: rgb(26, 203, 247);
-        color: black;
+        background-color: $backgroundSecondary;
+        color: white;
         padding: 20px;
         border-radius: 30px;
         text-decoration: none;
         transition-duration: 0.3s;
-
-        &:hover {
-            background-color: #00c9ed;
-        }
     }
 
     .search-input-wrapper {
