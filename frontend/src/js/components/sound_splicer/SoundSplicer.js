@@ -8,15 +8,8 @@ class SoundSplicer extends Component{
         this.sound = sound;
     }
 
-    getSoundTypeImage(){
-        SoundTypeRepository.getTypeById(this.sound.type.id)
-        .then(response => {
-            document.querySelector('#name').value = response.name;
-            document.querySelector('#type').value = response.type.id;
-        });
-    }
     render(){
-        this.domElement.innerHTML=`<img src="/src/img/sound-types/voice.png" />`;
+        this.domElement.innerHTML=`<img src="${this.sound.type.iconSrc}" />`;
     }
 }
 

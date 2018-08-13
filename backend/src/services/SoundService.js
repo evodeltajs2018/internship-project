@@ -47,8 +47,8 @@ class SoundService {
                     .query(`SELECT Id, Name FROM Type WHERE Id = @id`)
             })
             .then((result) => {
-                return result.recordset.map((type) => { 
-                    return DbMapper.mapType(type); 
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
                 });
             });
     }
@@ -59,37 +59,39 @@ class SoundService {
                 return pool.query(`SELECT Id, Name FROM Type`)
             })
             .then((result) => {
-                return result.recordset.map((type) => { 
-                    return DbMapper.mapType(type); 
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
                 });
             });
 
     }
 
-    getIconSrcById(typeId){
+    getIconSrcById(typeId) {
         return DbConnection.executePoolRequest()
-        .then(pool => {
-            return pool.input('typeId',DbConnection.sql.Int,typeId)
-            .query(`SELECT IconSrc FROM Types WHERE Id = @typeId`);
-        })
-        .then((result) => {
-            return result.recordset.map((type) => {
-                return DbMapper.mapType(type);
-            });
-        })
+            .then(pool => {
+                console.log(typeId);
+                return pool.input('typeId', DbConnection.sql.Int, typeId)
+                    .query(`SELECT IconSrc FROM Type WHERE Id = @typeId`);
+            })
+            .then((result) => {
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
+                });
+            })
     }
 
-    getSplicerSounds(){
+    getSplicerSounds() {
         return DbConnection.executePoolRequest()
-        .then(pool => {
-            return pool.query(`SELECT TOP 8 Id, Name, SoundTypeId FROM Sound`);
-        })
-        .then((result) => {
-
-            return result.recordset.map((type)=>{
-                return DbMapper.mapSound(type);
+            .then(pool => {
+                return pool.query(`SELECT TOP 8 S.Id, S.Name, T.IconSrc FROM Sound S
+                INNER JOIN Type T ON S.TypeId = T.Id`);
             })
-        })
+            .then((result) => {
+
+                return result.recordset.map((type) => {
+                    return DbMapper.mapSoundSplicer(type);
+                })
+            })
     }
 
     getPageCount(itemsPerPage, filter) {

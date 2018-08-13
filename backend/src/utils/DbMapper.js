@@ -13,8 +13,17 @@ class DbMapper {
     static mapType(type) {
         return {
             id: type.Id,
-            name: type.Name,
-            iconSrc: type.IconSrc
+            name: type.Name
+        }
+    }
+
+    static mapSoundSplicer(sound){
+        return{
+            id: sound.Id,
+            name: sound.Name,
+            type:{
+                iconSrc: sound.IconSrc
+            }
         }
     }
 

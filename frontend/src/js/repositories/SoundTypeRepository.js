@@ -11,7 +11,7 @@ class SoundTypeRepository {
         .catch(err => console.error(err));
   }
     getIconSrcById(){
-      return fetch(this.baseyrl + "/splicer")
+      return fetch(this.baseurl + "/splicer")
       .then(response => response.json())
       .catch(err => console.error(err));
     }
