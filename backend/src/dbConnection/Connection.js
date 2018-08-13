@@ -11,8 +11,7 @@ class DbConnection {
 		};
 		this.sql = sql;
 		this.connect();
-
-		
+		this.sql = sql;
 	}
 	
 	connect() {
