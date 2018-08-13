@@ -66,32 +66,6 @@ class SoundService {
 
     }
 
-    getIconSrcById(typeId){
-        return DbConnection.executePoolRequest()
-        .then(pool => {
-            return pool.input('typeId',DbConnection.sql.Int,typeId)
-            .query(`SELECT IconSrc FROM Types WHERE Id = @typeId`);
-        })
-        .then((result) => {
-            return result.recordset.map((type) => {
-                return DbMapper.mapType(type);
-            });
-        })
-    }
-
-    getSplicerSounds(){
-        return DbConnection.executePoolRequest()
-        .then(pool => {
-            return pool.query(`SELECT TOP 8 Id, Name, SoundTypeId FROM Sound`);
-        })
-        .then((result) => {
-
-            return result.recordset.map((type)=>{
-                return DbMapper.mapSound(type);
-            })
-        })
-    }
-
     getPageCount(itemsPerPage, filter) {
         return DbConnection.executePoolRequest()
             .then(pool => {

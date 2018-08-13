@@ -5,46 +5,48 @@
     grid-template-columns: repeat(auto-fill,minmax(320px, 1fr));
     grid-gap: 1rem;
     align-content: flex-start;
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display: flex;
+        background-color:white;
+        color:#131313;
+        margin: 20px;
+        flex-direction: column;
+        width: 320px;
+        overflow: hidden;
+        height: 300px;
+        .card-header {
+            border-bottom: 1.5px solid #DCDCDC;
+            position: relative;
+            height: 60px;
+            .delete-icon {
+                cursor: pointer;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                padding: 2%;
+                font-size: 30px;
+                color: rgb(255, 5, 74);
+            }
+        }
+    
+        .card-body {
+            height:195px;
+            border-bottom: 1px solid #C0C0C0;
+            word-wrap: break-word;
+            text-align: center;
+        }
+        .card-footer{
+            display:flex;
+            justify-content: space-between;
+            height:45px;
+        }
+    
+    }
 }
 
 .content {
     padding: 15px;
 }
 
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    margin: 20px;
-    flex-direction: column;
-    width: 320px;
-    overflow: hidden;
-    height: 300px;
-    .cardHeader {
-        border-bottom: 1.5px solid #DCDCDC;
-        position: relative;
-        height: 60px;
-        .deleteIcon {
-            cursor: pointer;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            padding: 2%;
-            font-size: 30px;
-            color: #E61610;
-        }
-        .deleteIcon:hover {
-            color: rgb(236, 81, 75);
-        }
-    }
-
-    .cardBody {
-        height:195px;
-        border-bottom: 1px solid #C0C0C0;
-        word-wrap: break-word;
-        text-align: center;
-    }
-    .cardFooter{
-        height:45px;
-    }
-
-}

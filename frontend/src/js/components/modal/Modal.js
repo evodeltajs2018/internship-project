@@ -11,26 +11,26 @@ class Modal extends Component {
 
     render() {
         this.domElement.innerHTML = `
-        <div class="modalContent">
-            <div class="modalHeader"><span class="modalTitle">${this.title}</span><i class="fa fa-close closeIcon"></i></div>
-            <div class="modalBody">${this.text}</div>
-            <div class="modalFooter"></div>
+        <div class="modal-content">
+            <div class="modal-header"><span class="modal-title">${this.title}</span><i class="fa fa-close close-icon"></i></div>
+            <div class="modal-body">${this.text}</div>
+            <div class="modal-footer"></div>
         </div>
         `
 
-        this.domElement.querySelector(".closeIcon").addEventListener("click", () => {
+        this.domElement.querySelector(".close-icon").addEventListener("click", () => {
             this.unrender();
             document.querySelector("body").style.overflow = "auto";
         });
 
-        this.confirmButton = new Button(this.domElement.querySelector(".modalFooter"), "Confirm", "confirmButton", () => {
+        this.confirmButton = new Button(this.domElement.querySelector(".modal-footer"), "Confirm", "confirm-button", () => {
             this.onConfirm();
             document.querySelector("body").style.overflow = "auto";
             this.unrender();
         });
         this.confirmButton.render();
 
-        this.cancelButton = new Button(this.domElement.querySelector(".modalFooter"), "CANCEL", "cancelButton", () => {
+        this.cancelButton = new Button(this.domElement.querySelector(".modal-footer"), "CANCEL", "cancel-button", () => {
             this.unrender();
             document.querySelector("body").style.overflow = "auto";
         });
