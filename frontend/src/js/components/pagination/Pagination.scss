@@ -33,8 +33,16 @@
 
 
         .pagination-button, .arrow-button {
+            &:hover{
+                background: white;
+                color: $backgroundSecondary;
+                cursor: pointer;
+            }
             &:focus {
                 outline: none;
+            }
+            &:disabled:hover{
+                background:$backgroundSecondary;
             }
             
         }
@@ -43,14 +51,6 @@
             &:hover {
                 cursor: pointer;
             }
-        }
-
-        .pagination-button {
-            &:hover {
-                background: $backgroundSecondary;
-                cursor: pointer;
-            }
-            
         }
 
         .arrow-button, .pagination-button {
@@ -63,8 +63,6 @@
 
         .pagination-button {
             &:disabled:hover {
-                color: $backgroundSecondary;
-                background: white;
                 cursor: default;
             }
         }
@@ -78,6 +76,7 @@
         .current-page:hover {
             &:hover {
                 background: $backgroundSecondary;
+                color:white;
             }
         }
 
