@@ -7,6 +7,7 @@ import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
 import SidebarService from "../../services/sidebar service/SidebarService";
 import TitleService from "../../services/title service/TitleService";
+import Splicer from "../../views/splicer/Splicer";
 
 class Router {
     constructor(container) {
@@ -39,6 +40,10 @@ class Router {
             {
                 path: "/sound",
                 component: Sound
+            },
+            {
+                path: "/splicer",
+                component: Splicer
             }
         ];
     }
