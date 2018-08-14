@@ -35,6 +35,11 @@ class SoundRoute {
         this.app.delete("/sounds/:id", (req, res) => {
             SoundController.deleteSound(req, res);
         });
+
+        this.app.get("/sounds/audio/:id", (req, res) => {
+            SoundController.getSoundDataById(req, res);
+        });
+
     }
 }
 

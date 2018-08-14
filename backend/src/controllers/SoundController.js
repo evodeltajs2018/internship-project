@@ -1,4 +1,6 @@
 const SoundService = require("../services/SoundService");
+const FileOpener = require('../utils/FileOpener');
+const multiparty = require('multiparty');
 
 class SoundController {
     constructor() {}
@@ -22,14 +24,27 @@ class SoundController {
     }
 
     addSound(req, res) {
-        let sound = req.body;
-        return SoundService.addSound(sound).then((result) => {
-            return res.json(result);
-        })
+        const form = new multiparty.Form();
+
+        form.parse(req, (err, fields, files) => {
+            const name = fields.name[0];
+            const type = fields.type[0];
+            const value = files.value[0];
+
+            FileOpener(value)
+                .then((data) => {
+                    SoundService.addSound(name, type, data).then((result) => {
+                        res.json(result);
+                    }); 
+                });
+        });
+
+        form.on('error', err => console.log(err));
+        form.on('close', () =>  console.log('closed'));
     }
 
     deleteSound(req, res) {
-        let id = req.params.id;
+        const { id } = req.params;
         return SoundService.delete(id).then((result) => {
             if (result) {
                 return res.json(result);
@@ -40,11 +55,24 @@ class SoundController {
     }
 
     editSound(req, res) {
-        let sound = req.body,
-            id = req.params.id;
-        return SoundService.editSound(sound, id).then((result) => {
-            return res.json(result);
+        const form = new multiparty.Form();
+
+        form.parse(req, (err, fields, files) => {
+            const { id } = req.params;
+            const name = fields.name[0];
+            const type = fields.type[0];
+            const value = files.value[0];
+
+            FileOpener(value)
+                .then((data) => {
+                    SoundService.editSound(id, name, type, data).then((result) => {
+                        res.json(result);
+                    });
+                }); 
         });
+
+        form.on('error', err => console.log(err));
+        form.on('close', () =>  console.log('closed'));
     }
 
     getTypes(req, res) {
@@ -54,10 +82,17 @@ class SoundController {
     }
 
     getSoundById(req, res) {
-        let id = req.params.id;
-        return SoundService.getSoundById(id).then((result) => {
+        const { id } = req.params;
+        SoundService.getSoundById(id).then((result) => {
             return res.json(result);
         });
+    }
+
+    getSoundDataById(req, res) {
+        const { id } = req.params;
+        SoundService.getSoundDataById(id).then((result) => {
+            res.send(result);
+        })
     }
 
     getSplicerSounds(req,res){
