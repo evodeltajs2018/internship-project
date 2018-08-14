@@ -1,0 +1,49 @@
+.splicer-engine {
+    padding: 10px;
+    .play-button {
+        background: #10ee09;
+        &:hover {
+            background: #09dd03;
+        }
+    }
+    
+    .stop-button {
+        background: #ee0306;
+        &:hover {
+            background: #cc0306;
+        }
+    }
+    
+    .play-button, .stop-button {
+        width: 40px;
+        height: 40px;
+        font-size: 25px;
+        color: black;
+        
+        border: none;
+        transition-duration: 0.3s;
+        border-radius: 10px;
+    
+    }
+    
+    .play-buttons {
+        display: inline-block;
+    }
+
+    #bpm-input {
+        height: 40px;
+        padding: 5px;
+    }
+
+    .volume-input {
+        &::-webkit-slider-runnable-track {
+            background: #c3c3c3;
+        }
+
+        &::-webkit-slider-thum {
+            background: grey;
+        }
+    }
+    
+}
+

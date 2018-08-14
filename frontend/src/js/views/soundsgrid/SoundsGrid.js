@@ -7,6 +7,7 @@ import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
 import SoundFilter from "./filter/SoundFilter";
+import Engine from "../splicer/engine/Engine";
 
 class SoundsGrid extends Component {
     constructor(container) {
@@ -16,6 +17,7 @@ class SoundsGrid extends Component {
         this.data = [];
         this.setup();
         this.getData();
+        this.engine = new Engine(this.domElement);
     }
 
     getData(filter = { name: "", type: "" }) {
@@ -53,6 +55,7 @@ class SoundsGrid extends Component {
 
     setup() {
         this.domElement.innerHTML = `
+            <div id="engine"></div>
             <div id="filter-bar"></div>
             <div id="sounds-grid-header">
                 <div class="sounds-cell">Name</div>
@@ -63,8 +66,11 @@ class SoundsGrid extends Component {
             <div class="sounds-pagination"></div>
             <div class="modals"></div>
         `;
+        this.engine = new Engine(this.domElement.querySelector("#engine"));
+        this.engine.render();
         this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
         this.filterBar.render();
+        
     }
 
     deletehandler(id) {
