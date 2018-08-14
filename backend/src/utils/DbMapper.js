@@ -22,7 +22,12 @@ class DbMapper {
             id: sound.Id,
             name: sound.Name,
             type:{
-                iconSrc: sound.IconSrc
+                iconSrc: sound.IconSrc,
+                colorType: sound.ColorType
+            },
+            byteArray:{
+                id: sound.ByteArrayId,
+                value: sound.ByteArray
             }
         }
     }

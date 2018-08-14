@@ -1,16 +1,31 @@
 import Component from "../../components/Component";
-import LoadSounds from "../../splicer/load_sounds/LoadSounds";
+import SoundLoader from "../../splicer/sound_loader/SoundLoader";
+import Track from "../../components/track/Track";
 
 class Splicer extends Component{
     constructor(container){
         super(container, "splicer");
+        
+        this.audioContext = new AudioContext();
+
     }
 
     render(){
-        this.domElement.innerHTML = `<div class="matrix"></div>`;
+        this.domElement.innerHTML = `<div class="tracks-bar"></div><div class="matrix"></div>`;
 
-        this.LoadSounds = new LoadSounds(document.querySelector(".matrix"));
-        this.LoadSounds.render();
+        this.SoundLoader = new SoundLoader(document.querySelector(".matrix"));
+        
+        this.SoundLoader.onLoad = () =>{
+            if(this.SoundLoader.sounds){
+                for(let i=0;i<this.SoundLoader.sounds.length;i++){
+                    this.track = new Track(document.querySelector(".tracks-bar"),this.SoundLoader.sounds[i],
+                    this.SoundLoader.arrayBuffer[i], this.audioContext);
+                    this.track.render();
+                }
+            }
+        }
+       
+
     }
 }
 

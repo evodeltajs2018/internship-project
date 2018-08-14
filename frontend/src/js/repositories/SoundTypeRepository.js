@@ -1,20 +1,20 @@
 import Config from "../utils/Config";
 
 class SoundTypeRepository {
-	constructor() {
-		this.baseurl = Config.server.url + ":" + Config.server.port;
-    }
-    
-    getSoundTypes() {
-        return fetch(this.baseurl + "/types")
-        .then(response => response.json())
-        .catch(err => console.error(err));
+  constructor() {
+    this.baseurl = Config.server.url + ":" + Config.server.port;
   }
-    getIconSrcById(){
-      return fetch(this.baseurl + "/splicer")
+
+  getSoundTypes() {
+    return fetch(this.baseurl + "/types")
       .then(response => response.json())
       .catch(err => console.error(err));
-    }
+  }
+  getIconSrcById() {
+    return fetch(this.baseurl + "/splicer")
+      .then(response => response.json())
+      .catch(err => console.error(err));
+  }
 
 }
 

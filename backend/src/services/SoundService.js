@@ -119,7 +119,8 @@ class SoundService {
     getSplicerSounds() {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.query(`SELECT TOP 8 S.Id, S.Name, T.IconSrc FROM Sound S
+                return pool.query(`SELECT TOP 8 S.Id, S.ByteArrayId, T.IconSrc, T.ColorType 
+                FROM Sound S 
                 INNER JOIN Type T ON S.TypeId = T.Id`);
             })
             .then((result) => {

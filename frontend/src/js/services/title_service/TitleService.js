@@ -27,6 +27,9 @@ class TitleService {
             case ("/sound/" + parseUrl[parseUrl.length - 1]):
                 pageTitle.innerHTML = "Edit Sound " + parseUrl[parseUrl.length - 1];
                 break;
+            case "/splicer":
+                pageTitle.innerHTML = "Splicer";
+                break;
             default:
                 pageTitle.innerHTML = "Not Found";
                 break;

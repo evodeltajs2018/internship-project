@@ -5,7 +5,7 @@
 }
 
 
-.sound{
+.track{
     padding: 10px;
     border-radius: 15px;
     background: #1f1f1f;
@@ -13,4 +13,8 @@
     width:60px;
     text-align:center;
     color:white;
+}
+
+.sound img{
+    pointer-events: none;
 }
