@@ -4,7 +4,7 @@ class DbMapper {
             id: sound.Id,
             name: sound.Name,
             type: {
-                id: sound.SoundTypeId,
+                id: sound.TypeId,
                 name: sound.TypeName
             }
         }

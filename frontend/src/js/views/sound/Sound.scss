@@ -32,6 +32,29 @@
                 .text-part {
                     display: flex;
                     flex-direction: column;
+                    height: 160px;
+                    justify-content: space-around;
+                }
+
+                #upload {
+                    width: 25px;
+                    height: 20px;
+                }
+
+                .play-sound {
+                    cursor: pointer;
+                }
+
+                .upload-play {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                i {
+                    margin: 0;
+                    color: gray;
+                    height: 20px;
                 }
 
                 .red {
@@ -39,7 +62,7 @@
                 }
             }
 
-            .input-part *, .text-part * {
+            .margin-top-menu {
                 margin-top: 20px;
                 width: 200px;
             }
@@ -48,20 +71,34 @@
                 display: flex;
                 flex-direction: column;
 
+                label {
+                    margin: 0px;
+                }
+
                 .wrong-input {
                     border: 2px solid red;
                 }
+
+                .wrong-upload {
+                    color: red;
+                }
+            }
+
+            .input-part * {
+                margin-top: 20px;
             }
        
             .hidden {
+                display: block;
                 margin-left: 20px;
                 margin-top: 25px;
             }
 
             .hidden-text {
-                .none {
-                    display: none;
-                }
+                height: 150px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
 
                 .required {
                     visibility: hidden;
@@ -73,4 +110,31 @@
             }
         }
     }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .confirm-button {
+        background: #00B8DB;
+        width: 80px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 10px;
+        margin-left: 20px;
+    }
+
+    .cancel-button{
+        color: grey;
+        float: right;
+        border: none;
+        outline: none;
+        background: transparent;
+        padding: 10px;
+        margin-right: 10px;
+    }
+}
+
+.inputfile {
+    display: none;
 }

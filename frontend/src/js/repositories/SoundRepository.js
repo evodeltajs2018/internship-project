@@ -5,35 +5,55 @@ class SoundRepository {
 		this.baseurl = Config.server.url + ":" + Config.server.port;
 	}
 
-	sendData(data) {
-		return fetch(this.baseurl +"/sounds", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
+	createSound(data) {
+	
+		const fd = new FormData();
+
+		for(name in data) {
+			fd.append(name, data[name]);
+		}
+
+		return fetch(
+			this.baseurl + '/sounds', {
+				method: 'POST',
+				body: fd
 			},
-			body: JSON.stringify(data)
-		})
+		)
 		.then(response => response.json())
-		.catch(err => console.error(err));
-		
+		.catch(err => console.error);
 	}
 
 	getSoundById(id) {
 		return fetch(this.baseurl + "/sounds/" + id)
 		.then(response => response.json())
 		.catch(err => console.error(err));
+
+	}
+	
+	getSoundDataById(id) {
+		return fetch(this.baseurl + "/sounds/audio/" + id)
+		.then(response => response.arrayBuffer())
+		.then(arrayBuffer => {
+			return arrayBuffer;
+		})
 	}
 
-	editSoundById(data, id) {
-		return fetch(this.baseurl + "/sounds/" + id, {
+	editSoundById(data, id, extension) {
+		const fd = new FormData();
+
+		fd.append("name", data.name);
+		fd.append("type", data.type);
+		fd.append("value", new Blob([data.value], {type: `audio/${extension}`} ));
+
+		return fetch(this.baseurl + '/sounds/' + id, {
 			method: "PUT",
-			body: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
+			body: fd
+		},
+		)
 		.then(response => response.json())
 		.catch(err => console.error(err));
+
+	
 	}
 
 	getAllSounds(pagination, filter) {
@@ -47,6 +67,7 @@ class SoundRepository {
 		.catch(err => console.error(err));
 	}
 
+
 	deleteSound(soundId) {
 		return fetch(
 			this.baseurl + "/sounds/" + soundId,
@@ -57,6 +78,8 @@ class SoundRepository {
 		.then(response => response.json())
 		.catch(err => console.error(err));
 	}
+
+
 }
 
 export default new SoundRepository();

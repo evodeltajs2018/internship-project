@@ -28,28 +28,28 @@ class Card extends Component {
 
     render() {
         this.domElement.innerHTML = `
-        <div class="cardHeader content"><i class="fa fa-times-circle deleteIcon"></i> <div>${this.project.name}<br>${this.project.genre.name}</div></div>
+        <div class="card-header content"><i class="fa fa-times-circle delete-icon"></i> <div>${this.project.name}<br>${this.project.genre.name}</div></div>
 
-        <div class="cardBody content">
-        <p class="cardText">${this.project.description}</p></div>
+        <div class="card-body content">
+        <p class="card-text">${this.project.description}</p></div>
 
-        <div class="cardFooter content">
+        <div class="card-footer content">
         </div>
         `;
 
         let idProject = this.project.id;
 
-        this.domElement.querySelector(".deleteIcon").addEventListener("click", () => {
+        this.domElement.querySelector(".delete-icon").addEventListener("click", () => {
             this.deleteButtonHandler();
             document.querySelector("body").style.overflow = "hidden";
         });
 
-        this.openButton = new Button(this.domElement.querySelector(".cardFooter"), "OPEN", "leftButton cardButton", () => {
+        this.openButton = new Button(this.domElement.querySelector(".card-footer"), "OPEN", "card-button", () => {
             this.openButtonHandler(idProject);
         });
         this.openButton.render();
 
-        this.editButton = new Button(this.domElement.querySelector(".cardFooter"), "EDIT", "rightButton cardButton", () => {
+        this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
             this.editButtonHandler(idProject)
         });
         this.editButton.render();

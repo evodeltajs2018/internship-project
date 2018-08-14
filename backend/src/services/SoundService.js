@@ -2,49 +2,85 @@ const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
-    addSound(data) {
+    addByteArray(bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.input('name', DbConnection.sql.NVarChar(50), data.name)
-                    .input('type', DbConnection.sql.Int, data.type)
-                    .query(`INSERT INTO Sound(Name, SoundTypeId) VALUES (@name,@type)`)
+                return pool
+                    .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
+                    .query(`
+                        INSERT INTO ByteArray VALUES (@value);
+                        SELECT SCOPE_IDENTITY() AS id;`);
             })
             .then((result) => {
-                return result.rowsAffected[0] === 1;
+                return result.recordset[0].id;
             });
     }
 
-    editSound(data, paramId) {
+    addSound(name, typeId, bytearray) {
+        return this.addByteArray(bytearray)
+        .then(lastId => {
+            return DbConnection.executePoolRequest()
+                .then(pool => {
+                    return pool
+                        .input('name', DbConnection.sql.NVarChar(50), name)
+                        .input('soundTypeId', DbConnection.sql.Int, typeId)
+                        .input('byteArrayId', DbConnection.sql.Int, lastId)
+                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
+                })
+                .then(result => {
+                    return result.rowsAffected[0] === 1;
+                });
+        })
+    }
+
+    editSound(paramId, name, typeId, bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.input('name', DbConnection.sql.NVarChar(50), data.name)
-                    .input('type', DbConnection.sql.Int, data.type)
-                    .input('paramId', DbConnection.sql.Int, paramId)
-                    .query(`UPDATE Sound SET Name = @name, SoundTypeId = @type WHERE Id = @paramId`)
+                return pool.input('paramId', DbConnection.sql.Int, paramId)
+                    .input('name', DbConnection.sql.NVarChar(50), name)
+                    .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('byteArrayId', DbConnection.sql.Int, paramId)
+                    .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
+                    .query(`UPDATE Sound SET 
+                        Name = @name, 
+                        TypeId = @soundtypeId
+                        WHERE Id = @paramId;
+                        UPDATE ByteArray SET Value = @value WHERE Id = @byteArrayId
+                        `
+                    )
             })
-            .then((result) => {
+            .then(result => {
                 return result.rowsAffected[0] === 1;
             });
     }
 
     getSoundById(id) {
         return DbConnection.executePoolRequest()
-            .then(pool => {
-                return pool.input('id', DbConnection.sql.Int, id)
-                    .query(`SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
-            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-            WHERE S.Id = @id`)
+		.then(pool => {
+                return pool
+                .input('id', DbConnection.sql.Int, id)
+                .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, S.ByteArrayId AS ByteArrayId
+                    FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+                    WHERE S.Id = @id`)
             })
             .then((result) => {
                 return DbMapper.mapSound(result.recordset[0]);
             })
     }
 
+    getSoundDataById(id) {
+        return DbConnection.executeQuery(`
+            SELECT Value FROM ByteArray WHERE Id = ${id}`)
+        .then((result) => {
+            return result.recordset[0].Value;
+        })
+    } 
+
     getTypesById(id) {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('id', DbConnection.sql.Int, id)
-                    .query(`SELECT Id, Name FROM SoundType WHERE Id = @id`)
+                    .query(`SELECT Id, Name FROM Type WHERE Id = @id`)
             })
             .then((result) => {
                 return result.recordset.map((type) => { 
@@ -56,7 +92,7 @@ class SoundService {
     getTypes() {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.query(`SELECT Id, Name FROM SoundType`)
+                return pool.query(`SELECT Id, Name FROM Type`)
             })
             .then((result) => {
                 return result.recordset.map((type) => { 
@@ -73,8 +109,8 @@ class SoundService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                    FROM Sound S INNER JOIN SoundType ST On S.SoundTypeId = ST.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'`)
+                    FROM Sound S INNER JOIN Type T On S.TypeId = T.Id
+                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
             })
             .then((result) => {
                 return result;
@@ -90,8 +126,8 @@ class SoundService {
                 return pool.input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT COUNT(*) AS Count 
-            FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-            WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'`)
+            FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+            WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
             })
             .then((result) => {
                 return result;
@@ -112,9 +148,9 @@ class SoundService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`
-                    SELECT S.Id, S.Name, S.SoundTypeId, ST.Name AS TypeName
-                    FROM Sound S INNER JOIN SoundType ST ON S.SoundTypeId = ST.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND ST.Name LIKE LOWER(@type) + '%'
+                    SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName
+                    FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'
                     ORDER BY S.Name
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY
@@ -141,9 +177,9 @@ class SoundService {
 
     delete(id) {
         return DbConnection.executePoolRequest()
-            .then(pool => {
-                return pool.input('id', DbConnection.sql.Int, id)
-                    .query('DELETE FROM Sound WHERE Id = @id')
+        	.then(pool => {
+        	return pool.input('id', DbConnection.sql.Int, id)
+        	.query('DELETE FROM Sound WHERE Id = @id; DELETE FROM ByteArray WHERE Id = @id')
             })
             .then((result) => {
                 return result.rowsAffected[0] === 1;

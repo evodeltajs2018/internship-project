@@ -8,7 +8,7 @@
         padding-left: 20px;
         cursor: pointer;
         transition-duration: 0.1s;
-        color: black;
+        color: #cccccc;
         &:hover {
             color: #555;
         }
@@ -47,6 +47,7 @@
 
 #sounds-grid-header {
     background-color: #cccccc;
+    color: #1f1f1f
 }
 
 @media (max-width: 550px) {

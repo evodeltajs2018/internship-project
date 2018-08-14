@@ -2,7 +2,30 @@ USE [InternshipProject]
 GO
 
 DROP TABLE IF EXISTS [dbo].[Sound]
-DROP TABLE IF EXISTS [dbo].[SoundType]
+DROP TABLE IF EXISTS [dbo].[Type]
+DROP TABLE IF EXISTS [dbo].[ByteArray]
+GO
+
+USE [InternshipProject]
+GO
+
+/****** Object:  Table [dbo].[Types]    Script Date: 8/13/2018 3:32:05 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Type](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[IconSrc] [nvarchar](max) NULL,
+	[ColorType] [nvarchar](max) NULL,
+ CONSTRAINT [PK_SoundType] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
 SET ANSI_NULLS ON
@@ -11,17 +34,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[SoundType](
+CREATE TABLE [dbo].[ByteArray](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_SoundType] PRIMARY KEY CLUSTERED 
+	[Value] [varbinary](max) NOT NULL
+ CONSTRAINT [PK_ByteArray] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-
 SET ANSI_NULLS ON
 GO
 
@@ -31,21 +52,29 @@ GO
 CREATE TABLE [dbo].[Sound](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
-	[SoundTypeId] [int] NOT NULL,
-	[Value] [varbinary](max),
+	[TypeId] [int] NOT NULL,
+	[ByteArrayId] [int] NOT NULL
  CONSTRAINT [PK_Sound] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_Sound_Type] FOREIGN KEY([SoundTypeId])
-REFERENCES [dbo].[SoundType] ([Id])
+ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_ArrayByte] FOREIGN KEY([ByteArrayId])
+REFERENCES [dbo].[ByteArray] ([Id])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_Sound_Type] FOREIGN KEY([TypeId])
+REFERENCES [dbo].[Type] ([Id])
 GO
 
 ALTER TABLE [dbo].[Sound] CHECK CONSTRAINT [FK_Sound_Type]
 GO
+
+
+
 
 
 
