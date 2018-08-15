@@ -179,7 +179,7 @@ class Sound extends Component {
 
     createSoundTypesDropdown() {
         this.typesElement = `<option value="">Type</option>`;
-        SoundTypeRepository.getSoundTypes()
+        SoundTypeRepository.getTypes()
         .then((data) => {
             this.data = data;
             for (let i = 0; i < this.data.length; i++) {

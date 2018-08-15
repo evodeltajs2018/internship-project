@@ -15,17 +15,26 @@ class TitleService {
             case "/projects":
                 pageTitle.innerHTML = "Projects";
                 break;
+            case "/types":
+                pageTitle.innerHTML = "Types";
+                break;
             case "/sound":
                 pageTitle.innerHTML = "Add New Sound";
                 break;
             case "/project":
                 pageTitle.innerHTML = "Add New Project";
                 break;
+            case "/type":
+                pageTitle.innerHTML = "Add New Type";
+                break;
             case ("/project/" + parseUrl[parseUrl.length - 1]):
-                pageTitle.innerHTML = "Edit Project " + parseUrl[parseUrl.length - 1];
+                pageTitle.innerHTML = "Edit Project";
                 break;
             case ("/sound/" + parseUrl[parseUrl.length - 1]):
-                pageTitle.innerHTML = "Edit Sound " + parseUrl[parseUrl.length - 1];
+                pageTitle.innerHTML = "Edit Sound";
+                break;
+            case ("/type/" + parseUrl[parseUrl.length - 1]):
+                pageTitle.innerHTML = "Edit Type";
                 break;
             default:
                 pageTitle.innerHTML = "Not Found";
