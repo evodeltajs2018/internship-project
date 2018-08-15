@@ -10,6 +10,11 @@ class MenuService {
                 name: 'Sounds',
                 icon: 'fab fa-soundcloud',
                 route: '/sounds'
+            },
+            {
+                name: 'Types',
+                icon: 'fas fa-music',
+                route: '/types'
             }
         ]
     }

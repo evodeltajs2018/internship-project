@@ -3,9 +3,10 @@ import Button from "../button/Button";
 import "./Pagination.scss";
 
 class Pagination extends Component {
-    constructor(container, changePageFunction) {
+    constructor(container, changePageFunction, type = "") {
         super(container, "sounds-pagination");
         this.changePageFunction = changePageFunction;
+        this.type = type
 
         this.currentPage = 1;
         this.itemsPerPage = 10;
@@ -36,7 +37,7 @@ class Pagination extends Component {
         this.domElement.querySelector(".page-info").innerHTML = `
             Showing <span>${startItemIndex}</span>
             - 
-            <span>${ endItemIndex }</span> out of <span>${this.itemCount}</span> sounds
+            <span>${ endItemIndex }</span> out of <span>${this.itemCount}</span> ${this.type}
         `;
     }
 

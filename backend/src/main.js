@@ -1,6 +1,7 @@
 const GenreRoute = require("./routes/GenreRoute");
 const ProjectRoute = require("./routes/ProjectRoute");
 const SoundRoute = require("./routes/SoundRoute");
+const TypeRoute = require("./routes/TypeRoute");
 
 const express = require("express");
 const bodyParser = require('body-parser');
@@ -14,5 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 new GenreRoute(app);
 new ProjectRoute(app);
 new SoundRoute(app);
+new TypeRoute(app);
 
 app.listen(5000, () => console.log("Listening on port 5000..."));

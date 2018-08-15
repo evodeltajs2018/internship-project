@@ -1,5 +1,6 @@
 import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
+import TypesGrid from "../../views/typesgrid/TypesGrid";
 import NotFound from "../../views/notfound/NotFound";
 import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
@@ -7,6 +8,8 @@ import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
 import SidebarService from "../../services/sidebar service/SidebarService";
 import TitleService from "../../services/title service/TitleService";
+import SoundType from "../../views/type/SoundType";
+
 
 class Router {
     constructor(container) {
@@ -29,6 +32,10 @@ class Router {
                 component: SoundsGrid
             },
             {
+                path: "/types",
+                component: TypesGrid
+            },
+            {
                 path: "/newproject",
                 component: Dummy
             },
@@ -39,6 +46,10 @@ class Router {
             {
                 path: "/sound",
                 component: Sound
+            },
+            {
+                path: "/type",
+                component: SoundType
             }
         ];
     }

@@ -1,0 +1,106 @@
+.sound-type-form {
+    display: flex;
+    width: 350px;
+    height: 550px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+            
+    .visbility-hidden {
+        visibility: hidden;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 350px;
+        margin: 25px 0 20px 0;
+    }
+    
+    .icon {
+        margin: 20px 0 20px 0;
+        height: 150px;
+        width: 150px;
+        background-color: #000;
+        border: 1px inset #fff;
+        border-radius: 2px;
+    }
+    
+    .form-row {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        width: 350px;
+        justify-content: space-between;
+        align-items: baseline;
+    
+        .validation {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+    
+            .icon-red {
+                color: red;
+            }
+
+            .input-red {
+                border: 2px inset red;
+            }
+
+            .required {
+                color: red;
+                margin-left: 20px;
+            }
+
+            #name {
+                width: 100%;
+            }
+        
+            #icon-src {
+                width: 100%;
+            }
+
+            input {
+                margin: 0;
+                width: 150px;
+            }
+
+            .color-label {
+                position: relative;
+                overflow: hidden;
+                width: 22px;
+                height: 22px;
+                border: solid 2px #ddd;
+                border-radius: 40px;
+                margin-right: 75px;
+
+                .input-color-label {
+                    cursor: pointer;
+                    text-decoration: underline;
+                    color: #fff;
+                }
+            }
+
+            .img-src-label {
+                width: 180px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            input[type="color"] {
+                position: absolute;
+                right: -8px;
+                top: -10px;
+                width: 40px;
+                height: 40px;
+                border: none;
+            }
+        
+            .input-upload-label {
+                overflow: hidden;
+            }
+        }
+    }
+}
