@@ -5,9 +5,9 @@ import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
-import Splicer from "../../views/splicer/Splicer";
 import SidebarService from "../../services/sidebar_service/SidebarService";
 import TitleService from "../../services/title_service/TitleService";
+import Splicer from "../../views/splicer/Splicer";
 
 class Router {
     constructor(container) {

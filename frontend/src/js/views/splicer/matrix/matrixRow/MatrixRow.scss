@@ -1,0 +1,26 @@
+.cell {
+    display: flex;
+    &:hover {
+        cursor: pointer;
+    }
+
+    border: 2px solid $backgroundSecondary;
+    border-left: none;
+    border-radius: 15px;
+    background: #1f1f1f;
+    width: 30px;
+    height: 30px;
+    justify-content:center;
+    align-items: center;
+    
+    color:white;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.matrix {
+    display: inline-block;
+}

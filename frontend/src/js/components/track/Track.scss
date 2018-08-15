@@ -4,17 +4,45 @@
     align-content: center;
 }
 
+.track {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin:0px;
+}
+.track-icon {
+    img {
+        margin: 0px;
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+    }
 
-.track{
-    padding: 10px;
-    border-radius: 15px;
+    &:hover {
+        cursor: pointer;
+    }
+
+    border: 2px solid $backgroundSecondary;
+    border-left: none;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
     background: #1f1f1f;
-    margin:5px;
-    width:60px;
+    width:30px;
+    height: 30px;
     text-align:center;
     color:white;
 }
 
 .sound img{
     pointer-events: none;
+}
+
+.volume {
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+}
+
+.tracks-bar {
+    display: inline;
 }
