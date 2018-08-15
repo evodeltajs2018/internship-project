@@ -30,6 +30,9 @@ class TitleService {
             case "/splicer":
                 pageTitle.innerHTML = "Splicer";
                 break;
+            case ("/splicer/" + parseUrl[parseUrl.length - 1]):
+                pageTitle.innerHTML = "Project " + parseUrl[parseUrl.length - 1];
+                break;
             default:
                 pageTitle.innerHTML = "Not Found";
                 break;

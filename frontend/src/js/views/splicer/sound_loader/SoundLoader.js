@@ -1,4 +1,4 @@
-import SoundRepository from "../../repositories/SoundRepository";
+import SoundRepository from "../../../repositories/SoundRepository";
 
 class SoundLoader{
     constructor() {

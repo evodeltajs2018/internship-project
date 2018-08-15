@@ -105,7 +105,6 @@ class SoundService {
     getIconSrcById(typeId) {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                console.log(typeId);
                 return pool.input('typeId', DbConnection.sql.Int, typeId)
                     .query(`SELECT IconSrc FROM Type WHERE Id = @typeId`);
             })

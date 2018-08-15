@@ -19,7 +19,7 @@ class Card extends Component {
     }
  
     openButtonHandler(idProjectParam) {
-
+        Navigator.goToUrl("/splicer/" + idProjectParam);
     }
 
     editButtonHandler(idProjectParam) {

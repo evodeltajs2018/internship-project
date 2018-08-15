@@ -1,31 +1,57 @@
 import Component from "../../components/Component";
-import SoundLoader from "../../splicer/sound_loader/SoundLoader";
 import Track from "../../components/track/Track";
 import WaveForm from "../../components/waveform/WaveForm";
+import Engine from "./engine/Engine";
+import SoundLoader from "./sound_loader/SoundLoader";
+import SplicerMatrix from "./matrix/SplicerMatrix";
 
 class Splicer extends Component {
-    constructor(container) {
+    constructor(container, projectId) {
         super(container, "splicer");
 
         this.audioContext = new AudioContext();
-
+        this.projectId = projectId;
+        this.mapSize = 32;
+        this.setup();
     }
 
+    setup() {
+        this.domElement.innerHTML = `
+            <div class="splice-header"></div>
+            <div class="splicer-main"></div>
+        `;
+        this.engine = new Engine(this.domElement.querySelector(".splice-header"), this.audioContext, this.mapSize);
+        this.engine.render();
+    }
+
+
     render() {
-        this.domElement.innerHTML = `<div class="tracks-bar"></div><div class="matrix"></div>`;
+        this.domElement.querySelector(".splicer-main").innerHTML = `
+            <div class="tracks-bar"></div>
+            <div class="matrix"></div>
+        `;
 
-        this.SoundLoader = new SoundLoader(document.querySelector(".matrix"));
+        this.soundLoader = new SoundLoader(document.querySelector(".tracks-pattern"));
+        
+        this.soundLoader.onLoad = () => {
 
-        this.SoundLoader.onLoad = () => {
-            if (this.SoundLoader.sounds) {
-                for (let i = 0; i < this.SoundLoader.sounds.length; i++) {
-                    var track = new Track(document.querySelector(".tracks-bar"), this.SoundLoader.sounds[i],
-                        this.SoundLoader.arrayBuffer[i], this.audioContext);
+            if (this.soundLoader.sounds) {
+                let tracks = [];
+                
+                for (let i = 0; i < this.soundLoader.sounds.length; i++) {
+                    let track = new Track(
+                        document.querySelector(".tracks-bar"),
+                        this.soundLoader.sounds[i],
+                        this.soundLoader.arrayBuffer[i],
+                        this.audioContext,
+                        this.mapSize
+                    );
                     track.render();
+                    tracks.push(track);   
                 }
-                console.log(track.buffer);
-                this.WaveForm = new WaveForm(document.querySelector(".splicer"),track);
-                this.WaveForm.render();
+                this.matrix = new SplicerMatrix(document.querySelector(".matrix"), tracks);
+                this.engine.tracks = tracks;
+                this.matrix.render();
             }
         }
         
