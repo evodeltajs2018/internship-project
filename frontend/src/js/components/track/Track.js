@@ -16,13 +16,17 @@ class Track extends Component {
     getEmptyMap() {
         let map = [];
         for (let i = 0; i < this.mapSize; i++) {
-            if (Math.random() < 0.5) {
-                map.push(1);
-            } else {
-                map.push(0);
-            }
+            map.push(0);
         }
         return map;
+    }
+
+    toggleBeat(index) {
+        let beat = 1;
+        if (this.beatmap[index]) {
+           beat = 0;
+        }
+        this.beatmap[index] = beat;
     }
 
     loadBeatmap() {

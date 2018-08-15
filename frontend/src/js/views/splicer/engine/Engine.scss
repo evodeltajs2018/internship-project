@@ -5,7 +5,6 @@
 }
 
 .splicer {
-    width: 100%;
     padding: 10px;
     .splice-header {
         width: 100%;
@@ -13,6 +12,15 @@
         justify-content: left;
     }
     
+    .clear-button {
+        display:inline;
+        background: $backgroundSecondary;
+        &:hover {
+            cursor: pointer;
+            background: grey;
+        }
+    }
+
     .play-button {
         background: $backgroundSecondary;
         &:hover {
@@ -29,7 +37,7 @@
         }
     }
     
-    .play-button, .stop-button {
+    .play-button, .stop-button, .clear-button {
         width: 40px;
         height: 40px;
         font-size: 25px;
@@ -129,4 +137,9 @@
     
 }
 
+@media (max-width: 1400px) {
+    .volume-input {
+        display: none;
+    }
+}
 

@@ -3,6 +3,7 @@ import Track from "../../components/track/Track";
 import Engine from "./engine/Engine";
 import SoundLoader from "./sound_loader/SoundLoader";
 import SplicerMatrix from "./matrix/SplicerMatrix";
+import "./Splicer.scss";
 
 class Splicer extends Component {
     constructor(container, projectId) {

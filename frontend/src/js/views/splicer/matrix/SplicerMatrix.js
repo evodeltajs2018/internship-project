@@ -9,12 +9,17 @@ class SplicerMatrix extends Component {
         
     }
 
-    createRows(tracks) {
+    createRows() {
         let rows = [];
-        for (let track of tracks) {
-            let row = new MatrixRow(this.domElement.querySelector(".tracks"), track);
+        for (let i = 0; i < this.tracks.length; i++) {
+            let row = new MatrixRow(
+                this.domElement.querySelector(".tracks"), 
+                this.tracks[i], 
+                this.tracks[i].sound.type.colorType,
+                i
+            );
             rows.push(row);
-            row.render();
+            row.setup();
 
         }
         return rows;
