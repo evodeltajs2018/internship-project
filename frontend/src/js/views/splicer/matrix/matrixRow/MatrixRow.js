@@ -31,7 +31,10 @@ class MatrixRow extends Component {
     createRowSelectEvent() {
         let event = new CustomEvent("rowselect", {
             bubbles: false,
-            detail: {index: this.index}
+            detail: {
+                index: this.index,
+                track: this.track
+            }
         });
         document.dispatchEvent(event);
     }

@@ -51,6 +51,9 @@ class Track extends Component {
         this.loadBeatmap();
         return this.audioContext.decodeAudioData(arrayBuffer, (buff) => {
             this.buffer = buff;
+            if (this.onBufferLoad) {
+                this.onBufferLoad();
+            }
         })
     }
 
@@ -61,7 +64,10 @@ class Track extends Component {
     createSelectRowEvent() {
         let event = new CustomEvent("trackselect", {
             bubbles: false,
-            detail: { index: this.index }
+            detail: { 
+                index: this.index,
+                track: this
+            }
         });
         document.dispatchEvent(event);
     }
