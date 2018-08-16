@@ -2,11 +2,13 @@ import Component from "../../../../components/Component";
 import "./MatrixRow.scss";
 
 class MatrixRow extends Component {
-    constructor(container, track, color, index) {
+    constructor(container, track, color, index, size, start) {
         super(container, "splicer-row");
+        this.size = size;
         this.color = color;
         this.track = track;
         this.index = index;
+        this.start = start;
 
         document.addEventListener("playbeat", (event) => {
             this.renderCurrentCell(event.detail.index);    
@@ -57,14 +59,14 @@ class MatrixRow extends Component {
     }
 
     renderCurrentCell(index) {
-        this.domElement.querySelectorAll(".cell")
-        .forEach(cell => {
+        let cells = this.domElement.querySelectorAll(".cell");
+
+        cells.forEach(cell => {
             if (cell.classList.contains("current")) {
                 cell.classList.remove("current");
             }
         });
         
-        let cells = this.domElement.querySelectorAll(".cell");
         for (let i = 0; i < cells.length; i++) {
             if (i == index) {
                 cells[i].classList.add("current");
@@ -85,24 +87,25 @@ class MatrixRow extends Component {
         for (let i = 0; i < cells.length; i++) {
             cells[i].onmouseover = (event) => {
                 if (event.buttons == 1) {
-                    this.setBeatActive(event, i);
-                    
+                    this.setBeatActive(event, i);   
                 }
-                
             }
-            cells[i].onclick = (event) => {
+            cells[i].onmousedown = (event) => {
                 this.setBeatActive(event, i);
                 this.highlightRow();
                 this.createRowSelectEvent();
             }
         }
-
     }
 
     setup() {
-        let html = "<div class='row'>"
-        for (let beat of this.track.beatmap) {
-            html += `<div class='cell ${beat? "active" : ""}'></div>`;
+        let html = "<div class='row'>";
+        for (let i = 0; i < this.start + this.size; i++) {
+            let aditionalClass = ""; 
+            if (i < this.start || i > this.start + this.size) {
+                aditionalClass = "hidden";
+            }
+            html += `<div class='cell ${this.track.beatmap[i]? "active" : ""} ${aditionalClass}'></div>`;
         }
         html += "</div>";
         this.domElement.innerHTML = html;
@@ -112,12 +115,17 @@ class MatrixRow extends Component {
     render() {
         this.domElement.querySelectorAll(".cell").forEach(
             cell => {
-                if (cell.classList.contains("current") &&  cell.classList.contains("active")) {
+                let currentAndActive = 
+                    cell.classList.contains("current") 
+                    &&  
+                    cell.classList.contains("active");
+
+                if (currentAndActive) {
                     cell.style.background = "white";
                 } else if (cell.classList.contains("active")) {
                     cell.style.background = this.color;
                 } else {
-                    cell.style.background = '';
+                    cell.style.background = "";
                 }
             }
         );

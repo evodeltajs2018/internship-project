@@ -4,6 +4,33 @@
 }
 
 .splicer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
 }
 
+.track-pages {
+    display: flex;
+    justify-self: center;
+    margin: 20px;
+}
+
+.track-page-btn {
+    width: 20px;
+    height: 20px;
+    color: white;
+    background: rgba(255,255,255, .5);
+    border: 3px solid rgba(255,255,255,0.8);
+    border-radius: 20px;
+    margin: 5px;
+    &:hover {
+        cursor: pointer;
+        background: rgba(255,255,255, .7);
+    }
+
+    &:focus {
+        outline: none
+    }
+
+}

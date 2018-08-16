@@ -4,13 +4,16 @@ import "./Track.scss";
 import VolumeController from "../../views/splicer/engine/VolumeController";
 
 class Track extends Component {
-    constructor(container, sound, arrayBuffer, audioContext, mapSize, index) {
+    constructor(container, sound, arrayBuffer, data) {
         super(container, "track");
         this.sound = sound;
-        this.index = index;
-        this.audioContext = audioContext;
         this.beatmap = [];
-        this.mapSize = mapSize;
+        
+        this.index = data.index;
+        this.audioContext = data.audioContext;
+        this.mapSize = data.mapSize;
+        this.engine = data.engine;
+        
         this.decodeSound(arrayBuffer);
         document.addEventListener("rowselect", (event) => {
             if (event.detail.index === this.index) {
@@ -72,13 +75,18 @@ class Track extends Component {
     }
 
     playSound() {
-        this.audioContext.resume();
-        this.source = this.audioContext.createBufferSource();
-        this.source.buffer = this.buffer;
+        this.beatmap.source = this.audioContext.createBufferSource();
+        let source = this.beatmap.source;
+        let buffer = this.buffer;
+        source.buffer = buffer;
+        
+        let gainNode = this.audioContext.createGain();
+        gainNode.gain.value = this.volumeController.volume;
 
-        this.source.connect(this.audioContext.destination);
-        this.source.start(0);
+        source.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
 
+        source.start(0);
     }
 
     render() {

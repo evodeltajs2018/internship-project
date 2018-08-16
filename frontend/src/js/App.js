@@ -10,6 +10,19 @@ class App extends Component {
         this.router = new Router();
         this.menuService = new MenuService();
         this.sidebarLinks = this.menuService.getSidebarLinks();
+        
+        window.addEventListener("resize", () => {
+            this.hideSidebarBySize();
+        });
+    }
+
+    hideSidebarBySize() {
+        if (window.innerWidth < 900 && !document.querySelector(".hide-sidebar")) {
+            this.toggleMenu();
+        }
+        if (window.innerWidth >= 900 && document.querySelector(".hide-sidebar")) {
+            this.toggleMenu();
+        }
     }
 
     toggleMenu() {
@@ -86,6 +99,7 @@ class App extends Component {
         this.addClickEventListenerToSidebar();
 
         this.initRouter();
+        this.hideSidebarBySize();
     }
 }
 

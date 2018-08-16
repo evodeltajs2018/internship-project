@@ -93,7 +93,7 @@ class Engine extends Component {
     }
 
     play() {
-        this.audioContext.resume();
+        // this.audioContext.resume();
         this.playButton.unrender();
         this.renderStopButton();
         this.playBeatmap();
@@ -101,7 +101,7 @@ class Engine extends Component {
     }
 
     stop() {
-        this.audioContext.suspend();
+        // this.audioContext.suspend();
         this.stopButton.unrender();
         this.renderPlayButton();
 
