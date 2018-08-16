@@ -4,12 +4,11 @@ import "./WaveForm.scss";
 class WaveForm extends Component {
     constructor(container) {
         super(container, "waveform-container");
-        document.addEventListener("trackselect",(event)=>{
+        document.addEventListener("trackselect", (event) => {
             this.track = event.detail.track;
             this.render();
         })
-        document.addEventListener("rowselect",(event)=>{
-            console.log(event.detail);
+        document.addEventListener("rowselect", (event) => {
             this.track = event.detail.track;
             this.render();
         })
@@ -19,11 +18,11 @@ class WaveForm extends Component {
         this.canvas = document.querySelector(".waveform");
         this.context = this.canvas.getContext("2d");
         let canvasWidth = this.canvas.width;
-        let canvasHeight = 100;
+        let canvasHeight = this.canvas.height;
         let drawLines = 500;
-        
+
         let leftChannel = this.track.buffer.getChannelData(0);
-        
+
         let lineOpacity = window.innerWidth / leftChannel.length;
         this.context.save();
         this.context.fillStyle = 'transparent';
@@ -31,12 +30,12 @@ class WaveForm extends Component {
         this.context.strokeStyle = '#46a0ba';
         this.context.globalCompositeOperation = 'lighter';
         this.context.translate(0, canvasHeight / 2);
-        
+
         this.context.lineWidth = 1;
         let totallength = leftChannel.length;
         let eachBlock = Math.floor(totallength / drawLines);
 
-        let lineGap = Math.ceil((canvasWidth - drawLines)/(drawLines-1) + 4);
+        let lineGap = Math.ceil((canvasWidth - drawLines) / (drawLines - 1) + 2);
 
         this.context.beginPath();
 
@@ -54,7 +53,11 @@ class WaveForm extends Component {
 
 
     render() {
-        this.domElement.innerHTML = `<div class="waveform-details"></div><canvas class="waveform" width="500" height="300"></canvas>`;
+        this.domElement.innerHTML = `
+            <div class="waveform-icon"><img src="/src/img/sound-types/${this.track.sound.type.iconSrc}"></div>
+            <div class="waveform-name">${this.track.sound.name.toUpperCase()}</div>
+            <canvas class="waveform"></canvas>
+        `;
         this.draw();
     }
 }

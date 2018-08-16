@@ -1,0 +1,21 @@
+.waveform-container{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+}
+.waveform-name{
+    display: inherit;
+    width:30%;
+    justify-content: center;
+    align-items:center;
+}
+.waveform-icon{
+    display: inherit;
+    width:10%;
+    justify-content: center;
+    align-items:center;
+}
+.waveform{
+    width:60%;
+    height:100px;
+}
