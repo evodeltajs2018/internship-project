@@ -8,15 +8,15 @@ class MatrixRow extends Component {
         this.track = track;
         this.index = index;
 
-        document.addEventListener("play-beat", (event) => {
+        document.addEventListener("playbeat", (event) => {
             this.renderCurrentCell(event.detail.index);    
         });
 
-        document.addEventListener("stop", (event) => {
+        document.addEventListener("stop", () => {
             this.renderCurrentCell(-1);
         });
 
-        document.addEventListener("clear", (event) => {
+        document.addEventListener("clear", () => {
             this.clearBeatmap();
         });
 

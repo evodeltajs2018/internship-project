@@ -11,14 +11,13 @@ class Engine extends Component {
         this.currentIndex = 0;
         this.tracks = [];
         this.isPlaying = false;
-        window.addEventListener("popstate", () => this.handlePageLeave())
+        window.addEventListener("popstate", () => this.handlePageLeave());
     }
 
     handlePageLeave() {
         if (this.isPlaying) {
-            
             this.stop();
-            window.removeEventListener('popstate', this.handlePageLeave);
+            window.removeEventListener("popstate", this.handlePageLeave);
         }
     }
 
@@ -31,7 +30,7 @@ class Engine extends Component {
     }
 
     createPlayEvent() {
-        let event = new CustomEvent("play-beat", {
+        let event = new CustomEvent("playbeat", {
             bubbles: false,
             detail: {index: this.currentIndex}
         });
@@ -72,10 +71,8 @@ class Engine extends Component {
         let nextNoteTime = this.audioContext.currentTime;
         while (nextNoteTime < this.audioContext.currentTime + 0.1) {
             for (let track of this.tracks) {
-                if (track.beatmap[this.currentIndex]) {
-                    
+                if (track.beatmap[this.currentIndex]) {            
                     this.playSound(track, nextNoteTime);
-                    
                 }
             }
             this.currentIndex++;
@@ -87,6 +84,13 @@ class Engine extends Component {
         this.timeout = setTimeout(() => this.playBeatmap(), this.getScheduleTime());
     }
 
+    stopSources() {
+        for (let track of this.tracks) {
+            if (track.beatmap.source) {
+                track.beatmap.source.stop(0);
+            }
+        }
+    }
 
     play() {
         this.audioContext.resume();
@@ -97,18 +101,15 @@ class Engine extends Component {
     }
 
     stop() {
-        this.isPlaying = false;
-        for (let track of this.tracks) {
-            if (track.beatmap.source) {
-                track.beatmap.source.stop(0);
-            }
-        }
         this.audioContext.suspend();
-        clearTimeout(this.timeout);
-        this.renderPlayButton();
         this.stopButton.unrender();
-        this.currentIndex = 0;
+        this.renderPlayButton();
+
         this.createStopEvent();
+        this.stopSources();
+        clearTimeout(this.timeout);
+        this.currentIndex = 0;
+        this.isPlaying = false;
     }
 
     clear() {
@@ -116,11 +117,8 @@ class Engine extends Component {
             this.stop();
         }
         for (let track of this.tracks) {
-            for (let i = 0; i < track.beatmap.length; i++) {
-                track.beatmap[i] = 0;
-            }
+            track.clearBeatmap();
         }
-
         this.createClearEvent();
     }
 

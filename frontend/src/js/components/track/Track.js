@@ -54,6 +54,10 @@ class Track extends Component {
         })
     }
 
+    clearBeatmap() {
+        this.beatmap = this.getEmptyMap();
+    }
+
     createSelectRowEvent() {
         let event = new CustomEvent("trackselect", {
             bubbles: false,

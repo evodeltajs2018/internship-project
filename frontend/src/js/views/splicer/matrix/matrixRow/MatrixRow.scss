@@ -6,13 +6,13 @@
     }
 
     border: 2px solid $backgroundSecondary;
-    border-radius: 10px;
+    border-radius: 7px;
     background: #1f1f1f;
     width: 30px;
     height: 30px;
     justify-content:center;
     align-items: center;
-    margin: 0 2px;
+    margin: 0 1px;
     color:white;
 }
 
@@ -31,7 +31,7 @@
 .row {
     display: flex;
     flex-direction: row;
-    margin:5px;
+    margin:3px;
     margin-left: 0;
     .cell:nth-child(4n + 1) {
         background-color: #3f3f3f;
@@ -52,6 +52,6 @@
     .cell {
         width: 20px;
         height: 20px;
-        border-radius: 5px;
+        border-radius: 4px;
     }
 }

@@ -15,13 +15,13 @@ class VolumeController extends Component {
                 min="0" 
                 max="1" 
                 step="0.01" 
-                value="${this.volume}">
+                value="${1 - this.volume}">
 
         `;
         this.domElement.querySelectorAll(".volume-input")
         .forEach(elem => {
             elem.addEventListener("input", (event) => {
-                this.volume = Number.parseFloat(event.target.value);
+                this.volume = 1 - Number.parseFloat(event.target.value);
             });
             
         });
