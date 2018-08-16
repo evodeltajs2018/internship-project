@@ -2,22 +2,19 @@
     display: flex;
     &:hover {
         cursor: pointer;
-        background: #4f4f4f;
+        opacity: .25;
     }
 
-    border: 2px solid $backgroundSecondary;
+    //border: 2px solid $backgroundSecondary;
     border-radius: 7px;
-    background: #1f1f1f;
+    background: white;
+    opacity: .1;
     width: 30px;
     height: 30px;
     justify-content:center;
     align-items: center;
     margin: 0 1px;
     color:white;
-}
-
-.active {
-    
 }
 
 .current {
@@ -33,15 +30,48 @@
     flex-direction: row;
     margin:3px;
     margin-left: 0;
-    .cell:nth-child(4n + 1) {
-        background-color: #3f3f3f;
+
+    .active {
+        opacity: 1;
         &:hover {
-            background: #4f4f4f;
+            opacity: .8;
         }
     }
-    .selected {
-        background-color: grey;
+
+    .cell:nth-child(4n + 1) {
+        opacity: .2;
+        &:hover {
+            opacity: .5;
+        }
     }
+
+    .cell:first-child() {
+        opacity: .2;
+        &:hover {
+            opacity: .5;
+        }
+    }
+    .cell:first-child() + .selected {
+        opacity: .5;
+    }
+
+
+    .cell:nth-child(4n) + .selected {
+        opacity: .5;
+    }
+    
+    .cell:nth-child(4n) + .active {
+        opacity: 1;
+        &:hover {
+            opacity: .8;
+        }
+    }
+
+    .selected {
+        opacity: .5;
+    }
+
+    
 }
 
 .matrix {

@@ -14,7 +14,7 @@ class SplicerMatrix extends Component {
         for (let i = 0; i < this.tracks.length; i++) {
             let row = new MatrixRow(
                 this.domElement.querySelector(".tracks"), 
-                this.tracks[i], 
+                this.tracks[i],
                 this.tracks[i].sound.type.colorType,
                 i
             );
