@@ -7,6 +7,8 @@
     height: 300px;
     min-height: 300px;
     width: 320px;
+    overflow: hidden;
+    border-radius: 25px;
     .adding-card-image{
         display:flex;
         &:hover{

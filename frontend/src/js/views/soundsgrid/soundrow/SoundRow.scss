@@ -1,5 +1,7 @@
 .sounds-grid-row {
     border-bottom: 1px solid #cccccc;
+    color: #000;
+    height: $gridRowHeight;
 }
 
 .sound-action-buttons {
@@ -8,7 +10,7 @@
         padding-left: 20px;
         cursor: pointer;
         transition-duration: 0.1s;
-        color: #cccccc;
+        color: #000;
         &:hover {
             color: #555;
         }
@@ -16,6 +18,10 @@
 }
 
 #sounds-grid-header {
+    background-color: $backgroundSecondary;
+    color: #1f1f1f;
+    height: $gridRowHeight;
+
     div:hover {
         cursor: default;
     }
@@ -34,7 +40,7 @@
 }
 
 .sounds-cell {
-    width: calc(50% - 80px);
+    width: calc(50% - 85px);
     transition-duration: 0.2s;
     text-align: left;
 }
@@ -45,9 +51,12 @@
     word-wrap: none;
 }
 
-#sounds-grid-header {
-    background-color: #cccccc;
-    color: #1f1f1f
+.sounds-grid-row:nth-child(odd) {
+    background-color: rgb(245, 245, 245);
+}
+
+.sounds-grid-row:nth-child(even) {
+    background-color: rgb(230, 245, 240);
 }
 
 @media (max-width: 550px) {
