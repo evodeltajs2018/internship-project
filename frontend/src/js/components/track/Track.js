@@ -14,7 +14,6 @@ class Track extends Component {
         this.decodeSound(arrayBuffer);
         document.addEventListener("rowselect", (event) => {
             if (event.detail.index === this.index) {
-                console.log(document.querySelectorAll(`.track-icon`));
                 let icons = document.querySelectorAll(`.track-icon`);
                 for (let i = 0; i < icons.length; i++) {
                     icons[i].style.background = '#1f1f1f';
