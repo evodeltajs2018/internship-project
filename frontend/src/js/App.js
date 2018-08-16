@@ -72,7 +72,7 @@ class App extends Component {
             <div class="sidebar">
                 <ul class="sidebar-content"></ul>
             </div>
-            <div class="left-side">
+            <div class="right-side">
                 <div class="page-title">
                     <h2>Projects</h2>
                 </div>

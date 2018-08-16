@@ -1,34 +1,21 @@
 
 $backgroundPrimary: rgb(33, 39, 51);
 $backgroundSecondary: rgb(70, 162, 158);
+$mainBackgroundColor: #c5c6c8;
+$sidebarBackgroundColor: rgb(11, 12, 16);
 $menuIcon: #fff;
 $menuActive: rgb(70, 162, 158);
 $menuInactive:  rgb(11, 12, 16);
-$mainBackgroundColor: #c5c6c8;
 $heightCalc: calc(100vh - 182px);
 
+$buttonHoverColor: rgba(77, 194, 188, 0.979);
+
 $gridRowHeight: 50px;
+
 
 * {
     box-sizing: border-box;
     font-family: monospace;
-}
-
-body {
-    margin: 0;
-    color:white;
-	padding: 0;
-    font-family: monospace;
-}
-
-html, body, .app {
-    height: 100%;
-    width: 100%;
-}
-
-.left-side {
-    width: 100%;
-    height: 100%;
 }
 
 .header {
@@ -37,19 +24,31 @@ html, body, .app {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    .logo {
+        cursor: pointer;
+        margin-right: 15px;
+    }
+
+    .hamburger {
+        cursor: pointer;
+        color: white;
+        font-size: 36px;
+        transform: scale(1.4,1);
+        margin-left: 45px;
+    }
 }
 
-.logo {
-    cursor: pointer;
-    margin-right: 15px;
+html, body, .app {
+    height: 100%;
+    width: 100%;
 }
 
-.hamburger {
-    cursor: pointer;
-    color: white;
-    font-size: 36px;
-    transform: scale(1.4,1);
-    margin-left: 45px;
+body {
+    margin: 0;
+    color:white;
+	padding: 0;
+    font-family: monospace;
 }
 
 .show {
@@ -61,35 +60,35 @@ html, body, .app {
     width: 120px;
     min-width: 120px;
     min-height: $heightCalc;
-    background-color: rgb(11, 12, 16);
+    background-color: $sidebarBackgroundColor;
     transition-duration: 0.5s;
     overflow: hidden;
-}
 
-.sidebar-content {
-    padding: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    .menu-element{
-        background-color: $menuInactive;
+    .sidebar-content {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        .menu-element{
+            background-color: $menuInactive;
+        }
+        .active-icon{
+            background-color: $menuActive;
+            -webkit-transition: 0.3s ease-in-out;
+            transition: 0.3s ease-in-out;
+            width: 65px;
+            height: 65px;
+        }
     }
-    .active-icon{
-        background-color: $menuActive;
-        -webkit-transition: 0.3s ease-in;
-        transition: 0.3s ease-in;
-        width: 75px;
-        height: 75px;
+    
+    .sidebar-content li {
+        list-style-type: none;
     }
-}
-
-.sidebar-content li {
-    list-style-type: none;
-}
-
-.sidebar-content li i {
-    cursor: pointer;
-    margin-top: 20px;
+    
+    .sidebar-content li i {
+        cursor: pointer;
+        margin-top: 20px;
+    }
 }
 
 .hide-sidebar {
@@ -97,51 +96,50 @@ html, body, .app {
     min-width: 0;
 }
 
-.page-title {
-    width: 100%;
-    padding-left: 40px;
-    height: 110px;
-    background-color: $backgroundSecondary;
-    display: flex;
-    align-items: center;
-}
-
-hr {
-    margin: 0 0 1px 0;
-    border: 1px solid #ddd;
-    width: 100%;
-}
-
-.main {
-    display: flex;
-    margin: 0;
-    width: 100%;
-    min-height: $heightCalc;
-    background-color: $mainBackgroundColor;
-    justify-content: center;
-}
-
-.main-width {
-    width: 100%;
-}
-
 .split {
     display: flex;
     width: 100%;
-}
 
-.menu-element {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 65px;
-    height: 65px;
-    background-color: $menuActive;
-    border-radius: 50px;
-    margin-top: 20px;
+    .right-side {
+        width: 100%;
+        height: 100%;
 
-    i {
-        color: $menuIcon;
-        margin-bottom: 20px;
+        .page-title {
+            width: 100%;
+            padding-left: 40px;
+            height: 110px;
+            background-color: $backgroundSecondary;
+            display: flex;
+            align-items: center;
+        }
+
+        .main {
+            display: flex;
+            margin: 0;
+            width: 100%;
+            min-height: $heightCalc;
+            background-color: $mainBackgroundColor;
+            justify-content: center;
+        
+            .main-width {
+                width: 100%;
+            }
+        }
+    }
+
+    .menu-element {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45px;
+        height: 45px;
+        background-color: $menuActive;
+        border-radius: 50px;
+        margin-top: 20px;
+    
+        i {
+            color: $menuIcon;
+            margin-bottom: 20px;
+        }
     }
 }
