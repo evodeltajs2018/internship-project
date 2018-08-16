@@ -1,28 +1,27 @@
 import Component from "../../../components/Component";
-import "./SoundRow.scss";
 
 class SoundRow extends Component {
     constructor(container, sound) {
-        super(container, "sounds-grid-row");
+        super(container, "element-grid-row");
 
         this.sound = sound;
     }
 
     render() {
         this.domElement.innerHTML = `
-            <div class="sounds-cell sound-name">${this.sound.name}</div>
-            <div class="sounds-cell sound-type">${this.sound.type.name}</div>
-            <div class="actions-cell sound-action-buttons"></div>
+            <div class="element-cell-sound element-name">${this.sound.name}</div>
+            <div class="element-cell-sound element-type">${this.sound.type.name}</div>
+            <div class="actions-cell element-action-buttons"></div>
         `;
 
         this.editButton = document.createElement("i");
         this.editButton.className = "fas fa-pen";
-        this.domElement.querySelector(".sound-action-buttons")
+        this.domElement.querySelector(".element-action-buttons")
             .appendChild(this.editButton);
 
         this.deleteButton = document.createElement("i");
         this.deleteButton.className = "fas fa-trash";
-        this.domElement.querySelector(".sound-action-buttons")
+        this.domElement.querySelector(".element-action-buttons")
             .appendChild(this.deleteButton);
 
         this.editButton.addEventListener("click", () => {

@@ -5,6 +5,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: $formFontColor;
             
     .visbility-hidden {
         visibility: hidden;
@@ -82,7 +85,7 @@
             }
 
             .img-src-label {
-                width: 180px;
+                width: 185px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;

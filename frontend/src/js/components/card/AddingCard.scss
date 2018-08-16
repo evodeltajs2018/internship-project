@@ -1,19 +1,21 @@
-@import "App.scss";
-
-.adding-card{
+.adding-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin:20px;
     flex-direction: column;
+    margin: 20px;
     height: 300px;
     min-height: 300px;
     width: 320px;
     overflow: hidden;
     border-radius: 25px;
-    .adding-card-image{
+    justify-self: center;
+    
+    .adding-card-image {
         display:flex;
-        &:hover{
+
+        &:hover {
             cursor: pointer;
         }
+
         align-items: center;
         justify-content: center;
         background-color: white;
@@ -23,7 +25,7 @@
         font-size:60px;
     }
     
-    .adding-card-text{
+    .adding-card-text {
         display: flex;
         background-color: $backgroundSecondary;
         align-items: center;
@@ -31,5 +33,4 @@
         text-align: center;
         height:80px;
     }
-
 }

@@ -71,7 +71,7 @@ class TypesGrid extends Component {
     deletehandler(id) {
         let modal = new Modal(
             this.domElement.querySelector(".modals"),
-            "Delete sound",
+            "Delete type",
             "Are you sure you want to delete this type?"
         );
         modal.onConfirm = () => {

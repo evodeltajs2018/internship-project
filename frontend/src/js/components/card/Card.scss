@@ -1,26 +1,26 @@
 .cards {
     display: grid;
-    padding: 1rem;
-    width:100%;
+    width: 100%;
     grid-template-columns: repeat(auto-fill,minmax(320px, 1fr));
-    grid-gap: 1rem;
-    align-content: flex-start;
 
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin: 20px;
         display: flex;
         background-color:white;
         color:#131313;
-        margin: 20px;
         flex-direction: column;
         width: 320px;
         overflow: hidden;
         height: 300px;
         border-radius: 25px;
+        justify-self: center;
+
         .card-header {
             border-bottom: 1.5px solid #DCDCDC;
             position: relative;
             height: 60px;
+            
             .delete-icon {
                 cursor: pointer;
                 position: absolute;
@@ -38,16 +38,15 @@
             word-wrap: break-word;
             text-align: center;
         }
-        .card-footer{
+
+        .card-footer {
             display:flex;
             justify-content: space-between;
             height:45px;
         }
-    
     }
 }
 
 .content {
     padding: 15px;
 }
-

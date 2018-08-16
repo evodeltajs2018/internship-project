@@ -3,15 +3,22 @@ $backgroundPrimary: rgb(33, 39, 51);
 $backgroundSecondary: rgb(70, 162, 158);
 $mainBackgroundColor: #c5c6c8;
 $sidebarBackgroundColor: rgb(11, 12, 16);
+
 $menuIcon: #fff;
 $menuActive: rgb(70, 162, 158);
 $menuInactive:  rgb(11, 12, 16);
-$heightCalc: calc(100vh - 182px);
+
+$heightCalc: calc(100vh - 232px);
+
+$formFontColor: #000;
 
 $buttonHoverColor: rgba(77, 194, 188, 0.979);
+$iconActionMouseOver: #33abbb;
+$gridMouseOverRow: #efefef;
+$gridEvenBgColor: #dcdcdc;
+$gridOddBgColor: #fff;
 
 $gridRowHeight: 50px;
-
 
 * {
     box-sizing: border-box;
@@ -69,15 +76,18 @@ body {
         display: flex;
         align-items: center;
         flex-direction: column;
+        
+        li:nth-child(even) {
+           margin-top: 5px; 
+        }
         .menu-element{
             background-color: $menuInactive;
         }
         .active-icon{
             background-color: $menuActive;
-            -webkit-transition: 0.3s ease-in-out;
-            transition: 0.3s ease-in-out;
-            width: 65px;
-            height: 65px;
+            -webkit-transition: 0.4s ease-in-out;
+            transition: 0.4s ease-in-out;
+            transform: scale(1.2, 1.2);
         }
     }
     
@@ -125,14 +135,22 @@ body {
                 width: 100%;
             }
         }
+
+        .footer {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
     }
 
     .menu-element {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
         background-color: $menuActive;
         border-radius: 50px;
         margin-top: 20px;

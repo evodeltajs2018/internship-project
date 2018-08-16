@@ -77,6 +77,7 @@ class App extends Component {
                     <h2>Projects</h2>
                 </div>
                 <div class="main"></div>
+                <div class="footer">💻 with ❤️ in Cluj-Napoca, RO.</div>
             </div>
         </div>
         `;

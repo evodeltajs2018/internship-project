@@ -1,4 +1,5 @@
 import "./SoundsGrid.scss";
+import "./Row.scss";
 import Component from "../../components/Component";
 import SoundRepository from "../../repositories/SoundRepository";
 
