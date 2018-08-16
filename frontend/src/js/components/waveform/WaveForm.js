@@ -4,57 +4,53 @@ import "./WaveForm.scss";
 class WaveForm extends Component {
     constructor(container, track) {
         super(container, "waveform-container");
-        this.arrayBuffer = track;
+        this.track = track;
+        this.audioContext = new AudioContext();
+        this.currentBuffer = null;
     }
 
-    draw(){
-        this.audioCtx = new window.AudioContext();
-        this.analyser = this.audioCtx.createAnalyser();
-        this.analyser.fftSize = 2048;
-        this.bufferLength = this.analyser.frequencyBinCount;
-
-        const uint8 = new Uint8Array(this.bufferLength);
+    draw() {
         this.canvas = document.querySelector(".waveform");
-        this.canvasCtx = this.canvas.getContext('2d');
-        this.canvasCtx.clearRect(0, 0, 500, 200);
-
-        this.analyser.getByteTimeDomainData(uint8);
-
-        this.canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-        this.canvasCtx.fillRect(0, 0, 500, 200);
-
-        this.canvasCtx.lineWidth = 2;
-        this.canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-        this.canvasCtx.beginPath();
-
-        var sliceWidth = 500 * 1.0 / this.bufferLength;
-        var x = 0;
-
-        for(let i=0;i<uint8.length;i++){
-            uint8[i]=Math.ceil(Math.random()*100);
-        }
+        this.context = this.canvas.getContext("2d");
+        let canvasWidth = this.canvas.width;
+        console.log(canvasWidth);
+        let canvasHeight = 100;
+        let drawLines = 500;
         
-        for (var i = 0; i < this.bufferLength; i++) {
-            var v = uint8[i] / 128.0;
-            var y = v * 100 / 2;
+        let leftChannel = this.track.buffer.getChannelData(0);
+        console.log(leftChannel);
+        
+        let lineOpacity = window.innerWidth / leftChannel.length;
+        this.context.save();
+        this.context.fillStyle = 'transparent';
+        this.context.fillRect(0, 0, canvasWidth, canvasHeight);
+        this.context.strokeStyle = '#46a0ba';
+        this.context.globalCompositeOperation = 'lighter';
+        this.context.translate(0, canvasHeight / 2);
+        
+        this.context.lineWidth = 1;
+        let totallength = leftChannel.length;
+        let eachBlock = Math.floor(totallength / drawLines);
 
+        let lineGap = Math.ceil((canvasWidth - drawLines)/(drawLines-1) + 1);
 
-            if (i === 0) {
-                this.canvasCtx.moveTo(x, y);
-            } else {
-                this.canvasCtx.lineTo(x, y);
-            }
+        this.context.beginPath();
 
-            x += sliceWidth;
+        for (let i = 0; i <= drawLines; i++) {
+            let audioBuffKey = Math.floor(eachBlock * i);
+            let x = i * lineGap;
+            let y = leftChannel[audioBuffKey] * canvasHeight / 2;
+
+            this.context.fillStyle = this.track.sound.type.colorType;
+            this.context.fillRect(x, y, 1, -y);
+            this.context.fillRect(x, -y, 1, y);
         }
-
-        this.canvasCtx.lineTo(this.canvas.width, this.canvas.height / 2);
-        this.canvasCtx.stroke();
+        this.context.restore();
     }
 
 
     render() {
-        this.domElement.innerHTML = `<canvas class="waveform"></canvas>`;
+        this.domElement.innerHTML = `<canvas class="waveform" width="200" height="300"></canvas>`;
         this.draw();
     }
 }

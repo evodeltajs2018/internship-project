@@ -33,6 +33,9 @@ class Track extends Component {
         this.loadBeatmap();
         return this.audioContext.decodeAudioData(arrayBuffer, (buff) => {
             this.buffer = buff;
+            if (this.onBufferLoad) {
+                this.onBufferLoad();
+            }
         })
     }
 

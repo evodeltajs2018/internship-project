@@ -29,6 +29,7 @@ class Splicer extends Component {
         this.domElement.querySelector(".splicer-main").innerHTML = `
             <div class="tracks-bar"></div>
             <div class="matrix"></div>
+            <div class="waveform-container"></div>
         `;
 
         this.soundLoader = new SoundLoader(document.querySelector(".tracks-pattern"));
@@ -37,7 +38,7 @@ class Splicer extends Component {
 
             if (this.soundLoader.sounds) {
                 let tracks = [];
-                
+
                 for (let i = 0; i < this.soundLoader.sounds.length; i++) {
                     let track = new Track(
                         document.querySelector(".tracks-bar"),
@@ -49,9 +50,14 @@ class Splicer extends Component {
                     track.render();
                     tracks.push(track);   
                 }
+                tracks[2].onBufferLoad = () =>{
+                    this.WaveForm = new WaveForm(document.querySelector(".splicer-main"), tracks[2]);
+                    this.WaveForm.render();
+                }
                 this.matrix = new SplicerMatrix(document.querySelector(".matrix"), tracks);
                 this.engine.tracks = tracks;
                 this.matrix.render();
+                
             }
         }
         

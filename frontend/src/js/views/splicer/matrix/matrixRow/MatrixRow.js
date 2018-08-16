@@ -9,13 +9,11 @@ class MatrixRow extends Component {
     }
 
     render() {
-        console.log(this.track.beatmap);
         let html = "<div class='row'>"
         for (let beat of this.track.beatmap) {
             html += "<div class='cell'>" + beat + "</div>";
         }
         html += "</div>";
-        console.log(html);
         this.domElement.innerHTML = html;
     }
 }
