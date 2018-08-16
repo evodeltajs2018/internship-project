@@ -20,7 +20,29 @@ class MatrixRow extends Component {
             this.clearBeatmap();
         });
 
+        document.addEventListener("trackselect", (event) => {
+            if (event.detail.index === this.index) {
+                this.highlightRow();
+            }
+        });
 
+    }
+
+    createRowSelectEvent() {
+        let event = new CustomEvent("rowselect", {
+            bubbles: false,
+            detail: {index: this.index}
+        });
+        document.dispatchEvent(event);
+    }
+
+    highlightRow() {
+        document.querySelectorAll(".cell").forEach(cell => {
+            cell.classList.remove("selected");
+        })
+        this.domElement.querySelectorAll(".cell").forEach(cell => {
+            cell.classList.add("selected");
+        });
     }
 
     clearBeatmap() {
@@ -67,6 +89,8 @@ class MatrixRow extends Component {
             }
             cells[i].onclick = (event) => {
                 this.setBeatActive(event, i);
+                this.highlightRow();
+                this.createRowSelectEvent();
             }
         }
 

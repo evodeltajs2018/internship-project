@@ -115,7 +115,12 @@ class Engine extends Component {
         if (this.isPlaying) {
             this.stop();
         }
-        
+        for (let track of this.tracks) {
+            for (let i = 0; i < track.beatmap.length; i++) {
+                track.beatmap[i] = 0;
+            }
+        }
+
         this.createClearEvent();
     }
 

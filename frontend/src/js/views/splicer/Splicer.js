@@ -44,7 +44,8 @@ class Splicer extends Component {
                         this.soundLoader.sounds[i],
                         this.soundLoader.arrayBuffer[i],
                         this.audioContext,
-                        this.mapSize
+                        this.mapSize,
+                        i
                     );
                     track.render();
                     tracks.push(track);
