@@ -4,12 +4,14 @@ import WaveForm from "../../components/waveform/WaveForm";
 import Engine from "./engine/Engine";
 import SoundLoader from "./sound_loader/SoundLoader";
 import SplicerMatrix from "./matrix/SplicerMatrix";
+import "./Splicer.scss";
 
 class Splicer extends Component {
     constructor(container, projectId) {
         super(container, "splicer");
 
         this.audioContext = new AudioContext();
+        
         this.projectId = projectId;
         this.mapSize = 32;
         this.setup();
@@ -45,18 +47,18 @@ class Splicer extends Component {
                         this.soundLoader.sounds[i],
                         this.soundLoader.arrayBuffer[i],
                         this.audioContext,
-                        this.mapSize
+                        this.mapSize,
+                        i
                     );
                     track.render();
                     tracks.push(track);   
                 }
-                tracks[2].onBufferLoad = () =>{
-                    this.WaveForm = new WaveForm(document.querySelector(".splicer-main"), tracks[2]);
-                    this.WaveForm.render();
-                }
+                
                 this.matrix = new SplicerMatrix(document.querySelector(".matrix"), tracks);
                 this.engine.tracks = tracks;
                 this.matrix.render();
+
+                this.waveForm = new WaveForm(this.domElement);
                 
             }
         }

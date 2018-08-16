@@ -2,23 +2,27 @@ import Component from "../Component";
 import "./WaveForm.scss";
 
 class WaveForm extends Component {
-    constructor(container, track) {
+    constructor(container) {
         super(container, "waveform-container");
-        this.track = track;
-        this.audioContext = new AudioContext();
-        this.currentBuffer = null;
+        document.addEventListener("trackselect",(event)=>{
+            this.track = event.detail.track;
+            this.render();
+        })
+        document.addEventListener("rowselect",(event)=>{
+            console.log(event.detail);
+            this.track = event.detail.track;
+            this.render();
+        })
     }
 
     draw() {
         this.canvas = document.querySelector(".waveform");
         this.context = this.canvas.getContext("2d");
         let canvasWidth = this.canvas.width;
-        console.log(canvasWidth);
         let canvasHeight = 100;
         let drawLines = 500;
         
         let leftChannel = this.track.buffer.getChannelData(0);
-        console.log(leftChannel);
         
         let lineOpacity = window.innerWidth / leftChannel.length;
         this.context.save();
@@ -32,7 +36,7 @@ class WaveForm extends Component {
         let totallength = leftChannel.length;
         let eachBlock = Math.floor(totallength / drawLines);
 
-        let lineGap = Math.ceil((canvasWidth - drawLines)/(drawLines-1) + 1);
+        let lineGap = Math.ceil((canvasWidth - drawLines)/(drawLines-1) + 4);
 
         this.context.beginPath();
 
@@ -50,7 +54,7 @@ class WaveForm extends Component {
 
 
     render() {
-        this.domElement.innerHTML = `<canvas class="waveform" width="200" height="300"></canvas>`;
+        this.domElement.innerHTML = `<div class="waveform-details"></div><canvas class="waveform" width="500" height="300"></canvas>`;
         this.draw();
     }
 }

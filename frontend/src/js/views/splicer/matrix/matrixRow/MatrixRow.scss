@@ -2,25 +2,56 @@
     display: flex;
     &:hover {
         cursor: pointer;
+        background: #4f4f4f;
     }
 
     border: 2px solid $backgroundSecondary;
-    border-left: none;
-    border-radius: 15px;
+    border-radius: 10px;
     background: #1f1f1f;
     width: 30px;
     height: 30px;
     justify-content:center;
     align-items: center;
-    
+    margin: 0 2px;
     color:white;
+}
+
+.active {
+    
+}
+
+.current {
+    background: grey;
+}
+
+.current + .active {
+    background: white;
 }
 
 .row {
     display: flex;
     flex-direction: row;
+    margin:5px;
+    margin-left: 0;
+    .cell:nth-child(4n + 1) {
+        background-color: #3f3f3f;
+        &:hover {
+            background: #4f4f4f;
+        }
+    }
+    .selected {
+        background-color: grey;
+    }
 }
 
 .matrix {
     display: inline-block;
+}
+
+@media (max-width: 1400px) {
+    .cell {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+    }
 }

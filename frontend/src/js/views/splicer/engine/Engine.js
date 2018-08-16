@@ -30,6 +30,28 @@ class Engine extends Component {
         return (60000 / 4) / this.bpm;
     }
 
+    createPlayEvent() {
+        let event = new CustomEvent("play-beat", {
+            bubbles: false,
+            detail: {index: this.currentIndex}
+        });
+        document.dispatchEvent(event);
+    }
+
+    createStopEvent() {
+        let event = new CustomEvent("stop", {
+            bubbles: false
+        });
+        document.dispatchEvent(event);
+    }
+
+    createClearEvent() {
+        let event = new CustomEvent("clear", {
+            bubbles: false
+        });
+        document.dispatchEvent(event);
+    }
+
     playSound(track, nextNoteTime) {
         track.beatmap.source = this.audioContext.createBufferSource();
         let source = track.beatmap.source;
@@ -46,12 +68,14 @@ class Engine extends Component {
     }
 
     playBeatmap() {
+        this.createPlayEvent();
         let nextNoteTime = this.audioContext.currentTime;
         while (nextNoteTime < this.audioContext.currentTime + 0.1) {
             for (let track of this.tracks) {
                 if (track.beatmap[this.currentIndex]) {
                     
                     this.playSound(track, nextNoteTime);
+                    
                 }
             }
             this.currentIndex++;
@@ -84,6 +108,20 @@ class Engine extends Component {
         this.renderPlayButton();
         this.stopButton.unrender();
         this.currentIndex = 0;
+        this.createStopEvent();
+    }
+
+    clear() {
+        if (this.isPlaying) {
+            this.stop();
+        }
+        for (let track of this.tracks) {
+            for (let i = 0; i < track.beatmap.length; i++) {
+                track.beatmap[i] = 0;
+            }
+        }
+
+        this.createClearEvent();
     }
 
     renderPlayButton() {
@@ -110,6 +148,18 @@ class Engine extends Component {
             () => this.stop());
     }
 
+    renderClearButton() {
+        this.clearButton = new Button(
+            this.domElement.querySelector(".clear-button"),
+            `<i class="fas fa-times"></i>`,
+            "clear-button"
+        );
+        this.clearButton.render();
+        this.domElement.querySelector(".clear-button").addEventListener(
+            "click",
+            () => this.clear());
+    }
+
     checkBpm(event) {
         if (event.target.valueAsNumber > 300) {
             this.domElement.querySelector("#bpm-input").value = 60;
@@ -121,11 +171,13 @@ class Engine extends Component {
         this.domElement.innerHTML = `
             <div class="play-buttons"></div>
             <label>BPM</label>
+            
             <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">
+            <div class="clear-button"></div>
             <div class="grid"></div>
         `;
         this.renderPlayButton();
-
+        
         this.domElement.querySelector("#bpm-input").addEventListener("change",
             (event) => {
                 this.changeBpm(event.target.value); 
@@ -135,6 +187,7 @@ class Engine extends Component {
         (event) => {
             this.checkBpm(event);
         });
+        this.renderClearButton();
         
     }
 }
