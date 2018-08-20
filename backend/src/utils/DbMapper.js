@@ -22,6 +22,8 @@ class DbMapper {
             id: sound.Id,
             name: sound.Name,
             type:{
+                id: sound.TypeId,
+                name: sound.TypeName,
                 iconSrc: sound.IconSrc,
                 colorType: sound.ColorType
             },

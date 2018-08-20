@@ -23,6 +23,9 @@ class SoundRoute {
         this.app.get("/splicer",(req,res) => {
             SoundController.getSplicerSounds(req,res);
         })
+        this.app.get("/splicer/:id",(req,res) => {
+            SoundController.getSoundsByType(req,res);
+        })
 
         this.app.get("/types", (req, res) => {
             SoundController.getTypes(req, res);

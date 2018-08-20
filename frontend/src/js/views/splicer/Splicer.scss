@@ -33,4 +33,23 @@
         outline: none
     }
 
+    width:100%;
+}
+
+.splicer-sample-selector{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    
+}
+.splicer-sample-header{
+    background:#282828;
+    width:100%;
+    height:100px;
+}
+.splicer-sample-tracks{
+    display:grid;
+    grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
+    width:100%;
 }

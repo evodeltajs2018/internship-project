@@ -1,0 +1,16 @@
+.related-sample{
+    display: flex;
+    flex-direction: row;
+    background:grey;
+    border-radius: 10px;
+    width:250px;
+    justify-self: center;
+}
+
+.related-sample-name{
+    padding:20px;
+}
+
+.related-sample-type{
+    padding:20px;
+}

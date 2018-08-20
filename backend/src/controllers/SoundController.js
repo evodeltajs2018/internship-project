@@ -95,8 +95,15 @@ class SoundController {
         })
     }
 
-    getSplicerSounds(req,res){
+    getSplicerSounds(req, res){
         return SoundService.getSplicerSounds().then((result) =>{
+            return res.json(result);
+        })
+    }
+
+    getSoundsByType(req, res){
+        const { id } = req.params;
+        return SoundService.getSoundsByType(id).then((result) =>{
             return res.json(result);
         })
     }
