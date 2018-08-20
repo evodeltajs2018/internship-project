@@ -26,18 +26,18 @@ class SoundType extends Component {
         let validation = true;
 
         if (data.name.trim() === '') {
-            document.querySelectorAll('.required')[0].classList.remove('visbility-hidden');
+            document.querySelectorAll('.required')[1].classList.remove('visbility-hidden');
             document.querySelector("#name").classList.add('input-red');
-            
+
             document.querySelector("#name").addEventListener("change", () => {
-                document.querySelectorAll('.required')[0].classList.add('visbility-hidden');
+                document.querySelectorAll('.required')[1].classList.add('visbility-hidden');
                 document.querySelector("#name").classList.remove('input-red');
             })
             validation = false;
         }
 
         if (data.src == undefined) {
-            document.querySelectorAll('.required')[2].classList.remove('visbility-hidden')
+            document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
             document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
             validation = false;
         }
@@ -53,13 +53,13 @@ class SoundType extends Component {
             if (!this.uploadClicked) {
                 this.domElement.querySelector('.icon').classList.remove('visbility-hidden');
             }
-            
-            document.querySelectorAll('.required')[2].classList.add('visbility-hidden')
+
+            document.querySelectorAll('.required')[0].classList.add('visbility-hidden')
             document.querySelector('.fa-cloud-upload-alt').classList.remove('icon-red');
 
             this.uploadClicked = true;
             this.buffer = reader.result;
-            this.domElement.querySelector('.icon').src  = reader.result;
+            this.domElement.querySelector('.icon').style.backgroundImage = `url("${reader.result}")`;
         }
 
         if (input.value.length) {
@@ -73,8 +73,9 @@ class SoundType extends Component {
                 this.buffer = data[0].src;
                 document.querySelector('#name').value = data[0].name;
                 document.querySelector('#color').value = data[0].color;
-                document.querySelector('.icon').src = data[0].src;
-        });
+                document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
+                console.log(document.querySelector('.icon').style.backgroundImage);
+            });
     }
 
     createNewType(form) {
@@ -100,19 +101,32 @@ class SoundType extends Component {
 
     handleEditType() {
         this.getTypeById()
-        .then(() => {
-            if (this.buffer != null) {
-                this.domElement.querySelector('.icon').classList.remove('visbility-hidden');
-            }
-            this.domElement.querySelector('#submit')
-                .addEventListener("click", () => this.editTypeById(this.getFormData(), this.typeId));
-        })
+            .then(() => {
+                if (this.buffer != null) {
+                    //this.domElement.querySelector('.icon').classList.remove('visbility-hidden');
+                }
+                this.domElement.querySelector('#submit')
+                    .addEventListener("click", () => this.editTypeById(this.getFormData(), this.typeId));
+            })
     }
 
     render() {
         this.domElement.innerHTML = `
             <div class="sound-type-label">
                 <div class="sound-type-form">
+                    <div class="form-row">
+                        <div class="form-text"></div>
+                        <div class="validation">
+                            <div class="image-width">
+                                <label for="file" class="icon cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt icon-text"></i>
+                                    <span class="icon-text">Upload Photo</span>
+                                </label>
+                            </div>
+                            <div class="required visbility-hidden required-image">Required</div>
+                        </div>
+                        <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
+                    </div>
                     <div class="form-row">
                         <div class="form-text">
                             <label for="name">Name:<span class="red">*</span></label>
@@ -134,26 +148,9 @@ class SoundType extends Component {
                             <div class="required visbility-hidden">Required</div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-text">
-                            <label for="icon-src">Icon:<span class="red">*</span></label>
-                        </div>
-                        <div class="validation">
-                            <div class="img-src-label">
-                                <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
-                                <div class='upload-play'>
-                                <label class="input-upload-label" for="file">
-                                    <i class="fas fa-cloud-upload-alt cursor-pointer" id="upload"></i>
-                                </label>
-                            </div>
-                            <div class="required visbility-hidden">Required</div>
-                        </div>
-                    </div>
-                </div>
                 <div class="form-buttons">
                     <button class="confirm-button cursor-pointer" id="submit">Confirm</button>
                 </div>
-                <img class="icon visbility-hidden" src="#" alt="img">
             </div>
             `;
 
@@ -162,7 +159,7 @@ class SoundType extends Component {
         } else {
             this.handleAddType();
         }
-        
+
         this.domElement.querySelector("#file")
             .addEventListener("change", () => this.generateDataUrlFromFileInput());
 
