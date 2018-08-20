@@ -118,9 +118,9 @@ class SoundService {
     getSplicerSounds() {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.query(`SELECT DISTINCT TOP 8 S.Id, S.Name
+                return pool.query(`SELECT DISTINCT TOP 8 S.Id, S.Name, S.TypeId
                 
-                , S.ByteArrayId, T.IconSrc, T.ColorType 
+                , S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
                 FROM Sound S 
                 INNER JOIN Type T ON S.TypeId = T.Id`);
             })
@@ -130,6 +130,21 @@ class SoundService {
                     return DbMapper.mapSoundSplicer(type);
                 })
             })
+    }
+
+    getSoundsByType(typeId){
+        return DbConnection.executePoolRequest().then(pool =>{
+            return pool.input('typeId',DbConnection.sql.Int,typeId)
+            .query(`SELECT S.Id, S.Name, S.TypeId, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
+            FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+            WHERE S.TypeId = @typeId ;`)
+        })
+        .then((result) => {
+            return result.recordset.map((type) => {
+                return DbMapper.mapSoundSplicer(type);
+            })
+        })
+
     }
 
     getPageCount(itemsPerPage, filter) {

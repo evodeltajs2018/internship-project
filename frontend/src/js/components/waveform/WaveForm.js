@@ -22,8 +22,7 @@ class WaveForm extends Component {
         let drawLines = 500;
 
         let leftChannel = this.track.buffer.getChannelData(0);
-
-        let lineOpacity = window.innerWidth / leftChannel.length;
+        
         this.context.save();
         this.context.fillStyle = 'transparent';
         this.context.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -50,11 +49,9 @@ class WaveForm extends Component {
         }
         this.context.restore();
     }
-
-
     render() {
         this.domElement.innerHTML = `
-            <div class="waveform-icon"><img src="/src/img/sound-types/${this.track.sound.type.iconSrc}"></div>
+            <div class="waveform-type"><div class="waveform-type-text">${this.track.sound.type.name.toUpperCase()}</div><img class="waveform-type-image" src="/src/img/sound-types/${this.track.sound.type.iconSrc}"></div>
             <div class="waveform-name">${this.track.sound.name.toUpperCase()}</div>
             <canvas class="waveform"></canvas>
         `;

@@ -1,21 +1,37 @@
 .waveform-container{
     display:flex;
     width:100%;
-    justify-content: space-between;
+    justify-content: center;
+    align-items:center;
 }
 .waveform-name{
     display: inherit;
-    width:30%;
+    width:15%;
+}
+.waveform-type{
+    display: flex;
     justify-content: center;
     align-items:center;
+    position: relative;
+    width:15%;
+    .waveform-type-image{
+        margin:auto;
+        position:absolute;
+        bottom:0;
+        left:0;right:0; 
+        width:50px;
+        height:50px;
+        z-index:0;
+        filter: brightness(2%) opacity(80%);
+    }
+    .waveform-type-text{
+        z-index: 1;
+        position: absolute;
+        color:white;
+    }
 }
-.waveform-icon{
-    display: inherit;
-    width:10%;
-    justify-content: center;
-    align-items:center;
-}
+
 .waveform{
-    width:60%;
+    width:40%;
     height:100px;
 }

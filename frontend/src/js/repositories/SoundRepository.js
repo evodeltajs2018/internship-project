@@ -29,6 +29,12 @@ class SoundRepository {
 		.catch(err => console.error(err));
 	}
 
+	getSoundsByType(typeId){
+		return fetch(this.baseurl + "/splicer/" + typeId)
+		.then(response => response.json())
+		.catch(err => console.error(err));
+	}
+
 	getSoundById(id) {
 		return fetch(this.baseurl + "/sounds/" + id)
 		.then(response => response.json())
