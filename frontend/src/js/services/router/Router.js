@@ -1,50 +1,61 @@
 import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
+import TypesGrid from "../../views/typesgrid/TypesGrid";
 import NotFound from "../../views/notfound/NotFound";
 import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
+import Splicer from "../../views/splicer/Splicer";
 import SidebarService from "../../services/sidebar_service/SidebarService";
 import TitleService from "../../services/title_service/TitleService";
-import Splicer from "../../views/splicer/Splicer";
+import SoundType from "../../views/type/SoundType";
+
 
 class Router {
     constructor(container) {
         this.container = container;
 
         this.routes = [{
-                path: "/",
-                component: Projects,
-            },
-            {
-                path: "/projects",
-                component: Projects,
-            },
-            {
-                path: "/project",
-                component: Project
-            },
-            {
-                path: "/sounds",
-                component: SoundsGrid
-            },
-            {
-                path: "/newproject",
-                component: Dummy
-            },
-            {
-                path: "/notfound",
-                component: NotFound
-            },
-            {
-                path: "/sound",
-                component: Sound
-            },
-            {
-                path: "/splicer",
-                component: Splicer
-            }
+            path: "/",
+            component: Projects,
+        },
+        {
+            path: "/projects",
+            component: Projects,
+        },
+        {
+            path: "/project",
+            component: Project
+        },
+        {
+            path: "/sounds",
+            component: SoundsGrid
+        },
+        {
+            path: "/types",
+            component: TypesGrid
+        },
+        {
+            path: "/newproject",
+            component: Dummy
+        },
+        {
+            path: "/notfound",
+            component: NotFound
+        },
+        {
+            path: "/sound",
+            component: Sound
+        },
+        {
+            path: "/splicer",
+            component: Splicer
+        },
+        {
+            path: "/type",
+            component: SoundType
+        }
         ];
     }
 
@@ -61,7 +72,7 @@ class Router {
     addPopStateEvent() {
         // called when URL is changed
         window.onpopstate = (event) => {
-            
+
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -75,7 +86,7 @@ class Router {
         this.currentComponent.render();
     }
 
-    
+
 
     findRouteByUrl(url) {
         let parameter = null;

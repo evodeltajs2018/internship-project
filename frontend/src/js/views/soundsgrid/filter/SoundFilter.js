@@ -1,5 +1,7 @@
 import Component from "../../../components/Component";
 import Debounce from "../../../utils/Debounce";
+import Button from "../../../components/button/Button";
+import Navigator from "../../../services/router/Navigator";
 import "./SoundFilter.scss";
 
 class SoundFilter extends Component {
@@ -33,22 +35,27 @@ class SoundFilter extends Component {
 
     render() {
         this.domElement.innerHTML = `
-            <div class="sound-searches">
-                <div class="search-input-wrapper">
-                    <label class="label-input">Name</label>
-                    <input type="text" class="search-input name-search" placeholder="&#xF002 Search">
+            <div class="searches search-sound">
+                <div class="inputs">    
+                    <div class="search-input-wrapper">
+                        <label class="label-input">Name</label>
+                        <input type="text" class="search-input name-search" placeholder="&#xF002 Search">
+                    </div>
+                    <div class="search-input-wrapper">
+                        <label class="label-input">Type</label>
+                        <input type="text" class="search-input type-search" placeholder="&#xF002 Search">
+                    </div>
                 </div>
-
-                <div class="search-input-wrapper">
-                    <label class="label-input">Type</label>
-                    <input type="text" class="search-input type-search" placeholder="&#xF002 Search">
-                </div>
-                <a class="add-sound-btn" href="/sound">
-                    <i class="fas fa-plus"></i>
-                    Add new sound
-                </a>
+                <div class="add-button"></div>
             </div>
         `;
+        
+        this.newButton = new Button(this.domElement.querySelector(".add-button"), `<i class="fas fa-plus"></i>
+        Add new sound`, "add-btn cursor-pointer", () => {
+            Navigator.goToUrl("/sound");
+        });
+        this.newButton.render();
+
         this.setupFilters();
     }
 }

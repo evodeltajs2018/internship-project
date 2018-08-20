@@ -1,15 +1,15 @@
-
 .sounds-pagination {
     padding: 20px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+    color: $formFontColor;
+    
     .pages {
         align-items: center;
         display: flex;
         
-                
         .pagination-button {
             width: 40px;
             height: 40px;
@@ -21,27 +21,18 @@
             transition-duration: 0.3s;
         }
 
-        .pagination-button.prev-button {
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
-        }
-
-        .pagination-button.next-button {
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-
-
         .pagination-button, .arrow-button {
-            &:hover{
+            &:hover {
                 background: white;
                 color: $backgroundSecondary;
                 cursor: pointer;
             }
+
             &:focus {
                 outline: none;
             }
-            &:disabled:hover{
+
+            &:disabled:hover {
                 background:$backgroundSecondary;
             }
             
@@ -79,20 +70,17 @@
                 color:white;
             }
         }
-
-
+        
         .arrow-button {
             color: white;
             background: $backgroundSecondary;
             border: 1px solid #bbb;
-            border-radius: 20px;
         
             margin: 10px;
             i {
                 padding: 5px;
             }
         }
-
     }
 
     .button {
@@ -105,14 +93,14 @@
     .page-info {
         align-items: center;
         padding: 10px;
-        font-family: Arial, Helvetica, sans-serif;
         display: flex;
         font-weight: 200;
+        font-size: 1.1em;
+
         span {
             font-weight: bold;
             padding: 5px;
         }
-        font-size: 0.7em;
     }
 }
 

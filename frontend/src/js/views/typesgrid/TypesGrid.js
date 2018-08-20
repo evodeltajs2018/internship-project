@@ -1,27 +1,25 @@
-import "./SoundsGrid.scss";
-import "./Row.scss";
+import "./TypesGrid.scss";
 import Component from "../../components/Component";
-import SoundRepository from "../../repositories/SoundRepository";
+import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 
-import SoundRow from "./soundrow/SoundRow";
+import TypeRow from "./typerow/TypeRow";
 import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
-import SoundFilter from "./filter/SoundFilter";
-import Engine from "../splicer/engine/Engine";
+import TypeFilter from "./filter/TypeFilter";
 
-class SoundsGrid extends Component {
+class TypesGrid extends Component {
     constructor(container) {
-        super(container, "sounds-grid-container");
+        super(container, "types-grid-container");
 
-        this.pagination = new Pagination(this.domElement, (page) => { this.goToPage(page) }, 'sounds');
+        this.pagination = new Pagination(this.domElement, (page) => { this.goToPage(page) }, 'types');
         this.data = [];
         this.setup();
         this.getData();
     }
 
-    getData(filter = { name: "", type: "" }) {
-        SoundRepository.getAllSounds(
+    getData(filter = { name: "" }) {
+        SoundTypeRepository.getAllTypes(
             {
                 currentPage: this.pagination.currentPage,
                 itemsPerPage: this.pagination.itemsPerPage,
@@ -57,47 +55,47 @@ class SoundsGrid extends Component {
         this.domElement.innerHTML = `
             <div id="filter-bar"></div>
             <div id="element-grid-header">
-                <div class="element-cell-sound">Name</div>
-                <div class="element-cell-sound">Type</div>
+                <div class="element-cell-type">Name</div>
+                <div class="element-cell-type">Color</div>
+                <div class="element-cell-type">Icon</div>
                 <div class="actions-cell">Actions</div>
             </div>
-            <div id="sounds-grid"></div>
+            <div id="types-grid"></div>
             <div class="sounds-pagination"></div>
             <div class="modals"></div>
         `;
-        this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
+        this.filterBar = new TypeFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
         this.filterBar.render();
-        
     }
 
     deletehandler(id) {
         let modal = new Modal(
             this.domElement.querySelector(".modals"),
-            "Delete sound",
-            "Are you sure you want to delete this sound?"
+            "Delete type",
+            "Are you sure you want to delete this type?"
         );
         modal.onConfirm = () => {
-            SoundRepository.deleteSound(id).then(() => { this.getData(this.filterBar.getFilterData()) });
+            SoundTypeRepository.deleteSound(id).then(() => { this.getData(this.filterBar.getFilterData()) });
         }
         modal.render();
     }
 
     renderTable() {
-        this.grid = this.domElement.querySelector("#sounds-grid");
+        this.grid = this.domElement.querySelector("#types-grid");
         if (this.data.length) {
             for (let row of this.data) {
-                this.soundRow = new SoundRow(this.grid, row, () => { this.getData() });
-                this.soundRow.render();
-                this.soundRow.deleteHandler = (id) => this.deletehandler(id);
-                this.soundRow.editHandler = (id) => { Navigator.goToUrl("/sound/" + id); }
+                this.TypeRow = new TypeRow(this.grid, row, () => { this.getData() });
+                this.TypeRow.render();
+                this.TypeRow.deleteHandler = (id) => this.deletehandler(id);
+                this.TypeRow.editHandler = (id) => { Navigator.goToUrl("/type/" + id); }
             }
         } else {
-            this.domElement.querySelector("#sounds-grid").innerHTML = `<div class="no-sounds">No sounds</div>`;
+            this.domElement.querySelector("#types-grid").innerHTML = `<div class="no-element">No types</div>`;
         }
     }
 
     render() {
-        this.domElement.querySelector("#sounds-grid").innerHTML = "";
+        this.domElement.querySelector("#types-grid").innerHTML = "";
         this.domElement.querySelector(".sounds-pagination").innerHTML = "";
         this.renderTable();
         this.pagination.domElement = this.domElement.querySelector(".sounds-pagination");
@@ -105,4 +103,4 @@ class SoundsGrid extends Component {
     }
 }
 
-export default SoundsGrid;
+export default TypesGrid;

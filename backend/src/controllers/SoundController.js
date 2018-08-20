@@ -75,12 +75,6 @@ class SoundController {
         form.on('close', () =>  console.log('closed'));
     }
 
-    getTypes(req, res) {
-        return SoundService.getTypes().then((result) => {
-            return res.json(result);
-        });
-    }
-
     getSoundById(req, res) {
         const { id } = req.params;
         SoundService.getSoundById(id).then((result) => {

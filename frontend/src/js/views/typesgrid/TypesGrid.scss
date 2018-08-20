@@ -1,10 +1,10 @@
-.sounds-grid-container {
+.types-grid-container {
     width: 100%;
     margin: 0 50px;
     transition-duration: 0.2s;
 }
 
-.no-sounds {
+.no-element {
     color: $formFontColor;
     font-size: 20px;
     display: flex;  
@@ -13,7 +13,7 @@
 }
 
 @media (max-width: 1080px) {
-    .sounds-grid-container {
+    .types-grid-container {
         padding: 0;
     }
 }

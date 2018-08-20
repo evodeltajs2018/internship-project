@@ -60,12 +60,9 @@ class SoundRepository {
 		return fetch(this.baseurl + '/sounds/' + id, {
 			method: "PUT",
 			body: fd
-		},
-		)
+		})
 		.then(response => response.json())
 		.catch(err => console.error(err));
-
-	
 	}
 
 	getAllSounds(pagination, filter) {
@@ -79,7 +76,6 @@ class SoundRepository {
 		.catch(err => console.error(err));
 	}
 
-
 	deleteSound(soundId) {
 		return fetch(
 			this.baseurl + "/sounds/" + soundId,
@@ -90,8 +86,6 @@ class SoundRepository {
 		.then(response => response.json())
 		.catch(err => console.error(err));
 	}
-
-
 }
 
 export default new SoundRepository();
