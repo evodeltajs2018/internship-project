@@ -5,6 +5,19 @@ class ProjectService {
     constructor() {
     }
 
+    getBeatmap(projectId) {
+        return DbConnection.executePoolRequest()
+        .then(pool => {
+            return pool
+            .input("projectId", DbConnection.sql.int, projectId)
+            .query(`
+                SELECT * FROM Beatmap WHERE ProjectId = @projectId
+            `);
+        }).then(result => {
+            console.log(result);
+        })
+    }
+
     getAllProjects() {
         return DbConnection.executePoolRequest()
             .then(pool => {

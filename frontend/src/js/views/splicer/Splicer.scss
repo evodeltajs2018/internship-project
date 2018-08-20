@@ -21,13 +21,13 @@
     width: 20px;
     height: 20px;
     color: white;
-    background: black;
-    border: 3px solid white;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid $backgroundPrimary;
     border-radius: 40px;
     margin: 5px;
     &:hover {
         cursor: pointer;
-        background: rgba(255,255,255, .5);
+        background: rgba(255,255,255, .1);
     }
 
     &:focus {

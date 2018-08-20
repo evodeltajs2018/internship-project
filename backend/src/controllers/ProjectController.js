@@ -32,6 +32,12 @@ class ProjectController {
             return res.json(data);
         });
     }
+
+    getBeatmap(req, res) {
+        return ProjectService.getBeatmap(req.params.id).then((data) => {
+            return res.json(data);
+        })
+    }
 }
 
 module.exports = new ProjectController();

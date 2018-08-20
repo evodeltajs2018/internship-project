@@ -27,6 +27,10 @@ class ProjectRoute {
         this.app.delete("/projects/:id", (req, res) => {
             ProjectController.deleteProject(req, res);
         });
+
+        this.app.get("/projects/beatmap/:id", (req, res) => {
+            ProjectController.getBeatmap(req, res);
+        })
     }
 }
 
