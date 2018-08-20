@@ -1,7 +1,7 @@
 class Config {
     constructor() {
         this.server =  {
-            url:"http://172.22.7.86",
+            url:"http://localhost",
             port: 5000
         };
     }

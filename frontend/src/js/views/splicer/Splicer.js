@@ -54,8 +54,8 @@ class Splicer extends Component {
             <div class="splicer-sample-selector"><div class="splicer-sample-header"></div><div class="splicer-sample-tracks"></div></div>
         `;
         this.engine = new Engine(
-            this.domElement.querySelector(".splice-header"), 
-            this.audioContext, 
+            this.domElement.querySelector(".splice-header"),
+            this.audioContext,
             this.mapSize
         );
         this.engine.render();
@@ -80,19 +80,20 @@ class Splicer extends Component {
     }
 
     renderTrackPages(pages) {
-        let pageContainer =  this.domElement.querySelector(".track-pages");
+        let pageContainer = this.domElement.querySelector(".track-pages");
         pageContainer.innerHTML = "";
         if (pages > 0) {
             for (let i = 0; i < pages; i++) {
                 let button = new Button(pageContainer, "", "track-page-btn",
-                () => {
-                    this.currentPage = i;
-                    this.matrix.renderRows(this.currentPage, this.currentTrackSize);
-                } );
+                    () => {
+                        this.currentPage = i;
+                        this.matrix.renderRows(this.currentPage, this.currentTrackSize);
+                    });
                 button.render();
             }
         }
     }
+
     relatedTracksLoader(track) {
         this.relatedSoundLoader.getRelatedSound(track.sound.type.id);
         this.relatedSoundLoader.onLoad = () => {
@@ -143,6 +144,10 @@ class Splicer extends Component {
                     engine: this.engine
                 }
             );
+            track.domElement.addEventListener("click", () => {
+                document.querySelector(".splicer-sample-tracks").innerHTML = "";
+                this.relatedTracksLoader(track);
+            })
             track.render();
             this.tracks.push(track);
         }
@@ -152,8 +157,8 @@ class Splicer extends Component {
         this.loadTracks();
         this.engine.tracks = this.tracks;
         this.matrix = new SplicerMatrix(
-            document.querySelector(".matrix"), 
-            this.tracks, 
+            document.querySelector(".matrix"),
+            this.tracks,
             this.mapSize
         );
         this.matrix.render();
@@ -163,11 +168,10 @@ class Splicer extends Component {
     addSoundLoaderEvent() {
         this.soundLoader.onLoad = () => {
             if (this.soundLoader.sounds) {
-                this.renderTracks();
-                this.waveForm = new WaveForm(this.domElement);
+                    this.renderTracks();
+                }
             }
         }
-    }
 
     render() {
         this.domElement.querySelector(".splicer-main").innerHTML = `
@@ -176,42 +180,15 @@ class Splicer extends Component {
             <div class="waveform-container"></div>
             
         `;
-        this.soundLoader = new SoundLoader(document.querySelector(".tracks-pattern"));
+        this.soundLoader = new SoundLoader();
+        this.relatedSoundLoader = new RelatedSoundLoader();
+        
         this.addSoundLoaderEvent();
-                this.relatedSoundLoader = new RelatedSoundLoader();
-                for (let i = 0; i < this.soundLoader.sounds.length; i++) {
-                    let track = new Track(
-                        document.querySelector(".tracks-bar"),
-                        this.soundLoader.sounds[i],
-                        this.soundLoader.arrayBuffer[i],
-                        this.audioContext,
-                        this.mapSize,
-                        i
-                    );
 
-                    track.domElement.addEventListener("click", () => {
-                        document.querySelector(".splicer-sample-tracks").innerHTML = "";
-                        this.relatedTracksLoader(track);
-                    })
+        this.waveForm = new WaveForm(document.querySelector(".splicer-sample-header"));
 
-                    track.render();
-                    tracks.push(track);
-                }
-
-
-
-                this.matrix = new SplicerMatrix(document.querySelector(".matrix"), tracks);
-                this.engine.tracks = tracks;
-                this.matrix.render();
-
-                this.waveForm = new WaveForm(document.querySelector(".splicer-sample-header"));
-
-
-
-
-
-            }
-        }
+    }
+}
 
 
 export default Splicer;
