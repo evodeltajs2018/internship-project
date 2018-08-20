@@ -15,7 +15,7 @@ class WaveForm extends Component {
     }
 
     draw() {
-        this.canvas = document.querySelector(".waveform");
+        this.canvas = this.domElement.querySelector(".waveform");
         this.context = this.canvas.getContext("2d");
         let canvasWidth = this.canvas.width;
         let canvasHeight = this.canvas.height;

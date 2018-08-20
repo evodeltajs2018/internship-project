@@ -4,6 +4,8 @@ import Navigator from "./services/router/Navigator";
 import Router from "./services/router/Router";
 import "./App.scss";
 
+const sidebarHidingWidth = 900;
+
 class App extends Component {
     constructor(container) {
         super(container, "app");
@@ -17,10 +19,9 @@ class App extends Component {
     }
 
     hideSidebarBySize() {
-        if (window.innerWidth < 900 && !document.querySelector(".hide-sidebar")) {
+        if (window.innerWidth < sidebarHidingWidth && !document.querySelector(".hide-sidebar")) {
             this.toggleMenu();
-        }
-        if (window.innerWidth >= 900 && document.querySelector(".hide-sidebar")) {
+        } else if (window.innerWidth >= sidebarHidingWidth && document.querySelector(".hide-sidebar")) {
             this.toggleMenu();
         }
     }
@@ -58,7 +59,6 @@ class App extends Component {
             <h2>${title}</h2>
         `;
     }
-
 
     addClickEventListenerToSidebar() {
         const element = this.domElement.querySelectorAll('.menu-element');

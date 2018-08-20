@@ -9,7 +9,7 @@ import Button from "../../components/button/Button";
 
 const sizes = [
     {
-        window: 5000,
+        window: window.innerWidth + 1,
         trackSizeHigh: 32,
         trackSizeLow: 32,
         pagesHigh: 0,
@@ -36,10 +36,9 @@ class Splicer extends Component {
         super(container, "splicer");
 
         this.audioContext = new AudioContext();
-
         this.projectId = projectId;
         this.mapSize = 32;
-        this.currentTrackSize = 32;
+        this.currentTrackSize = this.mapSize;
         this.currentPage = 0;
         this.setup();
     }
@@ -50,7 +49,11 @@ class Splicer extends Component {
             <div class="splicer-main"></div>
             <div class="track-pages"></div>
         `;
-        this.engine = new Engine(this.domElement.querySelector(".splice-header"), this.audioContext, this.mapSize);
+        this.engine = new Engine(
+            this.domElement.querySelector(".splice-header"), 
+            this.audioContext, 
+            this.mapSize
+        );
         this.engine.render();
         window.addEventListener("resize", () => {
             this.renderByWidth();
@@ -63,9 +66,7 @@ class Splicer extends Component {
                 this.matrix.renderRows(this.currentPage, size.trackSizeLow);
                 this.currentTrackSize = size.trackSizeLow;
                 this.renderTrackPages(size.pagesHigh);
-
             } else if (window.innerWidth > size.window && this.currentTrackSize === size.trackSizeLow) {
-                console.log(size);
                 this.currentPage = 0;
                 this.matrix.renderRows(this.currentPage, size.trackSizeHigh);
                 this.currentTrackSize = size.trackSizeHigh;
@@ -75,7 +76,6 @@ class Splicer extends Component {
     }
 
     renderTrackPages(pages) {
-        console.log(pages);
         let pageContainer =  this.domElement.querySelector(".track-pages");
         pageContainer.innerHTML = "";
         if (pages > 0) {
@@ -99,9 +99,8 @@ class Splicer extends Component {
         this.engine.mapSize = newSize;
     }
 
-    renderTracks() {
+    loadTracks() {
         this.tracks = [];
-
         for (let i = 0; i < this.soundLoader.sounds.length; i++) {
             let track = new Track(
                 document.querySelector(".tracks-bar"),
@@ -114,14 +113,20 @@ class Splicer extends Component {
                     engine: this.engine
                 }
             );
-
             track.render();
             this.tracks.push(track);
         }
-        this.engine.tracks = this.tracks;
-        this.matrix = new SplicerMatrix(document.querySelector(".matrix"), this.tracks, this.mapSize);
-        this.matrix.render();
+    }
 
+    renderTracks() {
+        this.loadTracks();
+        this.engine.tracks = this.tracks;
+        this.matrix = new SplicerMatrix(
+            document.querySelector(".matrix"), 
+            this.tracks, 
+            this.mapSize
+        );
+        this.matrix.render();
         this.renderByWidth();
     }
 
@@ -141,11 +146,8 @@ class Splicer extends Component {
             <div class="waveform-container"></div>
             
         `;
-
         this.soundLoader = new SoundLoader(document.querySelector(".tracks-pattern"));
-
         this.addSoundLoaderEvent();
-
     }
 }
 

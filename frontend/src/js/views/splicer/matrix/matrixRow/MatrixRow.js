@@ -10,24 +10,49 @@ class MatrixRow extends Component {
         this.index = index;
         this.start = start;
 
-        document.addEventListener("playbeat", (event) => {
+        this.initHandlers();
+        this.addMatrixListeners();
+        
+    }
+
+    initHandlers() {
+        this.playBeatHandler = (event) => {
             this.renderCurrentCell(event.detail.index);    
-        });
+        }
 
-        document.addEventListener("stop", () => {
+        this.stopHandler = () => {
             this.renderCurrentCell(-1);
-        });
+        }
 
-        document.addEventListener("clear", () => {
+        this.clearHandler = () => {
             this.clearBeatmap();
-        });
+        }
 
-        document.addEventListener("trackselect", (event) => {
+        this.trackselectHandler = (event) => {
             if (event.detail.index === this.index) {
                 this.highlightRow();
             }
-        });
+        }
+    }
 
+    addMatrixListeners() {
+        document.addEventListener("playbeat", this.playBeatHandler);
+        document.addEventListener("stop", this.stopHandler);
+        document.addEventListener("clear", this.clearHandler);
+        document.addEventListener("trackselect", this.trackselectHandler);
+
+        window.addEventListener("popstate", () => {
+            this.handlePageLeave();
+        });
+    }
+
+    handlePageLeave() {
+        document.removeEventListener("playbeat", this.playBeatHandler);
+        document.removeEventListener("stop", this.stopHandler);
+        document.removeEventListener("clear", this.clearHandler);
+        document.removeEventListener("trackselect", this.trackselectHandler);
+
+        window.removeEventListener("popstate", this.handlePageLeave);
     }
 
     createRowSelectEvent() {
@@ -59,6 +84,7 @@ class MatrixRow extends Component {
     }
 
     renderCurrentCell(index) {
+        // console.log(1);
         let cells = this.domElement.querySelectorAll(".cell");
 
         cells.forEach(cell => {
@@ -101,11 +127,11 @@ class MatrixRow extends Component {
     setup() {
         let html = "<div class='row'>";
         for (let i = 0; i < this.start + this.size; i++) {
-            let aditionalClass = ""; 
+            let hiddenClass = ""; 
             if (i < this.start || i > this.start + this.size) {
-                aditionalClass = "hidden";
+                hiddenClass = "hidden";
             }
-            html += `<div class='cell ${this.track.beatmap[i]? "active" : ""} ${aditionalClass}'></div>`;
+            html += `<div class='cell ${this.track.beatmap[i]? "active" : ""} ${hiddenClass}'></div>`;
         }
         html += "</div>";
         this.domElement.innerHTML = html;

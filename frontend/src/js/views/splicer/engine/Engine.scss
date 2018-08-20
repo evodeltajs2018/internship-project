@@ -71,7 +71,7 @@
         cursor: pointer;
         border-top-right-radius: 20px;
         border-bottom-right-radius: 20px;
-        border: 2px solid $backgroundSecondary;
+        // border: 2px solid $backgroundSecondary;
         border-right: none;
         background-color: red;
         padding: 0;
@@ -117,7 +117,7 @@
     
     ::-ms-thumb { 
         background: transparent;
-        border: 2px solid #999;
+        // border: 2px solid #999;
         height: 40px;
         width: 20px;
         box-sizing: border-box;

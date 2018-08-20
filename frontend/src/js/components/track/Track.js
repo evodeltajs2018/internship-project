@@ -14,19 +14,43 @@ class Track extends Component {
         this.mapSize = data.mapSize;
         this.engine = data.engine;
         
+        this.initHandlers();
+        this.addEventListeners();
         this.decodeSound(arrayBuffer);
-        document.addEventListener("rowselect", (event) => {
-            if (event.detail.index === this.index) {
-                let icons = document.querySelectorAll(`.track-icon`);
-                for (let i = 0; i < icons.length; i++) {
-                    icons[i].style.background = '#1f1f1f';
-                    if (i === this.index) {
-                        icons[i].style.background = this.sound.type.colorType;
-                        this.playSound();
-                    }
+    }
+
+    addEventListeners() {
+        window.addEventListener("popstate", () => {
+            this.handlePageLeave();
+        });
+        this.addRowSelectListener();
+    }
+
+    initHandlers() {
+        this.selectRowHandler = (event) => this.selectRow(event);
+    }
+
+    handlePageLeave() {
+        document.removeEventListener("rowselect", this.selectRowHandler);
+        window.removeEventListener("popstate", this.handlePageLeave);
+    }
+
+    addRowSelectListener() {
+        document.addEventListener("rowselect", this.selectRowHandler);
+    }
+
+    selectRow(event) {
+        let index = event.detail.index;
+        if (index === this.index) {
+            let icons = document.querySelectorAll(`.track-icon`);
+            for (let i = 0; i < icons.length; i++) {
+                icons[i].style.background = '#1f1f1f';
+                if (i === this.index) {
+                    icons[i].style.background = this.sound.type.colorType;
+                    this.playSound();
                 }
             }
-        });
+        }
     }
 
     getEmptyMap() {

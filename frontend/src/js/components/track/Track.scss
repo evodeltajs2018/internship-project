@@ -23,14 +23,16 @@
         cursor: pointer;
     }
 
-    border: 2px solid $backgroundSecondary;
+    // border: 2px solid $backgroundSecondary;
     border-left: none;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background: #1f1f1f;
     width: 30px;
     height: 30px;
-    text-align:center;
+    justify-content:center;
+    align-items: center;
+    display: flex;
     color:white;
 }
 
