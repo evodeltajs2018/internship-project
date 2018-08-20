@@ -4,12 +4,6 @@
     transition-duration: 0.2s;
 }
 
-@media (max-width: 1080px) {
-    .sounds-grid-container {
-        padding: 0;
-    }
-}
-
 .no-sounds {
     color: $formFontColor;
     font-size: 20px;
@@ -18,5 +12,8 @@
     padding: 10px;
 }
 
-
-
+@media (max-width: 1080px) {
+    .sounds-grid-container {
+        padding: 0;
+    }
+}

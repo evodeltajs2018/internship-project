@@ -55,9 +55,9 @@ class SoundsGrid extends Component {
     setup() {
         this.domElement.innerHTML = `
             <div id="filter-bar"></div>
-            <div id="sounds-grid-header">
-                <div class="sounds-cell">Name</div>
-                <div class="sounds-cell">Type</div>
+            <div id="element-grid-header">
+                <div class="element-cell-sound">Name</div>
+                <div class="element-cell-sound">Type</div>
                 <div class="actions-cell">Actions</div>
             </div>
             <div id="sounds-grid"></div>

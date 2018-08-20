@@ -11,7 +11,7 @@ class TypeRow extends Component {
         this.domElement.innerHTML = `
             <div class="element-cell-type element-name">${this.type.name}</div>
             <div class="element-cell-type element-type">
-                <div class="color-type" style="background-color: ${this.type.color}"></div>
+                <div class="element-color" style="background-color: ${this.type.color}"></div>
             </div>
             <div class="element-cell-type element-icon">
             </div>

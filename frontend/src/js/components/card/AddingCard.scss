@@ -16,6 +16,16 @@
             cursor: pointer;
         }
 
+        i {
+            transition: .7s ease-in-out;
+            -webkit-transition: .7s ease-in-out;
+            -moz-transition: .7s ease-in-out;
+        
+            &:hover {
+                transform: scale(1.3);
+            }
+        }
+
         align-items: center;
         justify-content: center;
         background-color: white;

@@ -1,28 +1,29 @@
 
-$backgroundPrimary: rgb(33, 39, 51);
-$backgroundSecondary: rgb(70, 162, 158);
+$backgroundPrimary: #212733;
+$backgroundSecondary: #46a29e;
 $mainBackgroundColor: #c5c6c8;
-$sidebarBackgroundColor: rgb(11, 12, 16);
+$sidebarBackgroundColor: #0b0c10;
 
 $menuIcon: #fff;
-$menuActive: rgb(70, 162, 158);
-$menuInactive:  rgb(11, 12, 16);
+$menuActive: #46a29e;
+$menuInactive:  #0b0c10;
 
 $heightCalc: calc(100vh - 232px);
 
 $formFontColor: #000;
 
-$buttonHoverColor: rgba(77, 194, 188, 0.979);
-$iconActionMouseOver: #33abbb;
-$gridMouseOverRow: #efefef;
-$gridEvenBgColor: #dcdcdc;
+$buttonHoverColor: #6ed3ce;
+$iconActionMouseOver:#4dc2bc;
+$gridMouseOverRow: #dcdcdc;
+$gridEvenBgColor: #efefef;
 $gridOddBgColor: #fff;
 
 $gridRowHeight: 50px;
+$mainFontFamily: monospace;
 
 * {
     box-sizing: border-box;
-    font-family: monospace;
+    font-family: $mainFontFamily;
 }
 
 .header {
@@ -55,7 +56,7 @@ body {
     margin: 0;
     color:white;
 	padding: 0;
-    font-family: monospace;
+    font-family: $mainFontFamily;
 }
 
 .show {
@@ -80,14 +81,16 @@ body {
         li:nth-child(even) {
            margin-top: 5px; 
         }
-        .menu-element{
+
+        .menu-element {
             background-color: $menuInactive;
         }
-        .active-icon{
+
+        .active-icon {
             background-color: $menuActive;
             -webkit-transition: 0.4s ease-in-out;
             transition: 0.4s ease-in-out;
-            transform: scale(1.2, 1.2);
+            transform: scale(1.2);
         }
     }
     

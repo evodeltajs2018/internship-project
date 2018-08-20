@@ -3,11 +3,6 @@
     margin: 0 50px;
     transition-duration: 0.2s;
 }
-@media (max-width: 1080px) {
-    .types-grid-container {
-        padding: 0;
-    }
-}
 
 .no-element {
     color: $formFontColor;
@@ -15,4 +10,10 @@
     display: flex;  
     justify-content: center;
     padding: 10px;
+}
+
+@media (max-width: 1080px) {
+    .types-grid-container {
+        padding: 0;
+    }
 }

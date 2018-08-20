@@ -1,7 +1,7 @@
 .cards {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fill,minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill,minmax(340px, 1fr));
 
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -16,6 +16,16 @@
         border-radius: 25px;
         justify-self: center;
 
+        i {
+            transition: .5s ease-in-out;
+            -webkit-transition: .5s ease-in-out;
+            -moz-transition: .5s ease-in-out;
+        
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
         .card-header {
             border-bottom: 1.5px solid #DCDCDC;
             position: relative;
@@ -28,7 +38,7 @@
                 right: 0px;
                 padding: 2%;
                 font-size: 30px;
-                color: rgb(255, 5, 74);
+                color: #FF054A;
             }
         }
     

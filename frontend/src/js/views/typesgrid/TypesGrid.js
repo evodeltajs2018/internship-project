@@ -54,10 +54,10 @@ class TypesGrid extends Component {
     setup() {
         this.domElement.innerHTML = `
             <div id="filter-bar"></div>
-            <div id="types-grid-header">
-                <div class="types-cell">Name</div>
-                <div class="types-cell">Color</div>
-                <div class="types-cell">Icon</div>
+            <div id="element-grid-header">
+                <div class="element-cell-type">Name</div>
+                <div class="element-cell-type">Color</div>
+                <div class="element-cell-type">Icon</div>
                 <div class="actions-cell">Actions</div>
             </div>
             <div id="types-grid"></div>
