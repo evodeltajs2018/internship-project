@@ -9,33 +9,72 @@ class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
-		this.data = null;
 		this.displayData = null;
-		this.filter = {};
 
+		this.pagination = {
+			currentPage: 1,
+			itemsPerPage: 10,
+		};
+		this.filter = {
+			name: "",
+			genreName: ""
+		};
+
+		this.render();
 		this.getProjects();
+		//this.projectObserver();
 
+		//var that = this;
+
+		window.addEventListener("load", 
+			this.createObserver(),
+		 false);
 	}
 
-	allCards(array) {
-		this.domElement.querySelector(".cards").innerHTML = "";
+	createObserver() {
+		var options = {
+			root: null,
+			rootMargin: "0px",
+			threshold: [1,0]
+		};
+		let loadingElement = document.querySelector("#loading");
+		let observer = new IntersectionObserver(this.handleIntersect, options);
+		observer.observe(loadingElement);
+	}
 
-		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
-		this.addingCard.render();
+	handleIntersect(entries) {
+		if (entries) {
+			console.log(entries[0].intersectionRatio);
+			if (entries[0].intersectionRatio == 1) {
+				this.getProjects();
+			}
+		} else {
+			this.getProjects();
+		}
+	}
 
-		if (this.displayData) {
-			for (let project of this.displayData) {
+	getProjects() {
+		//console.log(this.pagination);
+		ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
+			this.displayData = data.data;
+
+			//	console.log(this.pagination.currentPage + "  --  " + data.pageCount);
+			if (this.pagination.currentPage <= data.pageCount) {
+				this.pagination.currentPage++;
+
+				this.addCards(this.displayData);
+				if (this.pagination.currentPage > data.pageCount)
+					this.hideLoadingArea(true);
+			}
+		});
+	}
+
+	addCards(projects) {
+		if (projects) {
+			for (let project of projects) {
 				this.cardCreator(project);
 			}
 		}
-
-	}
-	getProjects() {
-		ProjectRepository.getProjects().then((data) => {
-			this.data = data;
-			this.displayData = data;
-			this.render();
-		});
 	}
 
 	cardCreator(project) {
@@ -52,49 +91,60 @@ class Projects extends Component {
 		});
 	}
 
-	filterProjects(filter) {
-		this.displayData = this.data.filter((item) => {
-			if (item.name.toLowerCase().indexOf(filter.name.toLowerCase()) === -1) {
-				return false;
-			}
-			if (item.genre.name.toLowerCase().indexOf(filter.genreName.toLowerCase()) === -1) {
-				return false;
-			}
-			return true;
-		});
-
-		this.domElement.querySelector(".cards").innerHTML = "";
-
-		this.allCards(this.displayData);
+	filterProjects() {
+		this.initializeCards();
+		this.handleIntersect();
 	}
 
+	populateFilter() {
+		this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
+		this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
+
+		this.filterProjects();
+	}
+
+	initializeCards() {
+		this.domElement.querySelector(".cards").innerHTML = "";
+		this.pagination = {
+			currentPage: 1,
+			itemsPerPage: 10,
+		}
+		this.hideLoadingArea(false);
+
+		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
+		this.addingCard.render();
+	}
+
+	hideLoadingArea(isHidden) {
+		document.getElementById("loading").style.display = isHidden ? "none" : "flex";
+	}
 
 	render() {
-
-		this.domElement.innerHTML = `<div class="searches"></div><div class="modals"></div><div class="cards"></div>`;
+		this.domElement.innerHTML = `
+			<div class="searches">
+			</div>
+			<div class="modals">
+			</div>
+			<div class="cards">
+			</div>
+			<div id="loading">
+				<i>Loading ...</i>
+			</div>
+		`;
 
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
 		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
-
-			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
-			this.filterProjects(this.filter);
-
+			this.populateFilter();
 		})
 
 		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
 		this.searchGenre.render();
 		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
-
-			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
-
-			this.filterProjects(this.filter);
+			this.populateFilter();
 		})
 
-		this.allCards(this.data);
-
+		this.initializeCards();
 	}
 }
 

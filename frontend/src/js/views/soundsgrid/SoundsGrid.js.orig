@@ -12,9 +12,13 @@ class SoundsGrid extends Component {
     constructor(container) {
         super(container, "sounds-grid-container");
 
+<<<<<<< Updated upstream
+        this.pagination = new Pagination(this.domElement, (page) => { this.goToPage(page) }, 'sounds');
+=======
         this.pagination = new Pagination(this.domElement, (page) => {
             this.goToPage(page)
         });
+>>>>>>> Stashed changes
         this.data = [];
         this.setup();
         this.getData();

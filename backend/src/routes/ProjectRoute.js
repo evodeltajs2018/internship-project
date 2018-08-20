@@ -9,7 +9,7 @@ class ProjectRoute {
 
     initRoutes() {
         this.app.get("/projects", (req, res) => {
-            ProjectController.getAllProjects(res);
+            ProjectController.getAllProjects(req, res);
         });
 
         this.app.post("/projects", (req, res) => {

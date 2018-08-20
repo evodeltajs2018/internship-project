@@ -3,10 +3,22 @@ const ProjectService = require("../services/ProjectService");
 class ProjectController {
     constructor() {}
 
-    getAllProjects(res) {
-        return ProjectService.getAllProjects().then((data) => {
-            return res.json(data);
-        });
+    getAllProjects(req, res) {
+        const page = req.query.page;
+        const itemsPerPage = req.query.perpage;
+        if (page && itemsPerPage) {
+            return ProjectService.getAllProjects(page, itemsPerPage, {
+                    name: req.query.name,
+                    genre: req.query.genre
+                })
+                .then((data) => {
+                    return res.json(data);
+                });
+
+        } else {
+            return res.json({});
+        }
+
     }
 
     getProjectById(req, res) {

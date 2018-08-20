@@ -3,22 +3,100 @@ const DbMapper = require("../utils/DbMapper");
 
 class ProjectService {
     constructor() {
+        this.fromwhere = `
+        FROM Project P INNER JOIN Genre G On P.GenreId = G.Id
+        WHERE LOWER(P.Name) LIKE '%' + LOWER(@name) + '%' AND G.Name LIKE '%' + LOWER(@genreName) + '%'
+        `;
     }
 
-    getAllProjects() {
+
+
+    getPageCount(itemsPerPage, filter) {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.query(`
-            SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName
-            FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
-            ORDER BY P.Id DESC`)
+                return pool.input('itemsPerPage', DbConnection.sql.Int, itemsPerPage)
+                    .input('name', DbConnection.sql.NVarChar(50), filter.name)
+                    .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
+                    .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
+                            ${this.fromwhere}
+                        `)
             })
             .then((result) => {
-                return result.recordset.map((record) => {
-                    return DbMapper.mapProject(record)
-                });
+                return result;
+            }).catch((err) => {
+                console.log(err);
+                return null;
             });
     }
+
+    getCount(filter) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('name', DbConnection.sql.NVarChar(50), filter.name)
+                    .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
+                    .query(`SELECT COUNT(*) AS Count 
+                            ${this.fromwhere}
+                        `)
+            })
+            .then((result) => {
+                return result;
+            }).catch((err) => {
+                console.log(err);
+                return null;
+            });
+    }
+
+    getAllProjects(page, itemsPerPage, filter) {
+        if (page === 0) {
+            page = 1;
+        }
+
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('page', DbConnection.sql.Int, page)
+                    .input('itemsPerPage', DbConnection.sql.Int, itemsPerPage)
+                    .input('name', DbConnection.sql.NVarChar(50), filter.name)
+                    .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
+                    .query(`
+                    SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName 
+                    ${this.fromwhere}
+                    ORDER BY P.Id DESC
+                    OFFSET ((@page-1) * @itemsPerPage) ROWS
+                    FETCH NEXT @itemsPerPage ROWS ONLY
+                    `)
+            })
+            .then((result) => {
+                return this.getPageCount(itemsPerPage, filter)
+                    .then((itemCount) => {
+                        return this.getCount(filter)
+                            .then((totalItemCount) => {
+                                const pageCount = itemCount.recordset[0].itemCount;
+                                return {
+                                    data: result.recordset.map((record) => DbMapper.mapProject(record)),
+                                    pageCount: pageCount,
+                                    currentPage: page < pageCount ? Number.parseInt(page) : Number.parseInt(pageCount),
+                                    itemCount: totalItemCount.recordset[0].Count
+                                };
+                            })
+
+                    });
+
+            });
+    }
+    // getAllProjects() {
+    //     return DbConnection.executePoolRequest()
+    //         .then(pool => {
+    //             return pool.query(`
+    //         SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName
+    //         FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+    //         ORDER BY P.Id DESC`)
+    //         })
+    //         .then((result) => {
+    //             return result.recordset.map((record) => {
+    //                 return DbMapper.mapProject(record)
+    //             });
+    //         });
+    // }
 
     getProjectById(id) {
         return DbConnection.executePoolRequest()

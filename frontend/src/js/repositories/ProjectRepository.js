@@ -5,8 +5,10 @@ class ProjectRepository {
 		this.baseurl = Config.server.url + ":" + Config.server.port;
 	}
 
-	getProjects() {
-		return fetch(this.baseurl + "/projects")
+	getProjects(pagination, filter) {
+		return fetch(
+			this.baseurl +`/projects?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${filter.name}&genre=${filter.genreName}`,
+		)
 		.then(response => response.json())
 		.catch(err => console.error(err));
 	}
