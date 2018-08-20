@@ -31,7 +31,9 @@ class App extends Component {
         this.sidebarLinks.map(element => {
             this.sidebarLinksHTML += `
             <li>
-                <i class="${element.icon} fa-3x menu-element" value="${element.name}"></i>
+                <div class="menu-element" value="${element.name}">
+                    <i class="${element.icon} fa-2x"></i>
+                <div>
             </li>
             <li>${element.name}</li>
             `
@@ -50,7 +52,7 @@ class App extends Component {
     addClickEventListenerToSidebar() {
         const element = this.domElement.querySelectorAll('.menu-element');
         for (let i = 0; i < element.length; i++) {
-            element[i].addEventListener("click", (e) => { this.loadPage(e.target); });
+            element[i].addEventListener("click", (e) => { this.loadPage(e.currentTarget); });
         }
     }
 
@@ -66,14 +68,17 @@ class App extends Component {
             <h1>Splicer</h1>
             <div />
         </nav>
-        <div class="page-title">
-            <h2>Projects</h2>
-        </div>
         <div class="split">
             <div class="sidebar">
                 <ul class="sidebar-content"></ul>
             </div>
-            <div class="main"></div>
+            <div class="right-side">
+                <div class="page-title">
+                    <h2>Projects</h2>
+                </div>
+                <div class="main"></div>
+                <div class="footer">💻 with ❤️ in Cluj-Napoca, RO.</div>
+            </div>
         </div>
         `;
 

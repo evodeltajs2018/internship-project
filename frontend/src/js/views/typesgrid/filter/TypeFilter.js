@@ -1,5 +1,7 @@
 import Component from "../../../components/Component";
 import Debounce from "../../../utils/Debounce";
+import Button from "../../../components/button/Button";
+import Navigator from "../../../services/router/Navigator";
 import "./TypeFilter.scss";
 
 class TypeFilter extends Component {
@@ -25,18 +27,21 @@ class TypeFilter extends Component {
 
     render() {
         this.domElement.innerHTML = `
-            <div class="type-searches">
+            <div class="searches search-types">
                 <div class="search-input-wrapper">
                     <label class="label-input">Name</label>
                     <input type="text" class="search-input name-search" placeholder="&#xF002 Search">
                 </div>
-
-                <a class="add-type-btn" href="/type">
-                    <i class="fas fa-plus"></i>
-                    Add new type
-                </a>
+                <div class="add-button"></div>
             </div>
         `;
+
+        this.newButton = new Button(this.domElement.querySelector(".add-button"), `<i class="fas fa-plus"></i>
+        Add new type`, "add-btn cursor-pointer", () => {
+            Navigator.goToUrl("/type");
+        });
+        this.newButton.render();
+
         this.setupFilters();
     }
 }

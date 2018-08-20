@@ -1,23 +1,19 @@
 .sounds-grid-container {
-    padding: 50px;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: Arial, Helvetica, sans-serif;    
+    margin: 0 50px;
     transition-duration: 0.2s;
-}
-@media (max-width: 1080px) {
-    .sounds-grid-container {
-        padding: 0;
-    }
 }
 
 .no-sounds {
+    color: $formFontColor;
     font-size: 20px;
     display: flex;  
     justify-content: center;
     padding: 10px;
 }
 
-
-
+@media (max-width: 1080px) {
+    .sounds-grid-container {
+        padding: 0;
+    }
+}

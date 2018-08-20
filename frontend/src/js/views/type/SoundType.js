@@ -114,14 +114,18 @@ class SoundType extends Component {
             <div class="sound-type-label">
                 <div class="sound-type-form">
                     <div class="form-row">
-                        <label class='' for="name">Name:<span class="red">*</span></label>
+                        <div class="form-text">
+                            <label for="name">Name:<span class="red">*</span></label>
+                        </div>
                         <div class="validation">
                             <input type="text" id="name" placeholder="Name"></input>
                             <div class="required visbility-hidden">Required</div>
                         </div>
                     </div>
                     <div class="form-row">
-                        <label>Color:<span class="red">*</span></label>
+                        <div class="form-text">
+                            <label>Color:<span class="red">*</span></label>
+                        </div>
                         <div class="validation">
                             <div class="color-label">
                                 <input type="color" id="color" value="#FFFFFF">
@@ -131,7 +135,9 @@ class SoundType extends Component {
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class='' for="icon-src">Icon:<span class="red">*</span></label>
+                        <div class="form-text">
+                            <label for="icon-src">Icon:<span class="red">*</span></label>
+                        </div>
                         <div class="validation">
                             <div class="img-src-label">
                                 <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
