@@ -27,6 +27,7 @@ class DbMapper {
                 iconSrc: sound.IconSrc,
                 colorType: sound.ColorType
             },
+            image: sound.Image,
             byteArray:{
                 id: sound.ByteArrayId,
                 value: sound.ByteArray

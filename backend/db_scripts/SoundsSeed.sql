@@ -38,25 +38,25 @@ GO
 
 INSERT INTO [dbo].[Sound]
            ([Name]
-           ,[TypeId]
+           ,[TypeId],[Image]
            ,[ByteArrayId])
      VALUES
-           ('Sound 1', 1, 1),
-           ('Sound 2', 3, 2),
-           ('Sound 3', 4, 3),
-           ('Sound 4', 2, 4),
-           ('Sound 5', 6, 5),
-           ('Sound 6', 7, 6),
-           ('Sound 7', 5, 7),
-           ('Sound 8', 8, 8),
-           ('Sound 9', 7, 9),
-           ('Sound 10', 6, 10),
-           ('Sound 11', 5, 11),
-           ('Sound 12', 4, 12),
-           ('Sound 13', 1, 13),
-           ('Sound 14', 2, 14),
-           ('Sound 15', 4, 15),
-           ('Sound 16', 5, 16),
-           ('Sound 17', 3, 17)
+           ('Sound 1', 1,'kick_drum.jpg', 1),
+           ('Sound 2', 3,'kick_drum.jpg', 2),
+           ('Sound 3', 4,'kick_drum.jpg', 3),
+           ('Sound 4', 2,'kick_drum.jpg', 4),
+           ('Sound 5', 6,'kick_drum.jpg', 5),
+           ('Sound 6', 7,'kick_drum.jpg', 6),
+           ('Sound 7', 5,'kick_drum.jpg', 7),
+           ('Sound 8', 8,'kick_drum.jpg', 8),
+           ('Sound 9', 7,'kick_drum.jpg', 9),
+           ('Sound 10', 6,'kick_drum.jpg', 10),
+           ('Sound 11', 5,'kick_drum.jpg', 11),
+           ('Sound 12', 4,'kick_drum.jpg', 12),
+           ('Sound 13', 1,'kick_drum.jpg', 13),
+           ('Sound 14', 2,'kick_drum.jpg', 14),
+           ('Sound 15', 4,'kick_drum.jpg', 15),
+           ('Sound 16', 5,'kick_drum.jpg', 16),
+           ('Sound 17', 3,'kick_drum.jpg', 17)
 
 GO

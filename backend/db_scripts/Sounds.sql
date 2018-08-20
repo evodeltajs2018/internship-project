@@ -53,6 +53,7 @@ CREATE TABLE [dbo].[Sound](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
 	[TypeId] [int] NOT NULL,
+	[Image] [nvarchar](50) NOT NULL,
 	[ByteArrayId] [int] NOT NULL
  CONSTRAINT [PK_Sound] PRIMARY KEY CLUSTERED 
 (

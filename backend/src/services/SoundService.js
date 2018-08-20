@@ -135,7 +135,7 @@ class SoundService {
     getSoundsByType(typeId){
         return DbConnection.executePoolRequest().then(pool =>{
             return pool.input('typeId',DbConnection.sql.Int,typeId)
-            .query(`SELECT S.Id, S.Name, S.TypeId, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
+            .query(`SELECT S.Id, S.Name, S.TypeId, S.Image, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
             FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
             WHERE S.TypeId = @typeId ;`)
         })
