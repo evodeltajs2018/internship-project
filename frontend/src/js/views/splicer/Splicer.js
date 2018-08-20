@@ -182,8 +182,12 @@ class Splicer extends Component {
         `;
         this.soundLoader = new SoundLoader();
         this.relatedSoundLoader = new RelatedSoundLoader();
-        
         this.addSoundLoaderEvent();
+
+        document.addEventListener("rowselect", (event) => {
+            document.querySelector(".splicer-sample-tracks").innerHTML = "";
+            this.relatedTracksLoader(event.detail.track);
+        })
 
         this.waveForm = new WaveForm(document.querySelector(".splicer-sample-header"));
 

@@ -4,13 +4,12 @@
     background:grey;
     border-radius: 10px;
     width:250px;
-    justify-self: center;
+    height:73px;
+    margin-left:1px;
 }
-
+.related-sample-description{
+    padding: 10px;
+}
 .related-sample-name{
-    padding:20px;
-}
-
-.related-sample-type{
-    padding:20px;
+    font-size:20px;
 }
