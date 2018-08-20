@@ -17,7 +17,7 @@ class SplicerMatrix extends Component {
         }
         this.domElement.querySelector(".row-count").innerHTML = `
             ${numbers.map(row => {
-                return `<div class="cell ${row === 0? "current": ""}">${row}</div>`
+                return `<div class="cell">${row}</div>`
             }).join("")}
         `;
     }

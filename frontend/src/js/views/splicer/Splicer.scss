@@ -1,6 +1,7 @@
 .splicer-main {
     display: flex;
     flex-direction: row;
+    margin-top: 10px;
 }
 
 .splicer {
@@ -20,20 +21,18 @@
     width: 20px;
     height: 20px;
     color: white;
-    background: rgba(255,255,255, .5);
-    border: 3px solid rgba(255,255,255,0.8);
-    border-radius: 20px;
+    background: black;
+    border: 3px solid white;
+    border-radius: 40px;
     margin: 5px;
     &:hover {
         cursor: pointer;
-        background: rgba(255,255,255, .7);
+        background: rgba(255,255,255, .5);
     }
 
     &:focus {
         outline: none
     }
-
-    width:100%;
 }
 
 .splicer-sample-selector{
@@ -53,3 +52,4 @@
     grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
     width:100%;
 }
+

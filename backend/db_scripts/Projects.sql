@@ -1,6 +1,6 @@
 USE [InternshipProject]
 GO
-
+DROP TABLE IF EXISTS [dbo].[Beatmap]
 DROP TABLE IF EXISTS [dbo].[Project]
 
 DROP TABLE IF EXISTS [dbo].[Genre]

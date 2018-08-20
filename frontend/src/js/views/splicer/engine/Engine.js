@@ -122,6 +122,10 @@ class Engine extends Component {
         this.createClearEvent();
     }
 
+    save() {
+        console.log("saving project");
+    }
+
     renderPlayButton() {
         this.playButton = new Button(
             this.domElement.querySelector(".play-buttons"),
@@ -146,14 +150,26 @@ class Engine extends Component {
             () => this.stop());
     }
 
+    renderSaveButton() {
+        this.saveButton = new Button(
+            this.domElement.querySelector(".save-btn"),
+            `<i class="fas fa-save"></i>Save`,
+            "save-button"
+        );
+        this.saveButton.render();
+        this.domElement.querySelector(".save-btn").addEventListener(
+            "click",
+            () => this.save());
+    }
+
     renderClearButton() {
         this.clearButton = new Button(
-            this.domElement.querySelector(".clear-button"),
-            `<i class="fas fa-times"></i>`,
+            this.domElement.querySelector(".clear-btn"),
+            `<i class="fas fa-times"></i>Clear`,
             "clear-button"
         );
         this.clearButton.render();
-        this.domElement.querySelector(".clear-button").addEventListener(
+        this.domElement.querySelector(".clear-btn").addEventListener(
             "click",
             () => this.clear());
     }
@@ -171,7 +187,8 @@ class Engine extends Component {
             <label>BPM</label>
             
             <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">
-            <div class="clear-button"></div>
+            <div class="clear-btn"></div>
+            <div class="save-btn"></div>
             <div class="grid"></div>
         `;
         this.renderPlayButton();
@@ -185,6 +202,7 @@ class Engine extends Component {
         (event) => {
             this.checkBpm(event);
         });
+        this.renderSaveButton();
         this.renderClearButton();
         
     }
