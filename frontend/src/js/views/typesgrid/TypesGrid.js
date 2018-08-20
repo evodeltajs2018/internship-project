@@ -90,7 +90,7 @@ class TypesGrid extends Component {
                 this.TypeRow.editHandler = (id) => { Navigator.goToUrl("/type/" + id); }
             }
         } else {
-            this.domElement.querySelector("#types-grid").innerHTML = `<div class="no-types">No types</div>`;
+            this.domElement.querySelector("#types-grid").innerHTML = `<div class="no-element">No types</div>`;
         }
     }
 
