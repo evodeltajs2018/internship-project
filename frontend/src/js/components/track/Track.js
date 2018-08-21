@@ -114,7 +114,7 @@ class Track extends Component {
     }
 
     render() {
-        this.domElement.innerHTML = `<div class="volume"></div><div class="track-icon"><img src="/src/img/sound-types/` + this.sound.type.iconSrc + `"/><div>`;
+        this.domElement.innerHTML = `<div class="volume"></div><div class="track-icon"><img src="${this.sound.type.iconSrc}"/><div>`;
 
         this.domElement.querySelectorAll(".track-icon").forEach(icon => {
             icon.addEventListener("click", () => {

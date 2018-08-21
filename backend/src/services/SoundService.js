@@ -16,7 +16,7 @@ class SoundService {
             });
     }
 
-    addSound(name, typeId, bytearray) {
+    addSound(name, typeId, image, bytearray) {
         return this.addByteArray(bytearray)
         .then(lastId => {
             return DbConnection.executePoolRequest()
@@ -24,8 +24,9 @@ class SoundService {
                     return pool
                         .input('name', DbConnection.sql.NVarChar(50), name)
                         .input('soundTypeId', DbConnection.sql.Int, typeId)
+                        .input('image', DbConnection.sql.NVarChar(DbConnection.sql.MAX), image)
                         .input('byteArrayId', DbConnection.sql.Int, lastId)
-                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
+                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @image, @byteArrayId)`);
                 })
                 .then(result => {
                     return result.rowsAffected[0] === 1;
@@ -33,17 +34,19 @@ class SoundService {
         })
     }
 
-    editSound(paramId, name, typeId, bytearray) {
+    editSound(paramId, name, typeId, image, bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('paramId', DbConnection.sql.Int, paramId)
                     .input('name', DbConnection.sql.NVarChar(50), name)
                     .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('image',DbConnection.sql.NVarChar(DbConnection.sql.MAX),image)
                     .input('byteArrayId', DbConnection.sql.Int, paramId)
                     .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
                     .query(`UPDATE Sound SET 
                         Name = @name, 
-                        TypeId = @soundtypeId
+                        TypeId = @soundtypeId,
+                        Image = @image
                         WHERE Id = @paramId;
                         UPDATE ByteArray SET Value = @value WHERE Id = @byteArrayId
                         `)

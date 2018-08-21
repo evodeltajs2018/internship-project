@@ -29,11 +29,12 @@ class SoundController {
         form.parse(req, (err, fields, files) => {
             const name = fields.name[0];
             const type = fields.type[0];
+            const src = fields.src[0];
             const value = files.value[0];
 
             FileOpener(value)
                 .then((data) => {
-                    SoundService.addSound(name, type, data).then((result) => {
+                    SoundService.addSound(name, type, src, data).then((result) => {
                         res.json(result);
                     }); 
                 });
@@ -61,11 +62,12 @@ class SoundController {
             const { id } = req.params;
             const name = fields.name[0];
             const type = fields.type[0];
+            const image = fields.image[0];
             const value = files.value[0];
 
             FileOpener(value)
                 .then((data) => {
-                    SoundService.editSound(id, name, type, data).then((result) => {
+                    SoundService.editSound(id, name, type, image, data).then((result) => {
                         res.json(result);
                     });
                 }); 

@@ -1,20 +1,20 @@
 import Config from "../utils/Config";
 
 class SoundTypeRepository {
-  constructor() {
-    this.baseurl = Config.server.url + ":" + Config.server.port;
-  }
+	constructor() {
+		this.baseurl = Config.server.url + ":" + Config.server.port;
+	}
 
-  getSoundTypes() {
-    return fetch(this.baseurl + "/types")
-      .then(response => response.json())
-      .catch(err => console.error(err));
-  }
-  getIconSrcById() {
-    return fetch(this.baseurl + "/splicer")
-      .then(response => response.json())
-      .catch(err => console.error(err));
-  }
+	getSoundTypes() {
+		return fetch(this.baseurl + "/types")
+			.then(response => response.json())
+			.catch(err => console.error(err));
+	}
+	getIconSrcById() {
+		return fetch(this.baseurl + "/splicer")
+			.then(response => response.json())
+			.catch(err => console.error(err));
+	}
 
 	getTypes() {
 		return fetch(this.baseurl + "/types")
@@ -38,8 +38,8 @@ class SoundTypeRepository {
 
 	getTypeById(id) {
 		return fetch(this.baseurl + "/types/" + id)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 
 	}
 
@@ -51,18 +51,18 @@ class SoundTypeRepository {
 				"Content-Type": "application/json"
 			}
 		})
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 
 	getAllTypes(pagination, filter) {
 		const name = filter.name;
 
 		return fetch(
-			this.baseurl +`/typeall?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}`,
+			this.baseurl + `/typeall?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}`,
 		)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 
 	deleteSound(typeId) {
@@ -72,8 +72,8 @@ class SoundTypeRepository {
 				method: "DELETE"
 			}
 		)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 }
 

@@ -55,6 +55,7 @@ class SoundRepository {
 
 		fd.append("name", data.name);
 		fd.append("type", data.type);
+		fd.append("image", data.src);
 		fd.append("value", new Blob([data.value], {type: `audio/${extension}`} ));
 
 		return fetch(this.baseurl + '/sounds/' + id, {

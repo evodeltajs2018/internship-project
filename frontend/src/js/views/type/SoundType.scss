@@ -76,11 +76,11 @@
             width: 300px;
             display: flex;
             flex-direction: row;
-            justify-content: center;
             align-items: baseline;
 
-            #upload {
-                color: gray;
+            #upload,#play-sound{
+                color:grey;
+                font-size:2em;
             }
     
             .icon-red {
@@ -139,4 +139,9 @@
             }
         }
     }
+}
+
+select{
+    width: 100%;
+    margin: 0px;
 }
