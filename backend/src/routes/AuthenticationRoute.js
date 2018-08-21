@@ -1,3 +1,5 @@
+const AuthenticationController = require("../controllers/AuthenticationController");
+
 class AuthenticationRoute{
     constructor(app){
         this.app = app;
@@ -6,9 +8,15 @@ class AuthenticationRoute{
     }
 
     initRoutes(){
-        this.app.post("/register", AuthenticationController.register);
-
-        this.app.post("/login", AuthenticationController.login);
+        this.app.post("/register", (req, res)=>{
+            console.log('vreau post');
+            AuthenticationController.register(req,res);
+        });
+        this.app.post("/login", (req, res)=>{
+            AuthenticationController.login(req,res);
+        });
     }
 
 }
+
+module.exports = AuthenticationRoute;
