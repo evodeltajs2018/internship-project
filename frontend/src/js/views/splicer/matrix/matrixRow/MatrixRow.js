@@ -67,16 +67,16 @@ class MatrixRow extends Component {
     }
 
     highlightRow() {
-        document.querySelectorAll(".cell").forEach(cell => {
+        document.querySelectorAll(".cell-bg").forEach(cell => {
             cell.classList.remove("selected");
         })
-        this.domElement.querySelectorAll(".cell").forEach(cell => {
+        this.domElement.querySelectorAll(".cell-bg").forEach(cell => {
             cell.classList.add("selected");
         });
     }
 
     clearBeatmap() {
-        this.domElement.querySelectorAll(".cell")
+        this.domElement.querySelectorAll(".cell-bg")
         .forEach(cell => {
             cell.classList.remove("active");
         });
@@ -85,7 +85,7 @@ class MatrixRow extends Component {
 
     renderCurrentCell(index) {
         // console.log(1);
-        let cells = this.domElement.querySelectorAll(".cell");
+        let cells = this.domElement.querySelectorAll(".cell-bg");
 
         cells.forEach(cell => {
             if (cell.classList.contains("current")) {
@@ -109,7 +109,7 @@ class MatrixRow extends Component {
     }
 
     addTrackClickEvents() {
-        let cells = this.domElement.querySelectorAll(".cell");
+        let cells = this.domElement.querySelectorAll(".cell-bg");
         for (let i = 0; i < cells.length; i++) {
             cells[i].onmouseover = (event) => {
                 if (event.buttons == 1) {
@@ -131,7 +131,9 @@ class MatrixRow extends Component {
             if (i < this.start || i > this.start + this.size) {
                 hiddenClass = "hidden";
             }
-            html += `<div class='cell ${this.track.beatmap[i]? "active" : ""} ${hiddenClass}'></div>`;
+            html += `<div class='cell ${hiddenClass}'>
+                <div class="cell-bg ${this.track.beatmap[i]? "active" : ""}"></div>
+            </div>`;
         }
         html += "</div>";
         this.domElement.innerHTML = html;
@@ -139,7 +141,7 @@ class MatrixRow extends Component {
     }
 
     render() {
-        this.domElement.querySelectorAll(".cell").forEach(
+        this.domElement.querySelectorAll(".cell-bg").forEach(
             cell => {
                 let currentAndActive = 
                     cell.classList.contains("current") 

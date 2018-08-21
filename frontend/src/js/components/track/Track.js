@@ -7,13 +7,12 @@ class Track extends Component {
     constructor(container, sound, arrayBuffer, data) {
         super(container, "track");
         this.sound = sound;
-        this.beatmap = [];
-        
+        this.beatmap = data.beatmap? data.beatmap: this.getEmptyMap();
+        this.beatmapId = data.beatmapId;
         this.index = data.index;
         this.audioContext = data.audioContext;
         this.mapSize = data.mapSize;
         this.engine = data.engine;
-        
         this.initHandlers();
         this.addEventListeners();
         this.decodeSound(arrayBuffer);
@@ -74,7 +73,6 @@ class Track extends Component {
     }
 
     decodeSound(arrayBuffer) {
-        this.loadBeatmap();
         return this.audioContext.decodeAudioData(arrayBuffer, (buff) => {
             this.buffer = buff;
             if (this.onBufferLoad) {
@@ -114,7 +112,7 @@ class Track extends Component {
     }
 
     render() {
-        this.domElement.innerHTML = `<div class="volume"></div><div class="track-icon"><img src="/src/img/sound-types/` + this.sound.type.iconSrc + `"/><div>`;
+        this.domElement.innerHTML = `<div class="volume"></div><div class="track-icon"><img src="${this.sound.type.iconSrc}"/><div>`;
 
         this.domElement.querySelectorAll(".track-icon").forEach(icon => {
             icon.addEventListener("click", () => {

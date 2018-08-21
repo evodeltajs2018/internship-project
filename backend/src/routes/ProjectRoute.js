@@ -31,6 +31,14 @@ class ProjectRoute {
         this.app.get("/projects/beatmap/:id", (req, res) => {
             ProjectController.getBeatmap(req, res);
         })
+
+        this.app.put("/projects/beatmap/:id", (req, res) => {
+            ProjectController.editBeatmap(req, res);
+        })
+
+        this.app.post("/projects/beatmap", (req, res) => {
+            ProjectController.addBeatmap(req, res);
+        })
     }
 }
 

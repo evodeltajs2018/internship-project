@@ -71,6 +71,7 @@ GO
 
 ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_Sound_Type] FOREIGN KEY([TypeId])
 REFERENCES [dbo].[Type] ([Id])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Sound] CHECK CONSTRAINT [FK_Sound_Type]
@@ -97,6 +98,7 @@ GO
 
 ALTER TABLE [dbo].[Beatmap]  WITH CHECK ADD  CONSTRAINT [FK_Beatmap_Project] FOREIGN KEY([ProjectId])
 REFERENCES [dbo].[Project] ([Id])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Beatmap] CHECK CONSTRAINT [FK_Beatmap_Project]
@@ -104,6 +106,7 @@ GO
 
 ALTER TABLE [dbo].[Beatmap]  WITH CHECK ADD  CONSTRAINT [FK_Beatmap_Sound] FOREIGN KEY([SoundId])
 REFERENCES [dbo].[Sound] ([Id])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Beatmap] CHECK CONSTRAINT [FK_Beatmap_Sound]

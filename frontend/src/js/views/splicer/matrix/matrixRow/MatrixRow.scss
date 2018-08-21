@@ -1,20 +1,27 @@
 .cell {
     display: flex;
-    &:hover {
-        cursor: pointer;
-        background: rgba(0,0,0,.25);
-    }
-
+    
+   
     border: 1px solid $backgroundPrimary;
     border-radius: 7px;
-    background: rgba(0,0,0,.1);
-    
-    
     width: 30px;
     height: 30px;
     justify-content:center;
     align-items: center;
     margin: 0 1px;
+
+    .cell-bg {
+        width: 100%;
+        height: 100%;
+        background: white;
+        opacity: .1;
+        &:hover {
+            cursor: pointer;
+            opacity: .25;
+        }
+    
+        border-radius: 7px;
+    }
 }
 
 .row-count {
@@ -42,49 +49,53 @@
     margin-left: 0;
 
     .current {
-        background: rgba(0,0,0,.25);
+        opacity: .45;
     }
     
     .current + .active {
-        background: rgba(0,0,0,1);
+        opacity: 1;
     }
 
-    .cell:nth-child(4n + 1) {
-        background: rgba(0,0,0,.2);
+    .cell:nth-child(4n + 1) .cell-bg {
+        opacity: .4;
         &:hover {
-            background: rgba(0,0,0,.5);
+            opacity: .5;
         }
     }    
 
-    .cell:nth-child(0) + .active {
-        background: rgba(0,0,0,1);
+    .cell:nth-child(0) .cell-bg + .active {
+        opacity: 1;
     }
 
-    .cell:nth-child(4n) + .selected {
-        background: rgba(0,0,0,.4);
+    .cell:nth-child(4n) .cell-bg + .selected {
+        opacity: .4;
     }
     
-    .cell:nth-child(4n + 1) + .active {
-        background: rgba(0,0,0,1);
+    .cell:nth-child(4n + 1) .cell-bg + .active {
+        opacity: .21;
         &:hover {
-            background: rgba(0,0,0,.2)!important;
+            opacity: .1;
         }
     }
 
-    .cell:nth-child(4n) + .current {
-        background: rgba(0,0,0,.25);
+    .cell:nth-child(4n) .cell-bg+ .current {
+        opacity: .25;
     }
 
-    .cell:nth-child(1) + .selected {
-        background: rgba(0,0,0,.4);
+    .cell:nth-child(1) .cell-bg + .selected {
+        opacity: .4;
     }
 
-    .cell:nth-child(0) + .selected {
-        background: rgba(0,0,0,.4);
+    .cell:nth-child(0) .cell-bg + .selected {
+        opacity: .4;
     }
 
     .selected {
-        background: rgba(0,0,0,.4);
+        opacity: .5!important;
+    }
+
+    .active {
+        opacity: 1!important;
     }
 }
 

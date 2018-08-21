@@ -10,7 +10,7 @@
         width: 100%;
         padding: 5px;
         
-        background: $backgroundSecondary;
+        background: $backgroundPrimary;
     }
 
 
@@ -116,7 +116,7 @@
         width: 0px; /* 1 */
         height: 40px;
         background: transparent;
-        box-shadow: -100vw 0 0 100vw $backgroundSecondary;
+        box-shadow: -100vw 0 0 100vw $backgroundPrimary;
     }
     
     ::-moz-range-track {

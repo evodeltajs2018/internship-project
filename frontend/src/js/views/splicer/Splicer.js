@@ -8,6 +8,7 @@ import SplicerMatrix from "./matrix/SplicerMatrix";
 import "./Splicer.scss";
 import Button from "../../components/button/Button";
 import RelatedTrack from "../../components/related_track/RelatedTrack";
+import ProjectRepository from "../../repositories/ProjectRepository";
 
 const sizes = [
     {
@@ -36,14 +37,89 @@ const sizes = [
 class Splicer extends Component {
     constructor(container, projectId) {
         super(container, "splicer");
-
+        
+        this.saveProjectHandler = () => {this.saveProject()};
         this.audioContext = new AudioContext();
-
-        this.projectId = projectId;
+        this.project = {
+            id: projectId,
+            bpm: 0
+        }
         this.mapSize = 32;
         this.currentTrackSize = this.mapSize;
         this.currentPage = 0;
+
+        this.getBpm().then(() => {
+            this.engine.bpm = this.project.bpm;
+            this.engine.render();
+        });
+        
+        this.getBeatmap();
         this.setup();
+        this.initHandlers();
+        this.addEventHandlers();
+       
+    }
+
+    getBpm() {
+        return ProjectRepository.getProjectById(this.project.id)
+        .then(result => {
+            this.project.bpm = result[0].bpm;
+        })
+    }
+
+    addEventHandlers() {
+        window.addEventListener("popstate", this.onPageLeave);
+        document.addEventListener("rowselect", this.rowSelectHandler);
+    }
+
+    initHandlers() {
+        this.onPageLeave = () => {
+            window.removeEventListener("popstate", this.onPageLeave);
+            document.removeEventListener("rowselect", this.rowSelectHandler);
+        }
+        this.rowSelectHandler = (event) => {
+            document.querySelector(".splicer-sample-tracks").innerHTML = "";
+            this.relatedTracksLoader(event.detail.track);
+        }
+    }
+
+    addEmptyMap() {
+        let promises = [];
+        for (let i = 0; i < this.soundLoader.sounds.length; i++) {
+            promises.push(ProjectRepository.addBeatmap({
+                projectId: this.project.id,
+                soundId: this.soundLoader.sounds[i].id,
+                map: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            }));
+        }
+        Promise.all(promises).then(() => {
+            this.getBeatmap();
+        });
+    }
+
+    getBeatmap() {
+        ProjectRepository.getBeatmap(this.project.id)
+        .then(result => {       
+            this.beatmaps = result;
+            return result;
+        })
+        .then(beatmap => {
+            return this.soundLoader.getSoundsWithIds(beatmap.map(item => {return item.soundId;}))
+            .then(() => {
+                if (!this.soundLoader.arrayBuffer.length || !this.soundLoader.sounds.length) {
+                    return this.soundLoader.getSounds();
+                }
+            })
+            
+            
+        }).then(() => {
+            if (!this.beatmaps.length) {
+                this.addEmptyMap();
+            } else {
+
+                this.renderTracks();
+            }
+        });
     }
 
     setup() {
@@ -56,12 +132,33 @@ class Splicer extends Component {
         this.engine = new Engine(
             this.domElement.querySelector(".splice-header"),
             this.audioContext,
-            this.mapSize
+            this.mapSize,
+            this.saveProjectHandler,
+            this.project.bpm
         );
         this.engine.render();
         window.addEventListener("resize", () => {
             this.renderByWidth();
         })
+    }
+
+    saveProject() {
+        let promises = [];
+        let i = 0;
+        for (let track of this.engine.tracks) {
+            promises.push(ProjectRepository.editBeatmap(
+                this.beatmaps[i].id, 
+                {
+                    soundId: track.sound.id,
+                    projectId: this.project.id,
+                    map: track.beatmap,
+                    bpm: this.engine.bpm
+                }
+            ));
+            i++;
+        }
+        Promise.all(promises);
+        
     }
 
     renderByWidth() {
@@ -141,7 +238,9 @@ class Splicer extends Component {
                     audioContext: this.audioContext,
                     mapSize: this.mapSize,
                     index: i,
-                    engine: this.engine
+                    engine: this.engine,
+                    beatmap: this.beatmaps[i]? this.beatmaps[i].map : null,
+                    beatmapId: this.beatmaps[i]? this.beatmaps[i].id : null
                 }
             );
             track.domElement.addEventListener("click", () => {
@@ -165,14 +264,6 @@ class Splicer extends Component {
         this.renderByWidth();
     }
 
-    addSoundLoaderEvent() {
-        this.soundLoader.onLoad = () => {
-            if (this.soundLoader.sounds) {
-                    this.renderTracks();
-                }
-            }
-        }
-
     render() {
         this.domElement.querySelector(".splicer-main").innerHTML = `
             <div class="tracks-bar"></div>
@@ -182,12 +273,8 @@ class Splicer extends Component {
         `;
         this.soundLoader = new SoundLoader();
         this.relatedSoundLoader = new RelatedSoundLoader();
-        this.addSoundLoaderEvent();
 
-        document.addEventListener("rowselect", (event) => {
-            document.querySelector(".splicer-sample-tracks").innerHTML = "";
-            this.relatedTracksLoader(event.detail.track);
-        })
+       
 
         this.waveForm = new WaveForm(document.querySelector(".splicer-sample-header"));
 

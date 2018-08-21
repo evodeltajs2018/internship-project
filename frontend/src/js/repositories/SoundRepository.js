@@ -1,4 +1,5 @@
 import Config from "../utils/Config";
+import Toaster from "../utils/Toaster";
 
 class SoundRepository {
 	constructor() {
@@ -19,26 +20,35 @@ class SoundRepository {
 				body: fd
 			},
 		)
+		.then(response => {
+			Toaster.showSuccess("Sound added successfuly");
+			return response.json();
+		})
+		.catch(err => Toaster.showError("Error adding sound"));
+	}
+
+	getSplicerSoundsById(){
+		return fetch(this.baseurl + "/splicer")
 		.then(response => response.json())
-		.catch(err => console.error);
+		.catch(err => Toaster.showError("Error getting sounds"));
 	}
 
 	getSplicerSounds(){
 		return fetch(this.baseurl + "/splicer")
 		.then(response => response.json())
-		.catch(err => console.error(err));
+		.catch(err => Toaster.showError("Error getting sounds"));
 	}
 
 	getSoundsByType(typeId){
 		return fetch(this.baseurl + "/splicer/" + typeId)
 		.then(response => response.json())
-		.catch(err => console.error(err));
+		.catch(err => Toaster.showError("Error getting sounds"));
 	}
 
 	getSoundById(id) {
 		return fetch(this.baseurl + "/sounds/" + id)
 		.then(response => response.json())
-		.catch(err => console.error(err));
+		.catch(err => Toaster.showError("Error getting sounds"));
 
 	}
 	
@@ -48,6 +58,7 @@ class SoundRepository {
 		.then(arrayBuffer => {
 			return arrayBuffer;
 		})
+		.catch(err => Toaster.showError("Error getting sound"));
 	}
 
 	editSoundById(data, id, extension) {
@@ -61,8 +72,11 @@ class SoundRepository {
 			method: "PUT",
 			body: fd
 		})
-		.then(response => response.json())
-		.catch(err => console.error(err));
+		.then(response => {
+			Toaster.showSuccess("Sound edited successfuly");
+			return response.json();
+		})
+		.catch(err => Toaster.showError("Error editing sounds"));
 	}
 
 	getAllSounds(pagination, filter) {
@@ -73,7 +87,7 @@ class SoundRepository {
 			this.baseurl +`/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
 		)
 		.then(response => response.json())
-		.catch(err => console.error(err));
+		.catch(err => Toaster.showError("Error getting sounds"));
 	}
 
 	deleteSound(soundId) {
@@ -83,8 +97,11 @@ class SoundRepository {
 				method: "DELETE"
 			}
 		)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+		.then(response => {
+			Toaster.showSuccess("Sound deleted successfuly");
+			return response.json();
+		})
+		.catch(err => Toaster.showError("Error deleting sound"));
 	}
 }
 

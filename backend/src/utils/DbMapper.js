@@ -5,8 +5,24 @@ class DbMapper {
             name: sound.Name,
             type: {
                 id: sound.TypeId,
-                name: sound.TypeName
+                name: sound.TypeName,
+                iconSrc: sound.IconSrc,
+                colorType: sound.ColorType
+            },
+            image: sound.image,
+            byteArray:{
+                id: sound.ByteArrayId,
+                value: sound.ByteArray
             }
+        }
+    }
+
+    static mapBeatmap(beatmap) {
+        return {
+            id: beatmap.Id,
+            projectId: beatmap.ProjectId,
+            soundId: beatmap.SoundId,
+            map: beatmap.Map.split(",").map(beat => Number.parseInt(beat))
         }
     }
 
@@ -45,7 +61,8 @@ class DbMapper {
                 id: project.GenreId,
                 name: project.GenreName
             },
-            description: project.Description
+            description: project.Description,
+            bpm: project.Bpm
         }
     }
 

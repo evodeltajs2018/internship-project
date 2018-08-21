@@ -38,6 +38,18 @@ class ProjectController {
             return res.json(data);
         })
     }
+
+    addBeatmap(req, res) {
+        return ProjectService.addBeatmap(req.body).then(data => {
+            return res.json(data);
+        })
+    }
+
+    editBeatmap(req, res) {
+        return ProjectService.editBeatmap(req.params.id, req.body).then(data => {
+            return res.json(data);
+        })
+    }
 }
 
 module.exports = new ProjectController();

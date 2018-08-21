@@ -33,6 +33,7 @@ CREATE TABLE [dbo].[Project](
 	[Name] [nvarchar](max) NOT NULL,
 	[GenreId] [int] NOT NULL,
 	[Description] [nvarchar](500) NULL,
+	[Bpm] [int] NOT NULL
  CONSTRAINT [PK_Projects] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

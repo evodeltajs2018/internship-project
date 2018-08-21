@@ -3,10 +3,11 @@ import Button from "../../../components/button/Button";
 import "./Engine.scss";
 
 class Engine extends Component {
-    constructor(container, audioContext, mapSize) {
+    constructor(container, audioContext, mapSize, saveHandler, bpm) {
         super(container, "splicer-engine");
+        this.saveHandler = saveHandler;
         this.audioContext = audioContext;
-        this.bpm = 60;
+        this.bpm = bpm;
         this.mapSize = mapSize;
         this.currentIndex = 0;
         this.tracks = [];
@@ -93,7 +94,6 @@ class Engine extends Component {
     }
 
     play() {
-        // this.audioContext.resume();
         this.playButton.unrender();
         this.renderStopButton();
         this.playBeatmap();
@@ -101,7 +101,6 @@ class Engine extends Component {
     }
 
     stop() {
-        // this.audioContext.suspend();
         this.stopButton.unrender();
         this.renderPlayButton();
 
@@ -120,10 +119,6 @@ class Engine extends Component {
             track.clearBeatmap();
         }
         this.createClearEvent();
-    }
-
-    save() {
-        console.log("saving project");
     }
 
     renderPlayButton() {
@@ -159,7 +154,7 @@ class Engine extends Component {
         this.saveButton.render();
         this.domElement.querySelector(".save-btn").addEventListener(
             "click",
-            () => this.save());
+            () => this.saveHandler());
     }
 
     renderClearButton() {

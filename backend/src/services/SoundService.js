@@ -58,7 +58,12 @@ class SoundService {
 		.then(pool => {
                 return pool
                 .input('id', DbConnection.sql.Int, id)
-                .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, S.ByteArrayId AS ByteArrayId
+                .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, 
+                    S.ByteArrayId AS ByteArrayId, 
+                    T.IconSrc as IconSrc,
+                    T.ColorType as ColorType,
+                    S.Image as Image
+                    
                     FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
                     WHERE S.Id = @id`)
             })

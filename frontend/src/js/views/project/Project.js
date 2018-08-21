@@ -64,8 +64,12 @@ class Project extends Component {
     }
 
     createProject(form) {
+        console.log(form);
         if (this.verifyFormData()) {
-            ProjectRepository.addProject(form).then(response => Navigator.goToUrl("/"));
+            ProjectRepository.addProject(form)
+            .then(response => {
+                Navigator.goToUrl("/")
+            });
         }
     }
 
