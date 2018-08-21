@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/evodeltajs2018/internship-project#readme",
   "dependencies": {
+    "pickr-widget": "^0.2.0",
     "rollup": "^0.62.0"
   },
   "devDependencies": {
