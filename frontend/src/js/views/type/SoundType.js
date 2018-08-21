@@ -4,18 +4,19 @@ import Navigator from "../../services/router/Navigator";
 import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 import "./SoundType.scss";
 
-
 class SoundType extends Component {
     constructor(container, typeId = null) {
         super(container, "sound-type");
         this.typeId = typeId;
         this.uploadClicked = false;
+
+        this.pickr = Pickr;
     }
 
     getFormData() {
         const form = {
             name: document.querySelector('#name').value,
-            color: document.querySelector('#color').value,
+            color: document.querySelector('.pcr-button').style.backgroundColor,
             src: this.buffer
         }
         return form;
@@ -72,9 +73,8 @@ class SoundType extends Component {
             .then((data) => {
                 this.buffer = data[0].src;
                 document.querySelector('#name').value = data[0].name;
-                document.querySelector('#color').value = data[0].color;
+                document.querySelector('.pcr-button').style.backgroundColor = data[0].color;
                 document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
-                console.log(document.querySelector('.icon').style.backgroundImage);
             });
     }
 
@@ -103,11 +103,33 @@ class SoundType extends Component {
         this.getTypeById()
             .then(() => {
                 if (this.buffer != null) {
-                    //this.domElement.querySelector('.icon').classList.remove('visbility-hidden');
+                    ;
                 }
                 this.domElement.querySelector('#submit')
                     .addEventListener("click", () => this.editTypeById(this.getFormData(), this.typeId));
             })
+    }
+
+    handleColorPicker() {
+        this.pickr.create({
+            el: '.color-label',
+            default: '#42445A',
+        
+            components: {
+                preview: true,
+                opacity: true,
+                hue: true,
+        
+                interaction: {
+                    hex: true,
+                    rgba: true,
+                    hsva: true,
+                    input: true,
+                    clear: true,
+                    save: true
+                }
+            }
+        });
     }
 
     render() {
@@ -141,10 +163,7 @@ class SoundType extends Component {
                             <label>Color:<span class="red">*</span></label>
                         </div>
                         <div class="validation">
-                            <div class="color-label">
-                                <input type="color" id="color" value="#FFFFFF">
-                            </div>
-                            <label class="input-color-label" for="color"></label>
+                            <div class="color-label"></div>
                             <div class="required visbility-hidden">Required</div>
                         </div>
                     </div>
@@ -159,6 +178,8 @@ class SoundType extends Component {
         } else {
             this.handleAddType();
         }
+
+        this.handleColorPicker();
 
         this.domElement.querySelector("#file")
             .addEventListener("change", () => this.generateDataUrlFromFileInput());
