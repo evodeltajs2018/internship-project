@@ -192,6 +192,7 @@ class Splicer extends Component {
     }
 
     relatedTracksLoader(track) {
+        document.querySelector(".splicer-sample-tracks").innerHTML = "";
         this.relatedSoundLoader.getRelatedSound(track.sound.type.id);
         this.relatedSoundLoader.onLoad = () => {
             for (let i = 0; i < this.relatedSoundLoader.relatedSounds.length; i++) {
@@ -273,9 +274,6 @@ class Splicer extends Component {
         `;
         this.soundLoader = new SoundLoader();
         this.relatedSoundLoader = new RelatedSoundLoader();
-
-       
-
         this.waveForm = new WaveForm(document.querySelector(".splicer-sample-header"));
 
     }

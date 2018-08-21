@@ -12,8 +12,8 @@ class TypeService {
                     .query(`SELECT Id, Name, IconSrc, ColorType FROM Type WHERE Id = @id`)
             })
             .then((result) => {
-                return result.recordset.map((type) => { 
-                    return DbMapper.mapType(type); 
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
                 });
             });
     }
@@ -141,44 +141,44 @@ class TypeService {
     delete(id) {
         const transaction = new DbConnection.sql.Transaction()
         const request = new DbConnection.sql.Request(transaction);
-        
+
         return new Promise((resolve) => {
 
             return transaction.begin(err => {
-                if(err) {
+                if (err) {
                     console.log('Transaction Begin ', err);
                 }
                 let rolledBack = false;
-    
+
                 transaction.on('rollback', aborted => {
                     rolledBack = true;
                 })
 
                 request
-                .input('id', DbConnection.sql.Int, id)
-                .query(`DELETE FROM Sound WHERE TypeId = @id`, (err, result) => {
-                    request
-                    .query(`DELETE FROM ByteArray WHERE Id = @id`, (err, result) => {
+                    .input('id', DbConnection.sql.Int, id)
+                    .query(`DELETE FROM Sound WHERE TypeId = @id`, (err, result) => {
                         request
-                        .query(`DELETE FROM Type WHERE Id = @id`, (err, result) => {
-                            if (err) {
-                                console.log('Throw ', err);
-                                if (!rolledBack) {
-                                    transaction.rollback(err => {
-                                        console.log('Rollback err ', err);
+                            .query(`DELETE FROM ByteArray WHERE Id = @id`, (err, result) => {
+                                request
+                                    .query(`DELETE FROM Type WHERE Id = @id`, (err, result) => {
+                                        if (err) {
+                                            console.log('Throw ', err);
+                                            if (!rolledBack) {
+                                                transaction.rollback(err => {
+                                                    console.log('Rollback err ', err);
+                                                })
+                                            }
+                                        } else {
+                                            transaction.commit(err => {
+                                                if (err) {
+                                                    throw new Error(err);
+                                                }
+                                                resolve(result.rowsAffected[0] === 1);
+                                            })
+                                        }
                                     })
-                                }
-                            } else {
-                                transaction.commit(err => {
-                                    if (err) {
-                                        throw new Error(err);
-                                    }
-                                    resolve(result.rowsAffected[0] === 1);
-                                })
-                            }
-                        })
+                            })
                     })
-                })
             })
         })
     }

@@ -62,7 +62,6 @@ INSERT INTO [dbo].[Sound]
            ('Sound 6', 7,'kick_drum.jpg', 6),
            ('Sound 7', 5,'kick_drum.jpg', 7),
            ('Sound 8', 8,'kick_drum.jpg', 8),
-           ('Sound 9', 7,'kick_drum.jpg', 9),
            ('Sound 10', 6,'kick_drum.jpg', 10),
            ('Sound 11', 5,'kick_drum.jpg', 11),
            ('Sound 12', 4,'kick_drum.jpg', 12),

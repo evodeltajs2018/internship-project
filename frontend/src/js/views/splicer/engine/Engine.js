@@ -178,13 +178,17 @@ class Engine extends Component {
 
     render() {
         this.domElement.innerHTML = `
-            <div class="play-buttons"></div>
-            <label>BPM</label>
+            <div class="splicer-header-left">
+                <div class="play-buttons"></div>
+                <label>BPM</label>
+                
+                <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">
+            </div>
             
-            <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">
-            <div class="clear-btn"></div>
-            <div class="save-btn"></div>
-            <div class="grid"></div>
+            <div class="splicer-header-right">
+                <div class="clear-btn"></div>
+                <div class="save-btn"></div>
+            </div>
         `;
         this.renderPlayButton();
         

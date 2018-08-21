@@ -27,10 +27,6 @@ class SoundRoute {
             SoundController.getSoundsByType(req,res);
         })
 
-        this.app.get("/types", (req, res) => {
-            SoundController.getTypes(req, res);
-        });
-
         this.app.get("/sounds", (req, res) => {
             SoundController.getAll(req, res);
         });

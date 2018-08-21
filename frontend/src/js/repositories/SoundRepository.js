@@ -7,10 +7,10 @@ class SoundRepository {
 	}
 
 	createSound(data) {
-	
+
 		const fd = new FormData();
 
-		for(name in data) {
+		for (name in data) {
 			fd.append(name, data[name]);
 		}
 
@@ -51,7 +51,7 @@ class SoundRepository {
 		.catch(err => Toaster.showError("Error getting sounds"));
 
 	}
-	
+
 	getSoundDataById(id) {
 		return fetch(this.baseurl + "/sounds/audio/" + id)
 		.then(response => response.arrayBuffer())
@@ -66,6 +66,7 @@ class SoundRepository {
 
 		fd.append("name", data.name);
 		fd.append("type", data.type);
+		fd.append("image", data.src);
 		fd.append("value", new Blob([data.value], {type: `audio/${extension}`} ));
 
 		return fetch(this.baseurl + '/sounds/' + id, {
@@ -84,7 +85,7 @@ class SoundRepository {
 		const type = filter.type;
 
 		return fetch(
-			this.baseurl +`/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
+			this.baseurl + `/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
 		)
 		.then(response => response.json())
 		.catch(err => Toaster.showError("Error getting sounds"));

@@ -55,7 +55,7 @@ CREATE TABLE [dbo].[Sound](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
 	[TypeId] [int] NOT NULL,
-	[Image] [nvarchar](50) NOT NULL,
+	[Image] [nvarchar](MAX) NOT NULL,
 	[ByteArrayId] [int] NOT NULL
  CONSTRAINT [PK_Sound] PRIMARY KEY CLUSTERED 
 (
@@ -66,7 +66,7 @@ GO
 
 ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_ArrayByte] FOREIGN KEY([ByteArrayId])
 REFERENCES [dbo].[ByteArray] ([Id])
-ON DELETE CASCADE
+ON DELETE CASCADE 
 GO
 
 ALTER TABLE [dbo].[Sound]  WITH CHECK ADD  CONSTRAINT [FK_Sound_Type] FOREIGN KEY([TypeId])

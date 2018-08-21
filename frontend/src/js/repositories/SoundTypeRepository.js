@@ -66,7 +66,7 @@ class SoundTypeRepository {
 		const name = filter.name;
 
 		return fetch(
-			this.baseurl +`/typeall?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}`,
+			this.baseurl + `/typeall?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}`,
 		)
 		.then(response => response.json())
 		.catch(err => Toaster.showError("Types getting failed"));
