@@ -58,10 +58,10 @@ class SoundService {
 
     getSoundById(id) {
         return DbConnection.executePoolRequest()
-		.then(pool => {
+            .then(pool => {
                 return pool
-                .input('id', DbConnection.sql.Int, id)
-                .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, S.ByteArrayId AS ByteArrayId
+                    .input('id', DbConnection.sql.Int, id)
+                    .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, S.ByteArrayId AS ByteArrayId
                     FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
                     WHERE S.Id = @id`)
             })
@@ -73,10 +73,10 @@ class SoundService {
     getSoundDataById(id) {
         return DbConnection.executeQuery(`
             SELECT Value FROM ByteArray WHERE Id = ${id}`)
-        .then((result) => {
-            return result.recordset[0].Value;
-        })
-    } 
+            .then((result) => {
+                return result.recordset[0].Value;
+            })
+    }
 
     getTypesById(id) {
         return DbConnection.executePoolRequest()
@@ -223,41 +223,41 @@ class SoundService {
     delete(id) {
         const transaction = new DbConnection.sql.Transaction()
         const request = new DbConnection.sql.Request(transaction);
-        
+
         return new Promise((resolve) => {
 
             return transaction.begin(err => {
-                if(err) {
+                if (err) {
                     console.log('Transaction Begin ', err);
                 }
                 let rolledBack = false;
-    
+
                 transaction.on('rollback', aborted => {
                     rolledBack = true;
                 })
 
                 request
-                .input('id', DbConnection.sql.Int, id)
-                .query(`DELETE FROM Sound WHERE Id = @id`, (err, result) => {
-                    request
-                    .query(`DELETE FROM ByteArray WHERE Id = @id`, (err, result) => {
-                        if (err) {
-                            console.log('Throw ', err);
-                            if (!rolledBack) {
-                                transaction.rollback(err => {
-                                    console.log('Rollback err ', err);
-                                })
-                            }
-                        } else {
-                            transaction.commit(err => {
+                    .input('id', DbConnection.sql.Int, id)
+                    .query(`DELETE FROM Sound WHERE Id = @id`, (err, result) => {
+                        request
+                            .query(`DELETE FROM ByteArray WHERE Id = @id`, (err, result) => {
                                 if (err) {
-                                    throw new Error(err);
+                                    console.log('Throw ', err);
+                                    if (!rolledBack) {
+                                        transaction.rollback(err => {
+                                            console.log('Rollback err ', err);
+                                        })
+                                    }
+                                } else {
+                                    transaction.commit(err => {
+                                        if (err) {
+                                            throw new Error(err);
+                                        }
+                                        resolve(result.rowsAffected[0] === 1);
+                                    })
                                 }
-                                resolve(result.rowsAffected[0] === 1);
                             })
-                        }
                     })
-                })
             })
         })
     }

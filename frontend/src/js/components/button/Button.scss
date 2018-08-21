@@ -7,6 +7,7 @@
         cursor: pointer;
         color: #888;
     }
+
     background: none;
     border: none;
     outline: none;
@@ -19,8 +20,8 @@
 .confirm-button {
     cursor: pointer;
     background: $backgroundSecondary;
+    border: 1px solid white;
     width: 80px;
-    border: none;
     outline: none;
     color: white;
     padding: 10px;
@@ -37,7 +38,7 @@
     cursor: pointer;
     color: white;
     background-color: $mainBackgroundColor;
-    border: 1px solid white;
+    border: none;
     outline: none;
     background: transparent;
     padding: 10px;

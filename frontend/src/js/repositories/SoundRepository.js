@@ -6,10 +6,10 @@ class SoundRepository {
 	}
 
 	createSound(data) {
-	
+
 		const fd = new FormData();
 
-		for(name in data) {
+		for (name in data) {
 			fd.append(name, data[name]);
 		}
 
@@ -19,8 +19,8 @@ class SoundRepository {
 				body: fd
 			},
 		)
-		.then(response => response.json())
-		.catch(err => console.error);
+			.then(response => response.json())
+			.catch(err => console.error);
 	}
 
 	getSplicerSounds(){
@@ -37,17 +37,17 @@ class SoundRepository {
 
 	getSoundById(id) {
 		return fetch(this.baseurl + "/sounds/" + id)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 
 	}
-	
+
 	getSoundDataById(id) {
 		return fetch(this.baseurl + "/sounds/audio/" + id)
-		.then(response => response.arrayBuffer())
-		.then(arrayBuffer => {
-			return arrayBuffer;
-		})
+			.then(response => response.arrayBuffer())
+			.then(arrayBuffer => {
+				return arrayBuffer;
+			})
 	}
 
 	editSoundById(data, id, extension) {
@@ -62,8 +62,8 @@ class SoundRepository {
 			method: "PUT",
 			body: fd
 		})
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 
 	getAllSounds(pagination, filter) {
@@ -71,10 +71,10 @@ class SoundRepository {
 		const type = filter.type;
 
 		return fetch(
-			this.baseurl +`/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
+			this.baseurl + `/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`,
 		)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 
 	deleteSound(soundId) {
@@ -84,8 +84,8 @@ class SoundRepository {
 				method: "DELETE"
 			}
 		)
-		.then(response => response.json())
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.catch(err => console.error(err));
 	}
 }
 

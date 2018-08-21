@@ -12,10 +12,20 @@ class Sound extends Component {
         this.soundId = soundId;
         this.imageSrc = null;
         this.buffer = null;
+        this.source = false;
         this.uploadImageClicked = false;
         this.uploadSoundClicked = false;
-
+        window.addEventListener('popstate', () => this.handlePageLeave());
+        
         this.createSoundTypesDropdown();
+    }
+
+    handlePageLeave() {
+        if (this.source) {
+            this.source.stop(0);
+            this.source = false;
+        }
+        window.removeEventListener('popstate', this.handlePageLeave);
     }
 
     getFormData() {
@@ -112,6 +122,11 @@ class Sound extends Component {
                 this.createPlayButton();
             }
 
+            if (this.source) {
+                this.source.stop(0);
+                this.source = false;
+            }
+
             document.querySelector('#name').value = input.files[0].name;
             document.querySelector("#name").className = "";
 
@@ -133,15 +148,32 @@ class Sound extends Component {
     }
 
     playSound() {
-        const context = new AudioContext();
-        const buffer = this.copyBuffer(this.buffer);
-        context.decodeAudioData(buffer).then((data) => {
-            const source = context.createBufferSource();
+        if (this.source === false) {
+            const context = new AudioContext();
+            const buffer = this.copyBuffer(this.buffer);
+            document.querySelector("#play-sound").className = "fas fa-pause";
 
-            source.buffer = data;
-            source.connect(context.destination);
-            source.start(0);
-        })
+            context.decodeAudioData(buffer).then((data) => {
+                const source = context.createBufferSource();
+
+                this.source = source;
+                source.buffer = data;
+                source.connect(context.destination);
+                source.start(0);
+
+                source.onended = () => {
+                    this.source = false;
+                    const elem = document.querySelector("#play-sound");
+                    if(elem) {
+                        elem.className = "fas fa-play-circle";
+                    }
+                }
+            })
+        } else {
+            document.querySelector("#play-sound").className = "fas fa-play-circle";
+            this.source.stop();
+            this.source = false;
+        }
     }
 
     getSoundsById() {
@@ -283,9 +315,7 @@ class Sound extends Component {
         this.domElement.querySelector("#sound")
             .addEventListener("change", () => this.generateByteArrayFromFileInput());
 
-        this.cancelButton = new Button(this.domElement.querySelector(".form-buttons"), "CANCEL", "cancel-button cursor-pointer", () => {
-            Navigator.goToUrl("/sounds");
-        });
+        this.cancelButton = new Button(this.domElement.querySelector(".form-buttons"), "CANCEL", "cancel-button cursor-pointer", () => { Navigator.goToUrl("/sounds") });
         this.cancelButton.render();
     }
 }
