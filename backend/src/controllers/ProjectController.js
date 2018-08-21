@@ -3,7 +3,7 @@ const ProjectService = require("../services/ProjectService");
 class ProjectController {
     constructor() {}
 
-    getAllProjects(res) {
+    getAllProjects(req, res) {
         return ProjectService.getAllProjects().then((data) => {
             return res.json(data);
         });

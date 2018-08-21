@@ -25,7 +25,11 @@ GO
 
 CREATE TABLE [dbo].[Users](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](max) NOT NULL
+    [FullName] [nvarchar](50) NOT NULL,
+	[Username] [nvarchar](50) NOT NULL,
+    [Email] [nvarchar](50) NOT NULL,
+    [Password] [nvarchar](max) NOT NULL,
+    [TypeId] [int] NOT NULL,
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

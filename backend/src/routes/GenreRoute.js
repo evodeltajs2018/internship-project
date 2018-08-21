@@ -8,9 +8,7 @@ class GenreRoute {
     }
 
     initRoutes() {
-        this.app.get("/genres", (req, res) => {
-            GenreController.getAllGenres(res)
-        });
+        this.app.get("/genres", GenreController.getAllGenres);
 
         this.app.get("/genres/:id", (req, res) => {
             GenreController.getGenreById(req, res);
