@@ -9,7 +9,7 @@ import Project from "../../views/project/Project";
 import SidebarService from "../../services/sidebar service/SidebarService";
 import TitleService from "../../services/title service/TitleService";
 import SoundType from "../../views/type/SoundType";
-
+import Register from "../../views/register/Register";
 
 class Router {
     constructor(container) {
@@ -50,8 +50,17 @@ class Router {
             {
                 path: "/type",
                 component: SoundType
+            }, 
+            {
+                path: "/register",
+                component: Register
             }
         ];
+    }
+
+    changeContainer() {
+        this.container = document.body.querySelector('.app');
+        this.container.innerHTML = ``;
     }
 
     init() {
@@ -65,7 +74,6 @@ class Router {
     }
 
     addPopStateEvent() {
-        // called when URL is changed
         window.onpopstate = (event) => {
             
             this.renderByUrl(window.location.pathname);
@@ -121,7 +129,10 @@ class Router {
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
 
-        if (route.component) {
+        if (route.component.path === "/register") {
+            this.changeContainer();
+            this.setNewCurrentComponent(route);
+        } else if (route.component) {
             this.setNewCurrentComponent(route);
         } else {
             console.error("invalid route");
