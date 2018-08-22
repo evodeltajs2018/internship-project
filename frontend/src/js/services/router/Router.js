@@ -9,7 +9,8 @@ import Project from "../../views/project/Project";
 import SidebarService from "../../services/sidebar service/SidebarService";
 import TitleService from "../../services/title service/TitleService";
 import SoundType from "../../views/type/SoundType";
-import Register from "../../views/register/Register";
+import Register from "../../views/auth/Register";
+import Login from "../../views/auth/Login";
 
 class Router {
     constructor(container) {
@@ -54,6 +55,10 @@ class Router {
             {
                 path: "/register",
                 component: Register
+            },
+            {
+                path: "/login",
+                component: Login
             }
         ];
     }
@@ -138,7 +143,7 @@ class Router {
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
 
-        if (route.component.path === "/register") {
+        if (route.component.path === "/register" || route.component.path === "/login") {
             this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
         } else if (route.component) {

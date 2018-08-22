@@ -20,6 +20,21 @@
         }
     }
 
+    .register-text {
+        font-size: 16px;
+        margin-top: 25px;
+        color: white;
+    }
+
+    .register-link {
+        color: $backgroundSecondary;
+
+        &:hover {
+            cursor: pointer;
+            color: $buttonHoverColor;
+        }
+    }
+
     .error {
         font-size: 14px;
         border-bottom: 1px solid #f00;
@@ -82,7 +97,6 @@
 
                 &:focus {
                     outline: 0;
-                    //outline: 1px solid $backgroundSecondary;
                     box-shadow: 0 3px 0 $backgroundSecondary;
                 }
             }

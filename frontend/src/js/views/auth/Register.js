@@ -1,7 +1,7 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
 import RegisterRepository from "../../repositories/RegisterRepository";
-import "./Register.scss";
+import "./Auth.scss";
 
 class Register extends Component {
     constructor(container) {
@@ -73,6 +73,7 @@ class Register extends Component {
                 </div>
                 <button class="auth-button" type="submit">Register</button>
             </form>
+            <div class="register-text">Already got an account? <span class="register-link">Login Now</span></div>
         </div>
         <div id="particles"></div>
         `;
@@ -81,6 +82,8 @@ class Register extends Component {
             e.preventDefault();
             this.createNewUser();
         })
+
+        this.domElement.querySelector(".register-link").addEventListener("click", () => { Navigator.goToUrl("/login") } );
     }
 
 }
