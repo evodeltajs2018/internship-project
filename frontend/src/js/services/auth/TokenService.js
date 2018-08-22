@@ -6,6 +6,10 @@ class TokenService {
     getToken() {
         return window.localStorage.getItem('token');
     }
+
+    destroyToken() {
+        window.localStorage.removeItem('token');
+    }
 }
 
 export default new TokenService();

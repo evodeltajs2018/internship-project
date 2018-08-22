@@ -1,6 +1,7 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
 import AuthenticationRepository from "../../repositories/AuthenticationRepository";
+import User from "../../components/user/User";
 import TokenService from "../../services/auth/TokenService";
 
 class Login extends Component {
@@ -36,6 +37,7 @@ class Login extends Component {
                 } else {
                     TokenService.setToken(check.token);
                     Navigator.goToUrl("/projects");
+                    this.user = new User(document.querySelector('.user-card'), TokenService.getToken());
                 }
             });
     }

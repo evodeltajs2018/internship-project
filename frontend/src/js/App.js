@@ -2,6 +2,8 @@ import Component from "./components/Component";
 import MenuService from "./services/MenuService";
 import Navigator from "./services/router/Navigator";
 import Router from "./services/router/Router";
+import TokenService from "./services/auth/TokenService";
+import User from "./components/user/User";
 import "./App.scss";
 
 class App extends Component {
@@ -66,7 +68,7 @@ class App extends Component {
         <nav class="header">
             <i class="fas fa-bars hamburger"></i>
             <h1>Splicer</h1>
-            <div />
+            <div class="user-card"></div>
         </nav>
         <div class="split">
             <div class="sidebar">
@@ -82,6 +84,7 @@ class App extends Component {
         </div>
         `;
 
+
         this.domElement.querySelector('.sidebar-content')
             .innerHTML = this.getSidebarLinksHTML();
 
@@ -89,7 +92,6 @@ class App extends Component {
             .addEventListener("click", this.toggleMenu);
 
         this.addClickEventListenerToSidebar();
-
         this.initRouter();
     }
 }
