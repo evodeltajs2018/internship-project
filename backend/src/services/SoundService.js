@@ -16,34 +16,37 @@ class SoundService {
             });
     }
 
-    addSound(name, typeId, bytearray) {
+    addSound(name, typeId, image, bytearray) {
         return this.addByteArray(bytearray)
-            .then(lastId => {
-                return DbConnection.executePoolRequest()
-                    .then(pool => {
-                        return pool
-                            .input('name', DbConnection.sql.NVarChar(50), name)
-                            .input('soundTypeId', DbConnection.sql.Int, typeId)
-                            .input('byteArrayId', DbConnection.sql.Int, lastId)
-                            .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @byteArrayId)`);
-                    })
-                    .then(result => {
-                        return result.rowsAffected[0] === 1;
-                    });
-            })
+        .then(lastId => {
+            return DbConnection.executePoolRequest()
+                .then(pool => {
+                    return pool
+                        .input('name', DbConnection.sql.NVarChar(50), name)
+                        .input('soundTypeId', DbConnection.sql.Int, typeId)
+                        .input('image', DbConnection.sql.NVarChar(DbConnection.sql.MAX), image)
+                        .input('byteArrayId', DbConnection.sql.Int, lastId)
+                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @image, @byteArrayId)`);
+                })
+                .then(result => {
+                    return result.rowsAffected[0] === 1;
+                });
+        })
     }
 
-    editSound(paramId, name, typeId, bytearray) {
+    editSound(paramId, name, typeId, image, bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('paramId', DbConnection.sql.Int, paramId)
                     .input('name', DbConnection.sql.NVarChar(50), name)
                     .input('soundTypeId', DbConnection.sql.Int, typeId)
+                    .input('image',DbConnection.sql.NVarChar(DbConnection.sql.MAX),image)
                     .input('byteArrayId', DbConnection.sql.Int, paramId)
                     .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
                     .query(`UPDATE Sound SET 
                         Name = @name, 
-                        TypeId = @soundtypeId
+                        TypeId = @soundtypeId,
+                        Image = @image
                         WHERE Id = @paramId;
                         UPDATE ByteArray SET Value = @value WHERE Id = @byteArrayId
                         `)
@@ -57,8 +60,13 @@ class SoundService {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool
-                    .input('id', DbConnection.sql.Int, id)
-                    .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, S.ByteArrayId AS ByteArrayId
+                .input('id', DbConnection.sql.Int, id)
+                .query(`SELECT S.Id as Id, S.Name, S.TypeId, T.Name AS TypeName, 
+                    S.ByteArrayId AS ByteArrayId, 
+                    T.IconSrc as IconSrc,
+                    T.ColorType as ColorType,
+                    S.Image as Image
+                    
                     FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
                     WHERE S.Id = @id`)
             })
@@ -73,6 +81,77 @@ class SoundService {
             .then((result) => {
                 return result.recordset[0].Value;
             })
+    }
+
+    getTypesById(id) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('id', DbConnection.sql.Int, id)
+                    .query(`SELECT Id, Name FROM Type WHERE Id = @id`)
+            })
+            .then((result) => {
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
+                });
+            });
+    }
+
+    getTypes() {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.query(`SELECT Id, Name FROM Type`)
+            })
+            .then((result) => {
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
+                });
+            });
+
+    }
+
+    getIconSrcById(typeId) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('typeId', DbConnection.sql.Int, typeId)
+                    .query(`SELECT IconSrc FROM Type WHERE Id = @typeId`);
+            })
+            .then((result) => {
+                return result.recordset.map((type) => {
+                    return DbMapper.mapType(type);
+                });
+            })
+    }
+
+    getSplicerSounds() {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.query(`SELECT DISTINCT TOP 8 S.Id, S.Name, S.TypeId
+                
+                , S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
+                FROM Sound S 
+                INNER JOIN Type T ON S.TypeId = T.Id`);
+            })
+            .then((result) => {
+
+                return result.recordset.map((type) => {
+                    return DbMapper.mapSoundSplicer(type);
+                })
+            })
+    }
+
+    getSoundsByType(typeId){
+        return DbConnection.executePoolRequest().then(pool =>{
+            return pool.input('typeId',DbConnection.sql.Int,typeId)
+            .query(`SELECT S.Id, S.Name, S.TypeId, S.Image, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
+            FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+            WHERE S.TypeId = @typeId ;`)
+        })
+        .then((result) => {
+            return result.recordset.map((type) => {
+                return DbMapper.mapSoundSplicer(type);
+            })
+        })
+
     }
 
     getPageCount(itemsPerPage, filter) {

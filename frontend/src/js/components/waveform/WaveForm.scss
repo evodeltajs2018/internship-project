@@ -1,0 +1,33 @@
+.waveform-container{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items:center;
+}
+.waveform-name{
+    display: inherit;
+    width:15%;
+}
+.waveform-type{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    position: relative;
+    width:15%;
+    .waveform-type-image{
+        margin:auto;
+        bottom:0;
+        left:0;right:0; 
+        width:30px;
+        height:30px;
+    }
+    .waveform-type-text{
+        position: absolute;
+        color:white;
+    }
+}
+
+.waveform{
+    width:40%;
+    height:50px;
+}

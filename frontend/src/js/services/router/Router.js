@@ -2,12 +2,12 @@ import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import TypesGrid from "../../views/typesgrid/TypesGrid";
 import NotFound from "../../views/notfound/NotFound";
-import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
-import SidebarService from "../../services/sidebar service/SidebarService";
-import TitleService from "../../services/title service/TitleService";
+import Splicer from "../../views/splicer/Splicer";
+import SidebarService from "../../services/sidebar_service/SidebarService";
+import TitleService from "../../services/title_service/TitleService";
 import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
@@ -17,40 +17,40 @@ class Router {
         this.container = container;
 
         this.routes = [{
-                path: "/",
-                component: Projects,
-            },
-            {
-                path: "/projects",
-                component: Projects,
-            },
-            {
-                path: "/project",
-                component: Project
-            },
-            {
-                path: "/sounds",
-                component: SoundsGrid
-            },
-            {
-                path: "/types",
-                component: TypesGrid
-            },
-            {
-                path: "/newproject",
-                component: Dummy
-            },
-            {
-                path: "/notfound",
-                component: NotFound
-            },
-            {
-                path: "/sound",
-                component: Sound
-            },
-            {
-                path: "/type",
-                component: SoundType
+            path: "/",
+            component: Projects,
+        },
+        {
+            path: "/projects",
+            component: Projects,
+        },
+        {
+            path: "/project",
+            component: Project
+        },
+        {
+            path: "/sounds",
+            component: SoundsGrid
+        },
+        {
+            path: "/types",
+            component: TypesGrid
+        },
+        {
+            path: "/notfound",
+            component: NotFound
+        },
+        {
+            path: "/sound",
+            component: Sound
+        },
+        {
+            path: "/splicer",
+            component: Splicer
+        },
+        {
+            path: "/type",
+            component: SoundType
             }, 
             {
                 path: "/register",
@@ -59,7 +59,7 @@ class Router {
             {
                 path: "/login",
                 component: Login
-            }
+        }
         ];
     }
 
@@ -89,7 +89,7 @@ class Router {
 
     addPopStateEvent() {
         window.onpopstate = (event) => {
-            
+
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -103,7 +103,7 @@ class Router {
         this.currentComponent.render();
     }
 
-    
+
 
     findRouteByUrl(url) {
         let parameter = null;

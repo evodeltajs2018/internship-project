@@ -1,4 +1,5 @@
 import Config from "../utils/Config";
+import Toaster from "../utils/Toaster";
 
 class GenreRepository {
 	constructor() {
@@ -12,7 +13,7 @@ class GenreRepository {
 			}
 		})
 		.then(response => response.json())
-		.catch(err => console.error(err));
+		.catch(err => Toaster.showError("Failed to get genres"));
 	}
 }
 

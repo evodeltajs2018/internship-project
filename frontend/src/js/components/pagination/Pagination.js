@@ -24,7 +24,6 @@ class Pagination extends Component {
     }
 
     setupPageInfo() {
-        // console.log(this);
         if (this.currentPage === 0) {
             this.currentPage = 1;
         }
