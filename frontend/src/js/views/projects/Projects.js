@@ -9,75 +9,75 @@ class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
-		this.displayData = null;
-
 		this.pagination = {
 			currentPage: 1,
 			itemsPerPage: 2,
 		};
+
 		this.filter = {
 			name: "",
 			genreName: ""
 		};
 
-		this.prevRatio = 0.0;
-		this.increasingColor = "rgba(40, 40, 190, ratio)";
-		this.decreasingColor = "rgba(190, 40, 40, ratio)";
+		this.observer;
 
 		this.render();
-		this.getProjects();
 	}
 
 	projectObserver() {
-		const c = document.getElementsByClassName('card');
-		let box = c[c.length - 1];
-		let boxElement = document.getElementsByClassName('loading')[0];
-		
+		// const c = document.getElementsByClassName('card');
+		// let box = c[c.length - 1];
+		let boxElement = document.getElementById('loading');
+		let that = this;
 
 		var options = {
 			root: null,
 			rootMargin: "0px",
-			threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
+			threshold: [1]
 		};
 
-		//	observer = new IntersectionObserver(that.handleIntersect.bind(that), options);
-		let observer = new IntersectionObserver(this.handleIntersect, options);
-		observer.observe(boxElement);
+		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), options);
+		this.observer.observe(boxElement);
 	}
 
 	handleIntersect(entries, observer) {
-		console.log(this);
-		entries.forEach(function (entry) {
-			console.log(entry.intersectionRatio);
-			// if (entry.intersectionRatio > 0.75) {
-			// 	console.log('out');
-			// 	entry.target.style.backgroundColor = this.increasingColor.replace("ratio", entry.intersectionRatio);
-			// } else {
-			// 	console.log('in');
-			// 	entry.target.style.backgroundColor = this.decreasingColor.replace("ratio", entry.intersectionRatio);
-			// }
-
-			// this.prevRatio = entry.intersectionRatio;
-		
-			// if (entry.intersectionRatio == 1)
-			// 	this.getProjects();
-		});
+		let that = this;
+		let boxElement = document.getElementById('loading');
+		if (entries) {
+			entries.forEach(function (entry) {
+				console.log("ratio: " + entry.intersectionRatio);
+				if (entry.intersectionRatio == 1) {
+					that.getProjects();
+					observer.unobserve(boxElement);
+				}
+			});
+		} else {
+			that.getProjects();
+			observer.unobserve(boxElement);
+		}
 	}
 
 	getProjects() {
-		//console.log(this.pagination);
+		let boxElement = document.getElementById('loading');
+		this.observer.unobserve(boxElement);
 		ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
-			this.displayData = data.data;
 
-			//	console.log(this.pagination.currentPage + "  --  " + data.pageCount);
+			console.log(this.pagination.currentPage + "  --  " + data.currentPage + "  --  " + data.pageCount + "  --  " + this.filter.name);
 			if (this.pagination.currentPage <= data.pageCount) {
 				this.pagination.currentPage++;
 
-				this.addCards(this.displayData);
-				if (this.pagination.currentPage > data.pageCount)
+				console.log(data);
+				this.addCards(data.data);
+				if (this.pagination.currentPage > data.pageCount) {
 					this.hideLoadingArea(true);
+				}
 			}
-			this.projectObserver();
+			if (data.data.length > 0) {
+				this.projectObserver();
+			} else {
+				this.hideLoadingArea(true);
+			}
+
 		});
 	}
 
@@ -105,7 +105,7 @@ class Projects extends Component {
 
 	filterProjects() {
 		this.initializeCards();
-		this.handleIntersect();
+		this.getProjects();
 	}
 
 	populateFilter() {
@@ -121,6 +121,15 @@ class Projects extends Component {
 
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
+
+		this.pagination = {
+			currentPage: 1,
+			itemsPerPage: 2,
+		};
+
+		console.log("name: " + this.filter.name);
+
+		//this.projectObserver();
 	}
 
 	hideLoadingArea(isHidden) {
@@ -138,7 +147,6 @@ class Projects extends Component {
 		</div>
 		`;
 
-
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
 		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
@@ -152,6 +160,7 @@ class Projects extends Component {
 		})
 
 		this.initializeCards();
+		this.projectObserver();
 	}
 }
 

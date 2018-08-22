@@ -4,6 +4,7 @@ class ProjectController {
     constructor() {}
 
     getAllProjects(req, res) {
+        //console.log("curent page :"+req.query.page + " -- " + req.query.perpage);
         const page = req.query.page;
         const itemsPerPage = req.query.perpage;
         if (page && itemsPerPage) {

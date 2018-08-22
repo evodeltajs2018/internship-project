@@ -9,8 +9,6 @@ class ProjectService {
         `;
     }
 
-
-
     getPageCount(itemsPerPage, filter) {
         return DbConnection.executePoolRequest()
             .then(pool => {
@@ -83,20 +81,6 @@ class ProjectService {
 
             });
     }
-    // getAllProjects() {
-    //     return DbConnection.executePoolRequest()
-    //         .then(pool => {
-    //             return pool.query(`
-    //         SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName
-    //         FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
-    //         ORDER BY P.Id DESC`)
-    //         })
-    //         .then((result) => {
-    //             return result.recordset.map((record) => {
-    //                 return DbMapper.mapProject(record)
-    //             });
-    //         });
-    // }
 
     getProjectById(id) {
         return DbConnection.executePoolRequest()
