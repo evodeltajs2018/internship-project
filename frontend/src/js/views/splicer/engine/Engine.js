@@ -20,6 +20,7 @@ class Engine extends Component {
         this.tracks = [];
         this.isPlaying = false;
         this.options = options;
+        this.analyser =  this.audioContext.createAnalyser();
         window.addEventListener("popstate", () => this.handlePageLeave());
     }
 
@@ -67,10 +68,13 @@ class Engine extends Component {
         source.buffer = buffer;
 
         let gainNode = this.audioContext.createGain();
-        gainNode.gain.value = track.volumeController.volume;
+        let volume = track.volumeController? track.volumeController.volume : 1;
+        gainNode.gain.value = volume;
 
+        this.analyser.smoothingTimeConstant = 0.6;
         source.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
+        gainNode.connect(this.analyser);
+        this.analyser.connect(this.audioContext.destination);
 
         source.start(nextNoteTime);
     }
@@ -106,6 +110,9 @@ class Engine extends Component {
         this.renderStopButton();
         this.playBeatmap();
         this.isPlaying = true;
+        if (this.cardPlayHandler) {
+            this.cardPlayHandler();
+        }
     }
 
     stop() {

@@ -17,6 +17,7 @@ class Project extends Component {
 
         this.getGenresHTML();
 
+       
         if (projectId != null) {
             this.getProject(projectId);
         }
@@ -40,6 +41,7 @@ class Project extends Component {
     getProject(projectId) {
         ProjectRepository.getProjectById(projectId)
         .then(data => {
+            
             if (data.length > 0) {
                 document.querySelector('#name').value = data[0].name;
                 document.querySelector('#genre').value = data[0].genre.id;
@@ -49,6 +51,8 @@ class Project extends Component {
             }
         });
     }
+
+
 
     getFormData() {
         const form = {
@@ -64,7 +68,6 @@ class Project extends Component {
     }
 
     createProject(form) {
-        console.log(form);
         if (this.verifyFormData()) {
             ProjectRepository.addProject(form)
             .then(response => {

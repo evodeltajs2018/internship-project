@@ -16,10 +16,10 @@
 
         .clear-button, .save-button {
             height: 100%;
-            border-radius: 15px;
+            // border-radius: 15px;
             background: white;
             opacity: .9;
-            margin: 0 5px;  
+            // margin: 0 5px;  
             &:hover {
                 cursor: pointer;
                 opacity: .8;

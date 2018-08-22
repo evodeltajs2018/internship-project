@@ -1,10 +1,9 @@
 class TitleService {
     static setCurrentTitle() {
-        let pageTitle = document.querySelector(".page-title h2");
-
+        let pageTitle = document.querySelector(".page-title h2"); 
         let url = window.location.pathname.toString();
         let parseUrl = url.split("/");
-
+       
         switch (window.location.pathname) {
             case "/":
                 pageTitle.innerHTML = "Projects";

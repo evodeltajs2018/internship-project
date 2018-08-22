@@ -61,7 +61,7 @@ class SoundService {
             .then(pool => {
                 return pool
                 .input('id', DbConnection.sql.Int, id)
-                .query(`SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName, 
+                .query(`SELECT S.Id as Id, S.Name, S.TypeId, T.Name AS TypeName, 
                     S.ByteArrayId AS ByteArrayId, 
                     T.IconSrc as IconSrc,
                     T.ColorType as ColorType,

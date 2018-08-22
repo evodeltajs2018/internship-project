@@ -12,9 +12,23 @@ class Projects extends Component {
 		this.data = null;
 		this.displayData = null;
 		this.filter = {};
+		this.cards = [];
+		this.currentlyPlaying = null;
+        this.audioContext = new AudioContext();
+		
+		this.setPlayingCard = (projectId) => {
+			this.setPlayingCardHandler(projectId);
+		}
+		this.getProjectsAndTracks();
 
-		this.getProjects();
+	}
 
+	getProjectsAndTracks() {
+		this.getProjects().then(() => {
+			for (let card of this.cards) {
+				card.loadTracks();
+			}
+		});
 	}
 
 	allCards(array) {
@@ -30,25 +44,48 @@ class Projects extends Component {
 		}
 
 	}
+
+	setPlayingCardHandler(projectId) {
+		for (let card of this.cards) {
+			if (card.engine.isPlaying &&  card.project.id != projectId) {
+				card.engine.stop();
+			}
+		}
+	}
+
 	getProjects() {
-		ProjectRepository.getProjects().then((data) => {
+		return ProjectRepository.getProjects()
+		.then((data) => {
+			let promises = []
+			for (let project of data) {
+				promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {
+					project.beatmap = beatmap;
+				}));
+			}
 			this.data = data;
 			this.displayData = data;
 			this.render();
+			return Promise.all(promises);
 		});
 	}
 
 	cardCreator(project) {
-		this.card = new Card(this.domElement.querySelector(".cards"), project);
-		this.card.render();
-		this.card.onDelete = (id) => {
+		let card = new Card(
+			this.domElement.querySelector(".cards"), 
+			project, 
+			this.audioContext,
+			this.setPlayingCard
+		);
+		this.cards.push(card);
+		card.render();
+		card.onDelete = (id) => {
 			this.deleteProject(id);
 		};
 	}
 
 	deleteProject(id) {
 		ProjectRepository.deleteProject(id).then(() => {
-			this.getProjects();
+			this.getProjectsAndTracks();
 		});
 	}
 
