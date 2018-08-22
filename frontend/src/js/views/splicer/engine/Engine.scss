@@ -14,6 +14,76 @@
         
         background: $backgroundSecondary;
 
+        .clear-button, .save-button {
+            height: 100%;
+            border-radius: 15px;
+            background: white;
+            opacity: .9;
+            margin: 0 5px;  
+            &:hover {
+                cursor: pointer;
+                opacity: .8;
+            }
+        }
+    
+    
+        .play-button {
+            height: 100%;
+            background: white;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        
+        .stop-button {
+            height: 100%;
+            background: white;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        
+        .play-button, .stop-button {
+            width: 100px;
+            height: 40px    ;
+            font-size: 25px;
+            color: black;
+            border: none;
+        }
+    
+    
+    
+        .clear-button, .save-button {
+            font-size: 20px;
+            height: 40px;
+            width: 100px;
+            i {
+                margin: 5px;
+            }
+            &:focus {
+                outline: none;
+            }
+            &:hover {
+                cursor: pointer;
+                opacity: .8;
+            }
+            color: black;
+            border: none;
+        }
+        
+        .play-buttons {
+            height: 100%;
+        }
+    
+        #bpm-input {
+            height: 40px;
+            margin: 0;
+            border: none;
+            &:focus {
+                outline: none;
+            }
+        }
+
         .splicer-engine {
             display: flex;
             justify-content: space-between;
@@ -42,81 +112,13 @@
 
             .clear-btn, .save-btn {
                 height: 100%;
-                
-                // border-left: 1px solid black;
-                // border-right: 1px solid black;
-             
             }
 
         }
     }
 
 
-    .clear-button, .save-button {
-        height: 100%;
-        border-radius: 15px;
-        background: white;
-        opacity: .9;
-        margin: 0 5px;  
-        &:hover {
-            cursor: pointer;
-            opacity: .8;
-        }
-    }
-
-
-    .play-button {
-        height: 100%;
-        background: white;
-        &:hover {
-            cursor: pointer;
-        }
-    }
     
-    .stop-button {
-        height: 100%;
-        background: white;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-    
-    .play-button, .stop-button {
-        width: 100px;
-        height: 40px    ;
-        font-size: 25px;
-        color: black;
-        border: none;
-    }
-
-
-
-    .clear-button, .save-button {
-        font-size: 20px;
-        height: 40px;
-        width: 100px;
-        i {
-            margin: 5px;
-        }
-        &:focus {
-            outline: none;
-        }
-        &:hover {
-            cursor: pointer;
-            opacity: .8;
-        }
-        color: black;
-        border: none;
-    }
-    
-    .play-buttons {
-        height: 100%;
-    }
-
-    #bpm-input {
-        height: 40px;
-        margin: 0;
-    }
 
 
     .volume-input { 

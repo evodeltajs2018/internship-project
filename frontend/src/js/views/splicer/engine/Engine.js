@@ -2,8 +2,15 @@ import Component from "../../../components/Component";
 import Button from "../../../components/button/Button";
 import "./Engine.scss";
 
+const defaultOptions = {
+    play: true,
+    clear: true,
+    bpm: true,
+    save: true
+}
+
 class Engine extends Component {
-    constructor(container, audioContext, mapSize, saveHandler, bpm) {
+    constructor(container, audioContext, mapSize, saveHandler, bpm, options = defaultOptions) {
         super(container, "splicer-engine");
         this.saveHandler = saveHandler;
         this.audioContext = audioContext;
@@ -12,6 +19,7 @@ class Engine extends Component {
         this.currentIndex = 0;
         this.tracks = [];
         this.isPlaying = false;
+        this.options = options;
         window.addEventListener("popstate", () => this.handlePageLeave());
     }
 
@@ -33,7 +41,7 @@ class Engine extends Component {
     createPlayEvent() {
         let event = new CustomEvent("playbeat", {
             bubbles: false,
-            detail: {index: this.currentIndex}
+            detail: { index: this.currentIndex }
         });
         document.dispatchEvent(event);
     }
@@ -57,7 +65,7 @@ class Engine extends Component {
         let source = track.beatmap.source;
         let buffer = track.buffer;
         source.buffer = buffer;
-        
+
         let gainNode = this.audioContext.createGain();
         gainNode.gain.value = track.volumeController.volume;
 
@@ -72,7 +80,7 @@ class Engine extends Component {
         let nextNoteTime = this.audioContext.currentTime;
         while (nextNoteTime < this.audioContext.currentTime + 0.1) {
             for (let track of this.tracks) {
-                if (track.beatmap[this.currentIndex]) {            
+                if (track.beatmap[this.currentIndex]) {
                     this.playSound(track, nextNoteTime);
                 }
             }
@@ -176,13 +184,28 @@ class Engine extends Component {
         return false;
     }
 
+    addBpmEvents() {
+        this.domElement.querySelector("#bpm-input").addEventListener("change",
+            (event) => {
+                this.changeBpm(event.target.value);
+            });
+
+        this.domElement.querySelector("#bpm-input").addEventListener("input",
+            (event) => {
+                this.checkBpm(event);
+            });
+    }
+
     render() {
         this.domElement.innerHTML = `
             <div class="splicer-header-left">
                 <div class="play-buttons"></div>
-                <label>BPM</label>
+                ${
+                 this.options.bpm ? `<label>BPM</label>
                 
-                <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">
+                <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">` : ""
+                }
+                
             </div>
             
             <div class="splicer-header-right">
@@ -190,20 +213,11 @@ class Engine extends Component {
                 <div class="save-btn"></div>
             </div>
         `;
-        this.renderPlayButton();
-        
-        this.domElement.querySelector("#bpm-input").addEventListener("change",
-            (event) => {
-                this.changeBpm(event.target.value); 
-            });
+        this.options.play ? this.renderPlayButton() : null;
+        this.options.bpm ? this.addBpmEvents() : null;
+        this.options.save ? this.renderSaveButton() : null;
+        this.options.clear ? this.renderClearButton() : null;
 
-        this.domElement.querySelector("#bpm-input").addEventListener("input",
-        (event) => {
-            this.checkBpm(event);
-        });
-        this.renderSaveButton();
-        this.renderClearButton();
-        
     }
 }
 
