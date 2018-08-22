@@ -8,6 +8,7 @@ import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
 import SoundFilter from "./filter/SoundFilter";
+import Engine from "../splicer/engine/Engine";
 
 class SoundsGrid extends Component {
     constructor(container) {
@@ -66,6 +67,7 @@ class SoundsGrid extends Component {
         `;
         this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
         this.filterBar.render();
+        
     }
 
     deletehandler(id) {
