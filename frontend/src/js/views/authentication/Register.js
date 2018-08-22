@@ -1,7 +1,7 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
-import RegisterRepository from "../../repositories/RegisterRepository";
-import "./Auth.scss";
+import AuthenticationRepository from "../../repositories/AuthenticationRepository";
+import "./Authentication.scss";
 
 class Register extends Component {
     constructor(container) {
@@ -23,9 +23,8 @@ class Register extends Component {
     }
 
     createNewUser() {
-        this.errorsArray = [];
         const form = this.getFormData();
-            RegisterRepository.createUser(form).then(result => {
+            AuthenticationRepository.createUser(form).then(result => {
                 if (result.error) {
                     document.querySelector('.error').innerHTML = `${result.error}`;
                     return { error: result.error };
@@ -38,7 +37,7 @@ class Register extends Component {
                 if (check.error) {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
-                    Navigator.goToUrl("/sounds")
+                    Navigator.goToUrl("/login")
                 }
             });
     }

@@ -69,7 +69,7 @@ class AuthenticationController {
                                 }
                             })
                     } else {
-                        throw (res.status(400).send({ error: "There is no account associated with this email." }));
+                        throw (res.status(400).send({ error: "There is no account with that email address." }));
                     }
                 })
                 .catch(err => { return err; })

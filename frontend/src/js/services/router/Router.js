@@ -9,8 +9,8 @@ import Project from "../../views/project/Project";
 import SidebarService from "../../services/sidebar service/SidebarService";
 import TitleService from "../../services/title service/TitleService";
 import SoundType from "../../views/type/SoundType";
-import Register from "../../views/auth/Register";
-import Login from "../../views/auth/Login";
+import Register from "../../views/authentication/Register";
+import Login from "../../views/authentication/Login";
 
 class Router {
     constructor(container) {

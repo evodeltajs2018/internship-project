@@ -1,6 +1,6 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
-import RegisterRepository from "../../repositories/RegisterRepository";
+import AuthenticationRepository from "../../repositories/AuthenticationRepository";
 
 class Login extends Component {
     constructor(container) {
@@ -18,10 +18,9 @@ class Login extends Component {
         return data;
     }
 
-    createNewUser() {
-        this.errorsArray = [];
+    loginUser() {
         const form = this.getFormData();
-            RegisterRepository.createUser(form).then(result => {
+            AuthenticationRepository.loginUser(form).then(result => {
                 if (result.error) {
                     document.querySelector('.error').innerHTML = `${result.error}`;
                     return { error: result.error };
@@ -34,7 +33,7 @@ class Login extends Component {
                 if (check.error) {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
-                    Navigator.goToUrl("/sounds")
+                    Navigator.goToUrl("/projects")
                 }
             });
     }
@@ -55,7 +54,7 @@ class Login extends Component {
                     <label class="input-label" for="password">
                     <input class="input" id="password" type="password" placeholder="Password" minlength="6" required>
                 </div>
-                <button class="auth-button" type="submit">Register</button>
+                <button class="auth-button" type="submit">Login</button>
             </form>
             <div class="register-text">Don't have an account yet? <span class="register-link">Sign Up Now</span></div>
         </div>
@@ -64,7 +63,7 @@ class Login extends Component {
 
         this.domElement.querySelector(".auth-form").addEventListener("submit", (e) => {
             e.preventDefault();
-            this.createNewUser();
+            this.loginUser();
         })
 
         this.domElement.querySelector(".register-link").addEventListener("click", () => { Navigator.goToUrl("/register") } );
