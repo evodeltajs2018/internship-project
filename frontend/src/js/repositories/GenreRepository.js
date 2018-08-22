@@ -7,11 +7,7 @@ class GenreRepository {
 	}
 
 	getGenres() {
-		return fetch(this.baseurl +"/genres", {
-			headers: {
-				'Authorization': `Bearer ${getToken}`
-			}
-		})
+		return fetch(this.baseurl +"/genres")
 		.then(response => response.json())
 		.catch(err => Toaster.showError("Failed to get genres"));
 	}
