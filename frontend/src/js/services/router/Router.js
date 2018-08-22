@@ -58,9 +58,18 @@ class Router {
         ];
     }
 
-    changeContainer() {
-        this.container = document.body.querySelector('.app');
-        this.container.innerHTML = ``;
+    handleContentDisplay(auth) {
+        if (auth === true) {
+            document.querySelector('.header').style.display = "none";
+            document.querySelector('.page-title').style.display = "none";
+            document.querySelector('.sidebar').style.display = "none";
+            document.querySelector('.footer').style.display = "none";
+        } else {
+            document.querySelector('.header').style.display = "";
+            document.querySelector('.page-title').style.display = "";
+            document.querySelector('.sidebar').style.display = "";
+            document.querySelector('.footer').style.display = "";
+        }
     }
 
     init() {
@@ -130,10 +139,11 @@ class Router {
         const route = this.findRouteByUrl(url);
 
         if (route.component.path === "/register") {
-            this.changeContainer();
+            this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
         } else if (route.component) {
             this.setNewCurrentComponent(route);
+            this.handleContentDisplay(false);
         } else {
             console.error("invalid route");
 
