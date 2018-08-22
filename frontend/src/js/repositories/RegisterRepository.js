@@ -17,7 +17,9 @@ class RegisterRepository {
                 body: JSON.stringify(data)
             }
         )
-            .then(response => response.json())
+            .then(response => {
+                console.log(response.json());
+            })
             .catch(err => console.error);
     }
 }
