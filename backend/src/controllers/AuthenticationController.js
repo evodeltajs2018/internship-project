@@ -1,41 +1,54 @@
 const AuthenticationService = require("../services/AuthenticationService");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const config = require('../../src/config/config');
 
 class AuthenticationController{
     constructor(){
+        
     }
 
     register(req,res){
-        console.log(req.body);
-        return AuthenticationService.verifyEmail(req.body.email)
-        .then((result) => {
-            if(result){
-                let data = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    username: req.body.username,
-                    email: req.body.email
-                };
-                return data;
-            }else{
-                throw err;
-            }
-        })
-        .then((data) => {
-            var bcrypt = require('bcrypt');
-            const saltRounds = 10;
-            return bcrypt.hash(req.body.password, saltRounds).then(function(hash) {
-                data.hashedPassword = hash;
-                return data;
-            });
-        })
-        .then((data) => {
-            return AuthenticationService.register(data);
-        }).then((result) => {
-            return res.json(result);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        if (!req.body.email || !req.body.password || !req.body.username) {
+            return res.status(400).send("Please fill out the required fields.");
+        } else {
+            return AuthenticationService.verifyEmail(req.body.email)
+            .then((result) => {
+                if(result){
+                    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+                    const data = {
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        username: req.body.username,
+                        email: req.body.email,
+                        hashedPassword: hashedPassword
+                    };
+                    return data;
+                }else{
+                    throw "Email already in use.";
+                }
+            })
+            .then((data) => {
+                return AuthenticationService.register(data);
+            }).then((result) => {
+                if (result) {
+                    const user = {
+                        id: result,
+                        email: req.body.email
+                    }
+                    jwt.sign(user, config.secret, {expiresIn: 1200}, (err,token) =>{
+                        return res.json({ token });
+                    })
+                } else {
+                    throw "There was a problem registering the user";
+                }
+
+            })
+            .catch(error => {
+                return res.status(500).send(error);
+            })
+            
+        }
     }
 }
 

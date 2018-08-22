@@ -2,12 +2,11 @@ const DbConnection = require("../dbConnection/Connection");
 // const DbMapper = require("../utils/DbMapper");
 
 class AuthenticationService {
-    cconstructor() {
+    constructor() {
 
     }
 
     verifyEmail(email) {
-        console.log("i'm inside verify");
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.input('email', DbConnection.sql.NVarChar(50), email)
@@ -15,7 +14,7 @@ class AuthenticationService {
             })
             .then(result => {
                 return !(result.rowsAffected[0] === 1);
-            })
+            });
     }
 
     register(data) {
@@ -27,11 +26,10 @@ class AuthenticationService {
                     .input('username', DbConnection.sql.NVarChar(50), data.username)
                     .input('email', DbConnection.sql.NVarChar(50), data.email)
                     .input('hashedPassword', DbConnection.sql.NVarChar(DbConnection.sql.MAX), data.hashedPassword)
-                    .query(`INSERT INTO Users VALUES (@firstName, @lastName, @username, @email, @hashedPassword, 1)`);
+                    .query(`INSERT INTO Users VALUES (@firstName, @lastName, @username, @email, @hashedPassword, 2);
+                            SELECT Id FROM Users WHERE Email = @email`);
             })
-            .then(result => {
-                return result.rowsAffected[0] === 1;
-            });
+            .then(result => result.recordset[0].Id ? result.recordset[0].Id : null);
     }
 
 }
