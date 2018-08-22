@@ -11,7 +11,7 @@ class Projects extends Component {
 
 		this.pagination = {
 			currentPage: 1,
-			itemsPerPage: 2,
+			itemsPerPage: 10,
 		};
 
 		this.filter = {
@@ -19,61 +19,55 @@ class Projects extends Component {
 			genreName: ""
 		};
 
-		this.observer;
-
-		this.render();
-	}
-
-	projectObserver() {
-		// const c = document.getElementsByClassName('card');
-		// let box = c[c.length - 1];
-		let boxElement = document.getElementById('loading');
-		let that = this;
-
-		var options = {
+		var observerOptions = {
 			root: null,
 			rootMargin: "0px",
 			threshold: [1]
 		};
 
-		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), options);
-		this.observer.observe(boxElement);
+		let that = this;
+		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
+
+		this.render();
 	}
 
-	handleIntersect(entries, observer) {
-		let that = this;
+	projectObserver(isObservable) {
 		let boxElement = document.getElementById('loading');
+
+		if (isObservable) {
+			this.observer.observe(boxElement);
+		} else {
+			this.observer.unobserve(boxElement);
+		}
+	}
+
+	handleIntersect(entries) {
+		let that = this;
 		if (entries) {
 			entries.forEach(function (entry) {
-				console.log("ratio: " + entry.intersectionRatio);
 				if (entry.intersectionRatio == 1) {
 					that.getProjects();
-					observer.unobserve(boxElement);
 				}
 			});
 		} else {
 			that.getProjects();
-			observer.unobserve(boxElement);
 		}
 	}
 
 	getProjects() {
-		let boxElement = document.getElementById('loading');
-		this.observer.unobserve(boxElement);
+		this.projectObserver(false)
 		ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
 
-			console.log(this.pagination.currentPage + "  --  " + data.currentPage + "  --  " + data.pageCount + "  --  " + this.filter.name);
 			if (this.pagination.currentPage <= data.pageCount) {
 				this.pagination.currentPage++;
 
-				console.log(data);
 				this.addCards(data.data);
 				if (this.pagination.currentPage > data.pageCount) {
 					this.hideLoadingArea(true);
 				}
 			}
 			if (data.data.length > 0) {
-				this.projectObserver();
+				this.projectObserver(true);
 			} else {
 				this.hideLoadingArea(true);
 			}
@@ -99,7 +93,7 @@ class Projects extends Component {
 
 	deleteProject(id) {
 		ProjectRepository.deleteProject(id).then(() => {
-			this.getProjects();
+			this.filterProjects();
 		});
 	}
 
@@ -122,14 +116,7 @@ class Projects extends Component {
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
 
-		this.pagination = {
-			currentPage: 1,
-			itemsPerPage: 2,
-		};
-
-		console.log("name: " + this.filter.name);
-
-		//this.projectObserver();
+		this.pagination.currentPage = 1;
 	}
 
 	hideLoadingArea(isHidden) {
@@ -142,8 +129,10 @@ class Projects extends Component {
 		<div class="searches"></div>
 		<div class="modals"></div>
 		<div class="cards"></div>
-		<div id="loading" class="loading">
-			<i>Loading ...</i>
+		<div class="loading">
+			<div id="loading" class="loading">
+				<i>Loading ...</i>
+			</div>
 		</div>
 		`;
 
@@ -160,7 +149,7 @@ class Projects extends Component {
 		})
 
 		this.initializeCards();
-		this.projectObserver();
+		this.projectObserver(true);
 	}
 }
 
