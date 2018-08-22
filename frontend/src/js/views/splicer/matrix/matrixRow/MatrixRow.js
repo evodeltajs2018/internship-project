@@ -84,7 +84,6 @@ class MatrixRow extends Component {
     }
 
     renderCurrentCell(index) {
-        // console.log(1);
         let cells = this.domElement.querySelectorAll(".cell-bg");
 
         cells.forEach(cell => {

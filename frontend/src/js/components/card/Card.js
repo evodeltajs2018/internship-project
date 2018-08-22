@@ -31,7 +31,6 @@ class Card extends Component {
             this.tracks = [];
             let sounds = this.soundLoader.sounds;
             let arrayBuffer = this.soundLoader.arrayBuffer;
-            // console.log(this.soundLoader);
             for (let i = 0; i < sounds.length; i++) {
                 let track = new Track(
                     document.querySelector(".tracks-hidden"),
@@ -64,7 +63,6 @@ class Card extends Component {
     renderWaveform() {
         this.soundCanvas = this.domElement.querySelector("canvas");
         this.soundCanvasContext = this.soundCanvas.getContext("2d");
-        this.soundCanvasContext.clearRect(0,0,this.soundCanvas.width, this.soundCanvas.height);
 
         this.engine.analyser.fftSize = 128;
         let bufferLength = this.engine.analyser.frequencyBinCount;
@@ -120,6 +118,7 @@ class Card extends Component {
             play: true
         });
         this.engine.cardPlayHandler = () => {
+            
             this.playHandler(this.project.id);
         }
         this.engine.render();

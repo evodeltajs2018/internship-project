@@ -2,7 +2,6 @@ import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import TypesGrid from "../../views/typesgrid/TypesGrid";
 import NotFound from "../../views/notfound/NotFound";
-import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
@@ -35,10 +34,6 @@ class Router {
         {
             path: "/types",
             component: TypesGrid
-        },
-        {
-            path: "/newproject",
-            component: Dummy
         },
         {
             path: "/notfound",

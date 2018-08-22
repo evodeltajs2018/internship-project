@@ -208,7 +208,7 @@ class Engine extends Component {
             <div class="splicer-header-left">
                 <div class="play-buttons"></div>
                 ${
-                 this.options.bpm ? `<label>BPM</label>
+                 this.options.bpm ? `<label>BPM:</label>
                 
                 <input type="number" min="10" max="300" id="bpm-input" value="${this.bpm}">` : ""
                 }

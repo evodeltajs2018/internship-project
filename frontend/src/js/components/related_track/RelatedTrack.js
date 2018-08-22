@@ -40,7 +40,19 @@ class RelatedTrack extends Component{
 
 
     render(){
-        this.domElement.innerHTML = `<div class="related-sample-image"><img src="${this.sound.image}"></div><div class="related-sample-description"><div class="related-sample-name">${this.sound.name}</div><div class="related-sample-type">${this.sound.type.name}</div></div>`;
+        this.domElement.innerHTML = `
+            <div>
+                <img src="${this.sound.image}" class="related-sample-image">
+            </div>
+            <div class="related-sample-description">
+                <div class="related-sample-name">
+                    ${this.sound.name}
+                </div>
+                <div class="related-sample-type">
+                    ${this.sound.type.name}
+                </div>
+            </div>
+        `;
     }
 }
 

@@ -91,7 +91,6 @@ class Sound extends Component {
     }
 
     generateDataUrlFromFileInput() {
-        console.log(this.domElement);
         const input = this.domElement.querySelector("#file");
         const reader = new FileReader();
 
@@ -175,22 +174,23 @@ class Sound extends Component {
             this.source = false;
         }
     }
-
+    
     getSoundsById() {
         return SoundRepository.getSoundById(this.soundId)
-            .then((data) => {
-                document.querySelector('#name').value = data.name;
-                document.querySelector('#type').value = data.type.id;
-            });
+        .then((data) => {
+            this.domElement.querySelector('.icon').style.backgroundImage = `url("${data.image}")`;
+            document.querySelector('#name').value = data.name;
+            document.querySelector('#type').value = data.type.id;
+        });
     }
-
+    
     getSoundData() {
         return SoundRepository.getSoundDataById(this.soundId).then(res => {
             this.buffer = res;
             this.arraybuffer = res;
         });
     }
-
+    
     createNewSound(form) {
         if (this.verifyFormData() === true) {
             SoundRepository.createSound(form).then(() => {

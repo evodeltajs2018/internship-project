@@ -1,7 +1,8 @@
 .splicer-main {
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .splicer {
@@ -9,6 +10,7 @@
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
+    background: #131313;
 }
 
 .track-pages {
@@ -22,7 +24,7 @@
     height: 20px;
     color: white;
     background: rgba(0,0,0,0.2);
-    border: 1px solid $backgroundPrimary;
+    border: 1px solid white;
     border-radius: 40px;
     margin: 5px;
     &:hover {
@@ -45,7 +47,9 @@
 .splicer-sample-header{
     background:#282828;
     width:100%;
-    height:100px;
+    height:70px;
+    display: flex;
+
 }
 .splicer-sample-tracks{
     display:grid;

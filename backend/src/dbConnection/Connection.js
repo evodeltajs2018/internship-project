@@ -24,7 +24,6 @@ class DbConnection {
 				return pool.request();
 			})
 			.catch((err) => {
-				console.log(err);
 				return null;
 			});	
 	}

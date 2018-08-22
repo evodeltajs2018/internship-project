@@ -4,28 +4,22 @@
     background: #ddd;
 }
 
-
-
 .splicer {
     width: 100%;
     .splice-header {
-        width: 100%;
-       
-        
-        background: $backgroundSecondary;
+        width: 100%;   
+        background: #3F3F3F;
+        .splicer-engine {
+            height: 50px;
+        }
 
         .clear-button, .save-button {
             height: 100%;
-            // border-radius: 15px;
             background: white;
-            opacity: .9;
-            // margin: 0 5px;  
             &:hover {
                 cursor: pointer;
-                opacity: .8;
             }
         }
-    
     
         .play-button {
             height: 100%;
@@ -45,18 +39,25 @@
         
         .play-button, .stop-button {
             width: 100px;
-            height: 40px    ;
+            height: 50px    ;
             font-size: 25px;
             color: black;
             border: none;
+            margin-left: 50px;
+            &:focus {
+                outline: none;
+            }
         }
-    
-    
     
         .clear-button, .save-button {
             font-size: 20px;
-            height: 40px;
+            height: 50px;
             width: 100px;
+            background: #3F3F3F;
+            color: white;
+            border: none;
+            border-left: 1px solid black;
+            
             i {
                 margin: 5px;
             }
@@ -64,11 +65,14 @@
                 outline: none;
             }
             &:hover {
+                background: hsla(0,0%,100%,.075);
                 cursor: pointer;
-                opacity: .8;
             }
-            color: black;
-            border: none;
+        }
+
+        .save-button {
+            border-right: 1px solid black;
+            margin-right: 50px;
         }
         
         .play-buttons {
@@ -76,9 +80,13 @@
         }
     
         #bpm-input {
-            height: 40px;
+            height: 50px;
             margin: 0;
             border: none;
+            background: #3F3F3F;
+            color: white;
+            font-size: 15px;
+                    
             &:focus {
                 outline: none;
             }
@@ -90,24 +98,24 @@
             flex-direction: row;
             align-items: center;
             flex-wrap: wrap;
-
             .splicer-header-left {
                 display: flex;
                 justify-content: left;
                 align-items: center;
+                label {
+                    width: 40px;
+                    margin: 3px 5px 5px 5px;
+                    display: flex;
+                    justify-content: flex-end;
+                    font-size: 16px;
+                    color: #A5ACAC;
+                }
             }
 
             .splicer-header-right {
                 display: flex;
                 justify-content: right;
                 align-items: center;
-            }
-
-            label {
-                width: 40px;
-                margin: 5px;
-                display: flex;
-                justify-content: flex-end;
             }
 
             .clear-btn, .save-btn {
@@ -117,10 +125,6 @@
         }
     }
 
-
-    
-
-
     .volume-input { 
         box-sizing: border-box;
         margin: 0;
@@ -128,12 +132,11 @@
         -webkit-appearance: none;
         position: relative;
         overflow: hidden;
-        height: 30px;
+        height: 40px;
         width: 100px;
         cursor: pointer;
         border-top-right-radius: 20px;
         border-bottom-right-radius: 20px;
-        // border: 2px solid $backgroundSecondary;
         border-right: none;
         background-color: red;
         padding: 0;
@@ -157,7 +160,7 @@
         width: 0px; /* 1 */
         height: 40px;
         background: transparent;
-        box-shadow: -100vw 0 0 100vw $backgroundPrimary;
+        box-shadow: -100vw 0 0 100vw #1f1f1f;;
     }
     
     ::-moz-range-track {
@@ -169,17 +172,16 @@
         height: 40px;
         width: 20px;
         border-radius: 0 !important;
-        box-shadow: -100vw 0 0 100vw dodgerblue;
+        box-shadow: -100vw 0 0 100vw #1f1f1f;;
         box-sizing: border-box;
     }
     
     ::-ms-fill-lower { 
-        background: dodgerblue;
+        background: #1f1f1f;
     }
     
     ::-ms-thumb { 
         background: transparent;
-        // border: 2px solid #999;
         height: 40px;
         width: 20px;
         box-sizing: border-box;
@@ -202,13 +204,11 @@
     ::-ms-tooltip { 
         display: none;
     }
-    
 }
 
 @media (max-width: 300px) {
     .volume-input {
         display: none;
-        
     }
 }
 

@@ -23,13 +23,12 @@
         cursor: pointer;
     }
 
-    // border: 2px solid $backgroundSecondary;
     border-left: none;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background: #1f1f1f;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     justify-content:center;
     align-items: center;
     display: flex;
@@ -43,7 +42,7 @@
 .volume {
     display: flex;
     flex-direction: row;
-    height: 30px;
+    height: 40px;
 }
 
 .tracks-bar {

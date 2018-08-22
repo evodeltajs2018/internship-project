@@ -19,14 +19,14 @@ const sizes = [
         pagesLow: 0
     },
     {
-        window: 1310,
+        window: 1610,
         trackSizeHigh: 32,
         trackSizeLow: 16,
         pagesHigh: 2,
         pagesLow: 0
     },
     {
-        window: 700,
+        window: 1000,
         trackSizeHigh: 16,
         trackSizeLow: 8,
         pagesHigh: 4,
