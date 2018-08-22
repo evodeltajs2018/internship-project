@@ -62,7 +62,9 @@ class DbMapper {
                 name: project.GenreName
             },
             description: project.Description,
-            bpm: project.Bpm
+            bpm: project.Bpm,
+            userEmail: project.UserEmail,
+            userName: project.Username
         }
     }
 

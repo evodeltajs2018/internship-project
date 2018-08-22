@@ -54,7 +54,7 @@ class Login extends Component {
                 </div>
                 <div class="form-row">
                     <label class="input-label" for="password">
-                    <input class="input" id="password" type="password" placeholder="Password" minlength="6" required>
+                    <input class="input" id="password" type="password" placeholder="Password" minlength="3" required>
                 </div>
                 <button class="auth-button" type="submit">Login</button>
             </form>

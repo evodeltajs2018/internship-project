@@ -24,8 +24,18 @@ class ProjectService {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool.query(`
-            SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName, P.Bpm AS Bpm
-            FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+            SELECT 
+                P.Id, P.Name, 
+                P.Description, 
+                P.GenreId, 
+                G.Name AS GenreName, 
+                P.Bpm AS Bpm,
+                P.UserEmail AS UserEmail,
+                U.Username As Username
+            FROM 
+                Project P 
+                    INNER JOIN Genre G ON P.GenreId = G.Id
+                    INNER JOIN Users U ON U.Email = P.UserEmail
             ORDER BY P.Id DESC`)
             })
             .then((result) => {
