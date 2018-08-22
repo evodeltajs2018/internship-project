@@ -13,44 +13,55 @@ class Projects extends Component {
 
 		this.pagination = {
 			currentPage: 1,
-			itemsPerPage: 10,
+			itemsPerPage: 2,
 		};
 		this.filter = {
 			name: "",
 			genreName: ""
 		};
 
+		this.prevRatio = 0.0;
+		this.increasingColor = "rgba(40, 40, 190, ratio)";
+		this.decreasingColor = "rgba(190, 40, 40, ratio)";
+
 		this.render();
 		this.getProjects();
-		//this.projectObserver();
-
-		//var that = this;
-
-		window.addEventListener("load", 
-			this.createObserver(),
-		 false);
 	}
 
-	createObserver() {
+	projectObserver() {
+		const c = document.getElementsByClassName('card');
+		let box = c[c.length - 1];
+		let boxElement = document.getElementsByClassName('loading')[0];
+		
+
 		var options = {
 			root: null,
 			rootMargin: "0px",
-			threshold: [1,0]
+			threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
 		};
-		let loadingElement = document.querySelector("#loading");
+
+		//	observer = new IntersectionObserver(that.handleIntersect.bind(that), options);
 		let observer = new IntersectionObserver(this.handleIntersect, options);
-		observer.observe(loadingElement);
+		observer.observe(boxElement);
 	}
 
-	handleIntersect(entries) {
-		if (entries) {
-			console.log(entries[0].intersectionRatio);
-			if (entries[0].intersectionRatio == 1) {
-				this.getProjects();
-			}
-		} else {
-			this.getProjects();
-		}
+	handleIntersect(entries, observer) {
+		console.log(this);
+		entries.forEach(function (entry) {
+			console.log(entry.intersectionRatio);
+			// if (entry.intersectionRatio > 0.75) {
+			// 	console.log('out');
+			// 	entry.target.style.backgroundColor = this.increasingColor.replace("ratio", entry.intersectionRatio);
+			// } else {
+			// 	console.log('in');
+			// 	entry.target.style.backgroundColor = this.decreasingColor.replace("ratio", entry.intersectionRatio);
+			// }
+
+			// this.prevRatio = entry.intersectionRatio;
+		
+			// if (entry.intersectionRatio == 1)
+			// 	this.getProjects();
+		});
 	}
 
 	getProjects() {
@@ -66,6 +77,7 @@ class Projects extends Component {
 				if (this.pagination.currentPage > data.pageCount)
 					this.hideLoadingArea(true);
 			}
+			this.projectObserver();
 		});
 	}
 
@@ -105,10 +117,6 @@ class Projects extends Component {
 
 	initializeCards() {
 		this.domElement.querySelector(".cards").innerHTML = "";
-		this.pagination = {
-			currentPage: 1,
-			itemsPerPage: 10,
-		}
 		this.hideLoadingArea(false);
 
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
@@ -121,16 +129,15 @@ class Projects extends Component {
 
 	render() {
 		this.domElement.innerHTML = `
-			<div class="searches">
-			</div>
-			<div class="modals">
-			</div>
-			<div class="cards">
-			</div>
-			<div id="loading">
-				<i>Loading ...</i>
-			</div>
+			
+		<div class="searches"></div>
+		<div class="modals"></div>
+		<div class="cards"></div>
+		<div id="loading" class="loading">
+			<i>Loading ...</i>
+		</div>
 		`;
+
 
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
