@@ -10,7 +10,7 @@ class AuthenticationController{
 
     register(req,res){
         if (!req.body.email || !req.body.password || !req.body.username) {
-            return res.status(400).send("Please fill out the required fields.");
+            return res.status(400).send({ error: "Please fill out the required fields." });
         } else {
             return AuthenticationService.verifyEmail(req.body.email)
             .then((result) => {
@@ -25,7 +25,7 @@ class AuthenticationController{
                     };
                     return data;
                 }else{
-                    throw "Email already in use.";
+                    throw (res.status(400).send({ error: "Email already in use." }));
                 }
             })
             .then((data) => {
@@ -40,14 +40,10 @@ class AuthenticationController{
                         return res.json({ token });
                     })
                 } else {
-                    throw "There was a problem registering the user";
+                    throw (res.status(400).send({ error: "There was a problem registering the user" }));
                 }
-
             })
-            .catch(error => {
-                return res.status(500).send(error);
-            })
-            
+            .catch((err) => { return err; })
         }
     }
 }
