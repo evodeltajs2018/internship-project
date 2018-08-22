@@ -4,7 +4,7 @@ class TokenService {
     }
 
     getToken() {
-        return 
+        return window.localStorage.getItem('token');
     }
 }
 

@@ -59,7 +59,6 @@ class AuthenticationController {
                     if (result) {
                         return AuthenticationService.getHashedPasswordByEmail(req.body.email)
                             .then((result) => {
-                                console.log(result);
                                 if (bcrypt.compareSync(req.body.password, result.Password)) {
                                     const user = {
                                         id: result.Id,
