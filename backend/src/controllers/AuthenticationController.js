@@ -33,8 +33,10 @@ class AuthenticationController {
                 }).then((result) => {
                     if (result) {
                         const user = {
-                            id: result.id,
-                            roleId: result.roleId,
+                            id: result.Id,
+                            roleId: result.RoleId,
+                            firstName: result.FirstName,
+                            lastName: result.LastName,
                             email: req.body.email
                         }
                         jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {
@@ -57,10 +59,13 @@ class AuthenticationController {
                     if (result) {
                         return AuthenticationService.getHashedPasswordByEmail(req.body.email)
                             .then((result) => {
-                                if (bcrypt.compareSync(req.body.password, result.hash)) {
+                                console.log(result);
+                                if (bcrypt.compareSync(req.body.password, result.Password)) {
                                     const user = {
-                                        id: result.id,
-                                        roleId: result.roleId,
+                                        id: result.Id,
+                                        roleId: result.RoleId,
+                                        firstName: result.FirstName,
+                                        lastName: result.LastName,
                                         email: req.body.email
                                     }
                                     jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {

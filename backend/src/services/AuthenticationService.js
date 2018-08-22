@@ -28,14 +28,13 @@ class AuthenticationService {
             });
     }
 
-    getHashedPasswordByEmail(email){
+    getHashedPasswordByEmail(email) {
         return DbConnection.executePoolRequest()
-        .then(pool => {
-            return pool.input('email', DbConnection.sql.NVarChar(50), email)
-            .query("SELECT Id, RoleId, Password From Users WHERE Users.Email = @email")
-        })
-        .then(result => result.recordset[0].Password && result.recordset[0].Id && result.recordset[0].RoleId ? { id: result.recordset[0].Id, hash: result.recordset[0].Password, roleId: result.recordset[0].RoleId} : null);
-
+            .then(pool => {
+                return pool.input('email', DbConnection.sql.NVarChar(50), email)
+                    .query("SELECT Id, RoleId, Password, FirstName, LastName From Users WHERE Users.Email = @email")
+            })
+            .then(result => result.recordset[0].Id ? result.recordset[0] : null);
     }
 
     register(data) {
@@ -48,9 +47,9 @@ class AuthenticationService {
                     .input('email', DbConnection.sql.NVarChar(50), data.email)
                     .input('hashedPassword', DbConnection.sql.NVarChar(DbConnection.sql.MAX), data.hashedPassword)
                     .query(`INSERT INTO Users VALUES (@firstName, @lastName, @username, @email, @hashedPassword, 2);
-                            SELECT Id, RoleId FROM Users WHERE Users.Email = @email`);
+                            SELECT Id, RoleId, FirstName, LastName FROM Users WHERE Users.Email = @email`);
             })
-            .then(result => result.recordset[0].Id && result.recordset[0].roleId ? {id: result.recordset[0].Id, roleId: result.recordset[0].roleId} : null);
+            .then(result => result.recordset[0].Id ? result.recordset[0] : null);
     }
 
 }
