@@ -33,7 +33,8 @@ class AuthenticationController {
                 }).then((result) => {
                     if (result) {
                         const user = {
-                            id: result,
+                            id: result.id,
+                            roleId: result.roleId,
                             email: req.body.email
                         }
                         jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {
@@ -59,6 +60,7 @@ class AuthenticationController {
                                 if (bcrypt.compareSync(req.body.password, result.hash)) {
                                     const user = {
                                         id: result.id,
+                                        roleId: result.roleId,
                                         email: req.body.email
                                     }
                                     jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {

@@ -2,11 +2,11 @@ import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
 import AuthenticationRepository from "../../repositories/AuthenticationRepository";
 import "./Authentication.scss";
+import TokenService from "../../services/auth/TokenService";
 
 class Register extends Component {
     constructor(container) {
         super(container, "register");
-
         particlesJS.load('particles', 'assets/particles.json');
     }
 
@@ -37,6 +37,7 @@ class Register extends Component {
                 if (check.error) {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
+                    TokenService.setToken(check.token);
                     Navigator.goToUrl("/login")
                 }
             });

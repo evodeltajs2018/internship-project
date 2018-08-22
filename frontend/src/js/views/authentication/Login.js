@@ -1,6 +1,7 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
 import AuthenticationRepository from "../../repositories/AuthenticationRepository";
+import TokenService from "../../services/auth/TokenService";
 
 class Login extends Component {
     constructor(container) {
@@ -33,7 +34,8 @@ class Login extends Component {
                 if (check.error) {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
-                    Navigator.goToUrl("/projects")
+                    TokenService.setToken(check.token);
+                    Navigator.goToUrl("/projects");
                 }
             });
     }
