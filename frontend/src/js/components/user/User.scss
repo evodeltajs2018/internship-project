@@ -1,0 +1,54 @@
+.user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 25px;
+
+    .user-logo {
+        cursor: pointer;
+        font-size: 16px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        background-color: $backgroundSecondary;
+        border-radius: 50px;
+
+        &:hover {
+            border: 2px solid $buttonHoverColor
+        }
+    }
+
+    .user-menu {
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+        height: 0px;
+        width: 100px;
+        font-size: 16px;
+        background-color: $backgroundSecondary;
+        position: absolute;
+        top: 65px;
+        transition: all 0.1s ease-in-out;
+        
+        .user-item {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50%;
+            width: 100%;
+            
+            &:hover {
+                background-color: $backgroundPrimary;
+            }
+        }
+    }
+}
