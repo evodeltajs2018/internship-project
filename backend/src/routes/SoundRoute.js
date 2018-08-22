@@ -20,6 +20,13 @@ class SoundRoute {
             SoundController.editSound(req, res);
         });
 
+        this.app.get("/splicer",(req,res) => {
+            SoundController.getSplicerSounds(req,res);
+        })
+        this.app.get("/splicer/:id",(req,res) => {
+            SoundController.getSoundsByType(req,res);
+        })
+
         this.app.get("/sounds", (req, res) => {
             SoundController.getAll(req, res);
         });
