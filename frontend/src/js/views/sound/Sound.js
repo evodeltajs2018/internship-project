@@ -44,7 +44,7 @@ class Sound extends Component {
         const uploadSound = document.querySelector("#sound");
         let validation = true;
 
-        if (data.name.trim() === '') {
+        if (data.name.trim() == '') {
             document.querySelectorAll('.required')[1].classList.remove('visbility-hidden');
             document.querySelector("#name").classList.add('input-red');
 
@@ -54,7 +54,7 @@ class Sound extends Component {
             })
             validation = false;
         }
-        if (type.value === '') {
+        if (type.value == '') {
             document.querySelectorAll('.required')[2].classList.remove('visbility-hidden');
             document.querySelector("#type").classList.add('input-red');
             document.querySelector("#type").addEventListener("change", () => {
@@ -64,7 +64,7 @@ class Sound extends Component {
             validation = false;
         }
 
-        if (data.src === undefined) {
+        if (data.src == undefined) {
             document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
             document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
             validation = false;
