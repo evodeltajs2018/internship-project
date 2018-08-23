@@ -3,6 +3,7 @@ import Button from "../../components/button/Button";
 import Navigator from "../../services/router/Navigator";
 import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 import "./SoundType.scss";
+import "../../../../vendor/css/pickr.css";
 
 class SoundType extends Component {
     constructor(container, typeId = null) {

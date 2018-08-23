@@ -10,7 +10,6 @@ class Sound extends Component {
         super(container, "add-sound");
         this.extension = 'wav';
         this.soundId = soundId;
-        this.imageSrc = null;
         this.buffer = null;
         this.source = false;
         this.uploadImageClicked = false;
@@ -55,7 +54,7 @@ class Sound extends Component {
             })
             validation = false;
         }
-        if (type.value == '') {
+        if (type.value === '') {
             document.querySelectorAll('.required')[2].classList.remove('visbility-hidden');
             document.querySelector("#type").classList.add('input-red');
             document.querySelector("#type").addEventListener("change", () => {
@@ -65,13 +64,13 @@ class Sound extends Component {
             validation = false;
         }
 
-        if (data.src == undefined) {
+        if (data.src === undefined) {
             document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
             document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
             validation = false;
         }
 
-        if (uploadSound.files[0] === undefined && this.soundId === null) {
+        if (uploadSound.files[0] == undefined && this.soundId === null) {
             document.querySelectorAll('.required')[3].classList.remove('visbility-hidden');
 
             uploadSound.addEventListener('change', () => {
@@ -178,7 +177,8 @@ class Sound extends Component {
     getSoundsById() {
         return SoundRepository.getSoundById(this.soundId)
         .then((data) => {
-            this.domElement.querySelector('.icon').style.backgroundImage = `url("${data.image}")`;
+            this.imageSrc = data.image;
+            document.querySelector('.icon').style.backgroundImage = `url("${data.image}")`;
             document.querySelector('#name').value = data.name;
             document.querySelector('#type').value = data.type.id;
         });
