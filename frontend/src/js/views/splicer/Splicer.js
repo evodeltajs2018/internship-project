@@ -9,6 +9,7 @@ import "./Splicer.scss";
 import Button from "../../components/button/Button";
 import RelatedTrack from "../../components/related_track/RelatedTrack";
 import ProjectRepository from "../../repositories/ProjectRepository";
+import TokenService from "../../services/auth/TokenService";
 
 const sizes = [
     {
@@ -37,7 +38,6 @@ const sizes = [
 class Splicer extends Component {
     constructor(container, projectId) {
         super(container, "splicer");
-        
         this.saveProjectHandler = () => {this.saveProject()};
         this.audioContext = new AudioContext();
         this.project = {
@@ -47,17 +47,39 @@ class Splicer extends Component {
         this.mapSize = 32;
         this.currentTrackSize = this.mapSize;
         this.currentPage = 0;
-
-        this.getBpm().then(() => {
-            this.engine.bpm = this.project.bpm;
-            this.engine.render();
-        });
+        
+        
         
         this.getBeatmap();
         this.setup();
         this.initHandlers();
         this.addEventHandlers();
-       
+        
+        this.getProjectById(this.project.id)
+        .then((result) => {
+            this.createHeaderEvent(result);
+            this.authorized = jwt_decode(TokenService.getToken()).email === result.userEmail;
+            this.setupEngine();
+            
+        });
+    }
+
+    getProjectById(id) {
+        return ProjectRepository.getProjectById(id)
+        .then(result => {
+            return result[0];
+        });
+    }
+
+    createHeaderEvent(project) {
+        let event = new CustomEvent("headerdetails", {
+            bubbles: false,
+            detail: { 
+                name: project.name,
+                description: project.description
+            }
+        });
+        document.dispatchEvent(event);
     }
 
     getBpm() {
@@ -122,6 +144,38 @@ class Splicer extends Component {
         });
     }
 
+    setupEngine() {
+        const options = this.authorized? 
+        {
+            play: true,
+            bpm: true,
+            save: true,
+            clear: true,
+            back: true
+        } : {
+            play: true,
+            bpm: true,
+            save: false,
+            clear: true,
+            back: true
+        }
+        
+        this.engine = new Engine(
+            this.domElement.querySelector(".splice-header"),
+            this.audioContext,
+            this.mapSize,
+            this.saveProjectHandler,
+            this.project.bpm,
+            options
+        );
+
+        this.engine.render();
+        this.getBpm().then(() => {
+            this.engine.bpm = this.project.bpm;
+            this.engine.render();
+        });
+    }
+
     setup() {
         this.domElement.innerHTML = `
             <div class="splice-header"></div>
@@ -129,14 +183,7 @@ class Splicer extends Component {
             <div class="track-pages"></div>
             <div class="splicer-sample-selector"><div class="splicer-sample-header"></div><div class="splicer-sample-tracks"></div></div>
         `;
-        this.engine = new Engine(
-            this.domElement.querySelector(".splice-header"),
-            this.audioContext,
-            this.mapSize,
-            this.saveProjectHandler,
-            this.project.bpm
-        );
-        this.engine.render();
+        
         window.addEventListener("resize", () => {
             this.renderByWidth();
         })
@@ -192,9 +239,10 @@ class Splicer extends Component {
     }
 
     relatedTracksLoader(track) {
-        document.querySelector(".splicer-sample-tracks").innerHTML = "";
+        
         this.relatedSoundLoader.getRelatedSound(track.sound.type.id);
         this.relatedSoundLoader.onLoad = () => {
+            document.querySelector(".splicer-sample-tracks").innerHTML = "";
             for (let i = 0; i < this.relatedSoundLoader.relatedSounds.length; i++) {
                 let relatedTrack = new RelatedTrack(document.querySelector(".splicer-sample-tracks"),
                     this.relatedSoundLoader.relatedSounds[i], this.relatedSoundLoader.arrayBuffer[i], this.audioContext);
@@ -214,6 +262,7 @@ class Splicer extends Component {
                     relatedTrack.playSound();
 
                 })
+                
                 relatedTrack.render();
             }
         }

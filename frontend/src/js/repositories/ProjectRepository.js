@@ -5,11 +5,11 @@ class ProjectRepository {
 		this.baseurl = Config.server.url + ":" + Config.server.port;
 	}
 
-	getProjects() {
-		return fetch(this.baseurl + "/projects")
-		.then(response => {
-				return response.json();
-			})
+	getProjects(pagination, filter) {
+		return fetch(
+			this.baseurl +`/projects?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${filter.name}&genre=${filter.genreName}`,
+		)
+		.then(response => response.json())
 		.catch(err => Toaster.showError("Failed to get projects"));
 	}
 

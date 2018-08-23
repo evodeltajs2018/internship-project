@@ -4,9 +4,22 @@ class ProjectController {
     constructor() {}
 
     getAllProjects(req, res) {
-        return ProjectService.getAllProjects().then((data) => {
-            return res.json(data);
-        });
+        //console.log("curent page :"+req.query.page + " -- " + req.query.perpage);
+        const page = req.query.page;
+        const itemsPerPage = req.query.perpage;
+        if (page && itemsPerPage) {
+            return ProjectService.getAllProjects(page, itemsPerPage, {
+                    name: req.query.name,
+                    genre: req.query.genre
+                })
+                .then((data) => {
+                    return res.json(data);
+                });
+
+        } else {
+            return res.json({});
+        }
+
     }
 
     getProjectById(req, res) {

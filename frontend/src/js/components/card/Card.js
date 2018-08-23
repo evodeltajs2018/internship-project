@@ -6,6 +6,8 @@ import "./Card.scss";
 import Engine from "../../views/splicer/engine/Engine";
 import SoundLoader from "../../services/sound_loader/SoundLoader";
 import Track from "../track/Track";
+import ProjectRepository from "../../repositories/ProjectRepository";
+import TokenService from "../../services/auth/TokenService";
 
 class Card extends Component {
     constructor(container, project, audioContext, playHandler) {
@@ -24,7 +26,7 @@ class Card extends Component {
             this.onDelete(this.project.id);
         };
     }
- 
+
     loadTracks() {
         this.soundLoader.getSoundsWithIds(this.project.beatmap.map(item => item.soundId))
         .then(() => {
@@ -53,7 +55,13 @@ class Card extends Component {
     }
 
     openButtonHandler(idProjectParam) {
-        Navigator.goToUrl("/splicer/" + idProjectParam);
+        Navigator.goToUrl("/splicer/" + idProjectParam, 
+            {
+                name: this.project.name,
+                description: this.project.description,
+                authorized: jwt_decode(TokenService.getToken()).email === this.project.userEmail
+            }
+        );
     }
 
     editButtonHandler(idProjectParam) {
@@ -88,7 +96,7 @@ class Card extends Component {
         let x = 0;
         for(let i = 0; i < data.length; i++) {
             barHeight = this.map(data[i], 0, 255, 0, this.soundCanvas.height);
-            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 0.8)";
+            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 1)";
             this.soundCanvasContext.fillRect(x,this.soundCanvas.height-barHeight,barWidth,barHeight);
     
             x += barWidth + 1;
@@ -142,7 +150,14 @@ class Card extends Component {
             play: true
         });
         this.engine.cardPlayHandler = () => {
-            
+            if (!this.project.beatmap) {
+                
+                ProjectRepository.getBeatmap(this.project.id).then((beatmap) => {
+                    this.project.beatmap = beatmap;
+                    
+                    this.loadTracks();
+                });
+            }
             this.playHandler(this.project.id);
         }
         this.engine.render();

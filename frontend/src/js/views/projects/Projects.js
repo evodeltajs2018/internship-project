@@ -10,9 +10,26 @@ class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
-		this.data = null;
-		this.displayData = null;
-		this.filter = {};
+		this.pagination = {
+			currentPage: 1,
+			itemsPerPage: 2,
+		};
+
+		this.filter = {
+			name: "",
+			genreName: ""
+		};
+
+		var observerOptions = {
+			root: null,
+			rootMargin: "0px",
+			threshold: [1]
+		};
+
+		let that = this;
+		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
+
+		///////start
 		this.cards = [];
 		this.currentlyPlaying = null;
 		this.audioContext = new AudioContext();
@@ -20,34 +37,31 @@ class Projects extends Component {
 		this.setPlayingCard = (projectId) => {
 			this.setPlayingCardHandler(projectId);
 		}
-		this.getProjectsAndTracks();
-
+		////end
+		this.render();
 	}
 
-	getProjectsAndTracks() {
-		this.getProjects().then(() => {
-			for (let card of this.cards) {
-				card.loadTracks();
-			}
-		});
-	}
+	projectObserver(isObservable) {
+		let boxElement = document.getElementById('loading');
 
-	allCards(array) {
-		this.domElement.querySelector(".cards").innerHTML = "";
-
-		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
-		this.addingCard.render();
-
-		if (this.displayData) {
-			for (let project of this.displayData) {
-				project.isEditable = false;
-				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
-					project.isEditable = true;
-				}
-				this.cardCreator(project);
-			}
+		if (isObservable) {
+			this.observer.observe(boxElement);
+		} else {
+			this.observer.unobserve(boxElement);
 		}
+	}
 
+	handleIntersect(entries) {
+		let that = this;
+		if (entries) {
+			entries.forEach(function (entry) {
+				if (entry.intersectionRatio == 1) {
+					that.getProjects();
+				}
+			});
+		} else {
+			that.getProjects();
+		}
 	}
 
 	setPlayingCardHandler(projectId) {
@@ -59,20 +73,38 @@ class Projects extends Component {
 	}
 
 	getProjects() {
-		return ProjectRepository.getProjects()
+		this.projectObserver(false)
+		return ProjectRepository.getProjects(this.pagination, this.filter)
 			.then((data) => {
-				let promises = []
-				for (let project of data) {
-					promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {
-						project.beatmap = beatmap;
+				if (this.pagination.currentPage <= data.pageCount) {
+					this.pagination.currentPage++;
 
-					}));
+					this.addCards(data.data);
+					if (this.pagination.currentPage > data.pageCount) {
+						this.hideLoadingArea(true);
+					}
 				}
-				this.data = data;
-				this.displayData = data;
-				this.render();
-				return Promise.all(promises);
+				if (data.data.length > 0) {
+					this.projectObserver(true);
+				} else {
+					this.hideLoadingArea(true);
+				}
 			});
+	}
+
+	addCards(projects) {
+		TokenService.getToken();
+
+		if (projects) {
+			for (let project of projects) {
+				project.isEditable = false;
+				// console.log(project.userEmail === jwt_decode(TokenService.getToken()).email);
+				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
+					project.isEditable = true;
+				}
+				this.cardCreator(project);
+			}
+		}
 	}
 
 	cardCreator(project) {
@@ -91,53 +123,66 @@ class Projects extends Component {
 
 	deleteProject(id) {
 		ProjectRepository.deleteProject(id).then(() => {
-			this.getProjectsAndTracks();
+			this.filterProjects();
 		});
 	}
 
-	filterProjects(filter) {
-		this.displayData = this.data.filter((item) => {
-			if (item.name.toLowerCase().indexOf(filter.name.toLowerCase()) === -1) {
-				return false;
-			}
-			if (item.genre.name.toLowerCase().indexOf(filter.genreName.toLowerCase()) === -1) {
-				return false;
-			}
-			return true;
-		});
+	filterProjects() {
+		this.initializeCards();
+		this.getProjects();
+	}
+
+	populateFilter() {
+		this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
+		this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
+
+		this.filterProjects();
+	}
+
+	initializeCards() {
+		
+
 
 		this.domElement.querySelector(".cards").innerHTML = "";
+		this.hideLoadingArea(false);
 
-		this.allCards(this.displayData);
+		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
+		this.addingCard.render();
+
+		this.pagination.currentPage = 1;
 	}
 
+	hideLoadingArea(isHidden) {
+		document.getElementById("loading").style.display = isHidden ? "none" : "flex";
+	}
 
 	render() {
-
-		this.domElement.innerHTML = `<div class="searches"></div><div class="modals"></div><div class="cards"></div>`;
+		this.domElement.innerHTML = `
+			
+		<div class="searches"></div>
+		<div class="modals"></div>
+		<div class="cards"></div>
+		<div class="loading">
+			<div id="loading" class="loading">
+				<i>Loading ...</i>
+			</div>
+		</div>
+		`;
 
 		this.searchTitle = new Search(this.domElement.querySelector(".searches"), "Name");
 		this.searchTitle.render();
 		this.searchTitle.domElement.querySelector(".search-input").addEventListener("keyup", () => {
-
-			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
-			this.filterProjects(this.filter);
-
+			this.populateFilter();
 		})
 
 		this.searchGenre = new Search(this.domElement.querySelector(".searches"), "Genre");
 		this.searchGenre.render();
 		this.searchGenre.domElement.querySelector(".search-input").addEventListener("keyup", () => {
-
-			this.filter.name = this.searchTitle.domElement.querySelector(".search-input").value;
-			this.filter.genreName = this.searchGenre.domElement.querySelector(".search-input").value;
-
-			this.filterProjects(this.filter);
+			this.populateFilter();
 		})
 
-		this.allCards(this.data);
-
+		this.initializeCards();
+		this.projectObserver(true);
 	}
 }
 

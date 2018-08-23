@@ -8,7 +8,9 @@ class ProjectRoute {
     }
 
     initRoutes() {
-        this.app.get("/projects", ProjectController.getAllProjects);
+        this.app.get("/projects", (req, res) => {
+            ProjectController.getAllProjects(req, res);
+        });
 
         this.app.post("/projects", (req, res) => {
             ProjectController.addProject(req, res);
