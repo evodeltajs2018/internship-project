@@ -9,6 +9,17 @@ class ProjectService {
         `;
     }
 
+<<<<<<< HEAD
+    getPageCount(itemsPerPage, filter) {
+        return DbConnection.executePoolRequest()
+            .then(pool => {
+                return pool.input('itemsPerPage', DbConnection.sql.Int, itemsPerPage)
+                    .input('name', DbConnection.sql.NVarChar(50), filter.name)
+                    .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
+                    .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
+                            ${this.fromwhere}
+                        `)
+=======
     getBeatmap(projectId) {
         return DbConnection.executePoolRequest()
         .then(pool => {
@@ -24,15 +35,14 @@ class ProjectService {
         })
     }
 
-getPageCount(itemsPerPage, filter) {
+    getAllProjects() {
         return DbConnection.executePoolRequest()
             .then(pool => {
-                return pool.input('itemsPerPage', DbConnection.sql.Int, itemsPerPage)
-                    .input('name', DbConnection.sql.NVarChar(50), filter.name)
-                    .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
-                    .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                            ${this.fromwhere}
-                        `)
+                return pool.query(`
+            SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName, P.Bpm AS Bpm
+            FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+            ORDER BY P.Id DESC`)
+>>>>>>> dev
             })
             .then((result) => {
                 return result;
@@ -71,7 +81,7 @@ getPageCount(itemsPerPage, filter) {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
                     .query(`
-                    SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName, P.Bpm as Bpm
+                    SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName 
                     ${this.fromwhere}
                     ORDER BY P.Id DESC
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
