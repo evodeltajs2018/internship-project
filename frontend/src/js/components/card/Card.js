@@ -97,10 +97,7 @@ class Card extends Component {
     }
 
     renderEditButtons() {
-        this.openButton = new Button(this.domElement.querySelector(".card-footer"), "OPEN", "card-button", () => {
-            this.openButtonHandler(this.project.id);
-        });
-        this.openButton.render();
+        
 
         this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
             this.editButtonHandler(this.project.id)
@@ -114,7 +111,7 @@ class Card extends Component {
     }
 
     renderUsername() {
-        console.log(this.project.userName);
+        // console.log(this.project.userName);
         this.domElement.querySelector(".card-footer").innerHTML = `
             Made by: ${this.project.userName}
         `;
@@ -152,6 +149,10 @@ class Card extends Component {
         this.renderWaveform();      
         
         this.project.isEditable? this.renderEditButtons() : this.renderUsername();
+        this.openButton = new Button(this.domElement.querySelector(".card-footer"), "OPEN", "card-button", () => {
+            this.openButtonHandler(this.project.id);
+        });
+        this.openButton.render();
     }
 
 }
