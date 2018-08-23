@@ -109,8 +109,9 @@ class ProjectService {
                 return pool.input('name', DbConnection.sql.NVarChar(50), project.name)
                     .input('genreId', DbConnection.sql.Int, project.genre.id)
                     .input('description', DbConnection.sql.NVarChar(500), project.description)
-                    .query(`INSERT INTO Project(Name, GenreId, Description, Bpm)
-            VALUES (@name, @genreId, @description, 60)`)
+                    .input('userEmail', DbConnection.sql.NVarChar(50), project.userEmail)
+                    .query(`INSERT INTO Project(Name, GenreId, Description, Bpm, UserEmail)
+            VALUES (@name, @genreId, @description, 60, @userEmail)`)
             })
             .then((result) => {
                 return result.rowsAffected[0] === 1;

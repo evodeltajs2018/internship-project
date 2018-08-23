@@ -35,6 +35,7 @@ class Projects extends Component {
 	allCards(array) {
 		this.domElement.querySelector(".cards").innerHTML = "";
 
+		TokenService.getToken()
 		this.addingCard = new AddingCard(this.domElement.querySelector(".cards"));
 		this.addingCard.render();
 
@@ -62,7 +63,6 @@ class Projects extends Component {
 	getProjects() {
 		return ProjectRepository.getProjects()
 			.then((data) => {
-				console.log(data);
 				let promises = []
 				for (let project of data) {
 					promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {

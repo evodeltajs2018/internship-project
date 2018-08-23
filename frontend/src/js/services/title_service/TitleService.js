@@ -3,7 +3,7 @@ class TitleService {
         let pageTitle = document.querySelector(".page-title h2"); 
         let url = window.location.pathname.toString();
         let parseUrl = url.split("/");
-       
+        console.log(window.history.state);
         switch (window.location.pathname) {
             case "/":
                 pageTitle.innerHTML = "Projects";
@@ -39,7 +39,10 @@ class TitleService {
                 pageTitle.innerHTML = "Splicer";
                 break;
             case ("/splicer/" + parseUrl[parseUrl.length - 1]):
-                pageTitle.innerHTML = "Project " + parseUrl[parseUrl.length - 1];
+                pageTitle.innerHTML = `
+                    ${window.history.state.name}
+                    <div class="project-description">${window.history.state.description}</div>
+                `;
                 break;
             default:
                 pageTitle.innerHTML = "Not Found";

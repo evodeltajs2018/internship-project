@@ -43,13 +43,12 @@
             font-size: 25px;
             color: black;
             border: none;
-            margin-left: 50px;
             &:focus {
                 outline: none;
             }
         }
     
-        .clear-button, .save-button {
+        .clear-button, .save-button, .back-button {
             font-size: 20px;
             height: 50px;
             width: 100px;
@@ -60,6 +59,7 @@
             
             i {
                 margin: 5px;
+                margin-right: 10px;
             }
             &:focus {
                 outline: none;
@@ -70,9 +70,8 @@
             }
         }
 
-        .save-button {
+        .back-button {
             border-right: 1px solid black;
-            margin-right: 50px;
         }
         
         .play-buttons {
