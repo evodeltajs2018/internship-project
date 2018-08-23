@@ -2,72 +2,75 @@ import Projects from "../../views/projects/Projects";
 import SoundsGrid from "../../views/soundsgrid/SoundsGrid";
 import TypesGrid from "../../views/typesgrid/TypesGrid";
 import NotFound from "../../views/notfound/NotFound";
-import Dummy from "../../views/dummy/Dummy";
 import Navigator from "./Navigator";
 import Sound from "../../views/sound/Sound";
 import Project from "../../views/project/Project";
-import SidebarService from "../../services/sidebar service/SidebarService";
-import TitleService from "../../services/title service/TitleService";
+import Splicer from "../../views/splicer/Splicer";
+import SidebarService from "../../services/sidebar_service/SidebarService";
+import TitleService from "../../services/title_service/TitleService";
 import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
 import Forbidden from "../../views/forbidden/Forbidden";
-import TokenService from "../../services/auth/TokenService";
+import Profile from "../../views/profile/Profile";
+import TokenService from "../auth/TokenService";
 
 class Router {
     constructor(container) {
         this.container = container;
 
         this.routes = [{
-                path: "/",
-                component: Projects
-            },
-            {
-                path: "/projects",
-                component: Projects,
-            },
-            {
-                path: "/project",
-                component: Project
-            },
-            {
-                path: "/sounds",
-                component: SoundsGrid
-            },
-            {
-                path: "/types",
-                component: TypesGrid
-            },
-            {
-                path: "/newproject",
-                component: Dummy
-            },
-            {
-                path: "/notfound",
-                component: NotFound
-            },
-            {
-                path: "/sound",
-                component: Sound
-            },
-            {
-                path: "/type",
-                component: SoundType
-            }, 
-            {
-                path: "/register",
-                component: Register,
-                permission: true
-            },
-            {
-                path: "/login",
-                component: Login,
-                permission: true
-            },
-            {
-                path: "/forbidden",
-                component: Forbidden
-            }
+            path: "/",
+            component: Projects,
+        },
+        {
+            path: "/projects",
+            component: Projects,
+        },
+        {
+            path: "/project",
+            component: Project
+        },
+        {
+            path: "/sounds",
+            component: SoundsGrid
+        },
+        {
+            path: "/types",
+            component: TypesGrid
+        },
+        {
+            path: "/notfound",
+            component: NotFound
+        },
+        {
+            path: "/sound",
+            component: Sound
+        },
+        {
+            path: "/splicer",
+            component: Splicer
+        },
+        {
+            path: "/type",
+            component: SoundType
+        },
+        {
+            path: "/register",
+            component: Register
+        },
+        {
+            path: "/login",
+            component: Login
+        },
+        {
+            path: "/profile",
+            component: Profile
+        },
+        {
+            path: "/forbidden",
+            component: Forbidden
+        }
         ];
     }
 
@@ -97,7 +100,9 @@ class Router {
 
     addPopStateEvent() {
         window.onpopstate = (event) => {
-
+            if (window.history.state.refresh) {
+                this.refreshHandler();
+            }
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -110,8 +115,6 @@ class Router {
         this.currentComponent = new route.component.component(this.container, route.param);
         this.currentComponent.render();
     }
-
-    
 
     findRouteByUrl(url) {
         let parameter = null;
@@ -149,28 +152,18 @@ class Router {
     }
 
     renderByUrl(url) {
-        // if(!TokenService.isUserAuthenticated()) {
-        //     Navigator.goToUrl('/login');
-        //     return;
-        // }
-
         const route = this.findRouteByUrl(url);
 
-        if (!route || !route.component) {
-            const notFound = this.findRouteByUrl("/notfound");
-            this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/notfound")
-        }
-        else if (route.component.path === "/register" || route.component.path === "/login") {
+        if (route.component.path === "/register" || route.component.path === "/login") {
             this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
-        }
-        else if (route.component) {
+        } else if (route.component) {
             this.setNewCurrentComponent(route);
             this.handleContentDisplay(false);
-        } 
+        } else {
+            console.error("invalid route");
+        }
     }
-        
 }
 
 export default Router;

@@ -4,6 +4,7 @@ import GenreRepository from "../../repositories/GenreRepository";
 import Button from "../../components/button/Button";
 import Navigator from "../../services/router/Navigator";
 import "./Project.scss";
+import TokenService from "../../services/auth/TokenService";
 
 class Project extends Component {
     constructor(container, projectId = null) {
@@ -17,6 +18,7 @@ class Project extends Component {
 
         this.getGenresHTML();
 
+       
         if (projectId != null) {
             this.getProject(projectId);
         }
@@ -55,6 +57,8 @@ class Project extends Component {
             });
     }
 
+
+
     getFormData() {
         const form = {
             id: this.projectId,
@@ -70,7 +74,11 @@ class Project extends Component {
 
     createProject(form) {
         if (this.verifyFormData()) {
-            ProjectRepository.addProject(form).then(response => Navigator.goToUrl("/"));
+            form.userEmail = jwt_decode(TokenService.getToken()).email;
+            ProjectRepository.addProject(form)
+            .then(response => {
+                Navigator.goToUrl("/")
+            });
         }
     }
 

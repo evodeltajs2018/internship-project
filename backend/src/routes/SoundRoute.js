@@ -11,7 +11,7 @@ class SoundRoute {
     }
 
     initRoutes() {
-        this.app.get("/sounds/:id", TokenService.verifyToken, TokenService.isAdmin, (req, res) => {
+        this.app.get("/sounds/:id", TokenService.verifyToken, (req, res) => {
             jwt.verify(req.token, config.secret, (err, auth) => {
                 if (err) {
                     res.sendStatus(403);
@@ -50,14 +50,34 @@ class SoundRoute {
                     SoundController.getAll(req, res);
                 }
             })
+        });
+        
+        this.app.get("/splicer", (req, res) => {
+            SoundController.getSplicerSounds(req, res);
+        })
 
+        this.app.get("/splicer/:id", TokenService.verifyToken, (req, res) => {
+            jwt.verify(req.token, config.secret, (err, auth) => {
+                if (err) {
+                    res.sendStatus(403);
+                } else {
+                    SoundController.getSoundsByType(req, res);
+                }
+            })
+
+        })
+        this.app.delete("/sounds/:id", TokenService.verifyToken, TokenService.isAdmin, (req, res) => {
+            jwt.verify(req.token, config.secret, (err, auth) => {
+                if (err) {
+                    res.sendStatus(403);
+                } else {
+                    return SoundController.deleteSound(req, res);
+                }
+            });
         });
 
-        this.app.delete("/sounds/:id", (req, res) => {
-                return SoundController.deleteSound(req, res);
-        });
 
-        this.app.get("/sounds/audio/:id", TokenService.verifyToken, TokenService.isAdmin, (req, res) => {
+        this.app.get("/sounds/audio/:id", TokenService.verifyToken, (req, res) => {
             jwt.verify(req.token, config.secret, (err, auth) => {
                 if (err) {
                     res.sendStatus(403);
@@ -65,9 +85,7 @@ class SoundRoute {
                     SoundController.getSoundDataById(req, res);
                 }
             })
-
         });
-
     }
 }
 

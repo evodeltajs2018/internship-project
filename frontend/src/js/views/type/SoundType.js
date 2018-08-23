@@ -3,6 +3,7 @@ import Button from "../../components/button/Button";
 import Navigator from "../../services/router/Navigator";
 import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 import "./SoundType.scss";
+import "../../../../vendor/css/pickr.css";
 
 class SoundType extends Component {
     constructor(container, typeId = null) {
@@ -152,7 +153,7 @@ class SoundType extends Component {
                             </div>
                             <div class="required visbility-hidden required-image">Required</div>
                         </div>
-                        <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
+                        <input type="file" name="file" id="file" class="inputfile" accept="image/png, image/jpg, image/jpeg"/>
                     </div>
                     <div class="form-row">
                         <div class="form-text">

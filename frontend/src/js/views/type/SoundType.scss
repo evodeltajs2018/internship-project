@@ -37,7 +37,7 @@
         background-color: $mainBackgroundColor;
         background-repeat: no-repeat;
         background-position: center;
-        background-size: cover;
+        background-size: contain;
         border-radius: 125px;
         overflow: hidden;
 
@@ -79,8 +79,9 @@
             justify-content: center;
             align-items: baseline;
 
-            #upload {
-                color: gray;
+            #upload,#play-sound{
+                color:grey;
+                font-size:2em;
             }
     
             .icon-red {
@@ -139,4 +140,9 @@
             }
         }
     }
+}
+
+select{
+    width: 100%;
+    margin: 0px;
 }

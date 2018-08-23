@@ -4,9 +4,22 @@ class ProjectController {
     constructor() { }
 
     getAllProjects(req, res) {
-        return ProjectService.getAllProjects().then((data) => {
-            return res.json(data);
-        });
+        //console.log("curent page :"+req.query.page + " -- " + req.query.perpage);
+        const page = req.query.page;
+        const itemsPerPage = req.query.perpage;
+        if (page && itemsPerPage) {
+            return ProjectService.getAllProjects(page, itemsPerPage, {
+                    name: req.query.name,
+                    genre: req.query.genre
+                })
+                .then((data) => {
+                    return res.json(data);
+                });
+
+        } else {
+            return res.json({});
+        }
+
     }
 
     getProjectById(req, res) {
@@ -31,6 +44,24 @@ class ProjectController {
         return ProjectService.deleteProject(req.params.id).then((data) => {
             return res.json(data);
         });
+    }
+
+    getBeatmap(req, res) {
+        return ProjectService.getBeatmap(req.params.id).then((data) => {
+            return res.json(data);
+        })
+    }
+
+    addBeatmap(req, res) {
+        return ProjectService.addBeatmap(req.body).then(data => {
+            return res.json(data);
+        })
+    }
+
+    editBeatmap(req, res) {
+        return ProjectService.editBeatmap(req.params.id, req.body).then(data => {
+            return res.json(data);
+        })
     }
 }
 

@@ -80,7 +80,53 @@ class AuthenticationController {
                 })
                 .catch(err => { return err; })
         }
+    }
 
+    edit(req, res) {
+        if (!req.body.firstName || !req.body.lastName || !req.body.currPassword) {
+            return res.status(400).send({ error: "Please fill out the required fields." });
+        } else {
+            return AuthenticationService.getHashedPasswordByEmail(req.body.email)
+                .then((result) => {
+                    if (bcrypt.compareSync(req.body.currPassword, result.Password)) {
+                        let hashedPassword;
+                        if (req.body.newPassword === "") {
+                            hashedPassword = bcrypt.hashSync(req.body.currPassword, 10);
+                        } else {
+                            hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
+                        }
+                        const data = {
+                            roleId: req.body.roleId,
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
+                            email: req.body.email,
+                            password: hashedPassword
+                        };
+                        return data;
+                    } else {
+                        throw (res.status(400).send({ error: "Current Password is incorrect." }));
+                    }
+                })
+                .then((data) => {
+                    return AuthenticationService.edit(data);
+                }).then((result) => {
+                    if (result) {
+                        const user = {
+                            id: req.body.id,
+                            roleId: req.body.roleId,
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
+                            email: req.body.email
+                        }
+                        jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {
+                            return res.json({ token });
+                        })
+                    } else {
+                        throw (res.status(400).send({ error: "There was a problem registering the user" }));
+                    }
+                })
+                .catch((err) => { return err; })
+        }
     }
 }
 

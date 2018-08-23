@@ -35,7 +35,7 @@ class Login extends Component {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
                     TokenService.setToken(check.token);
-                    Navigator.goToUrl("/projects");
+                    Navigator.goToUrl("/projects", {refresh: true});
                 }
             });
     }
@@ -54,7 +54,7 @@ class Login extends Component {
                 </div>
                 <div class="form-row">
                     <label class="input-label" for="password">
-                    <input class="input" id="password" type="password" placeholder="Password" minlength="6" required>
+                    <input class="input" id="password" type="password" placeholder="Password" minlength="3" required>
                 </div>
                 <button class="auth-button" type="submit">Login</button>
             </form>

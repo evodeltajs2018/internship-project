@@ -18,6 +18,9 @@ class TokenService {
     isUserAuthenticated() {
         return this.getToken() === true;
     }
+    destroyToken() {
+        window.localStorage.removeItem('token');
+    }
 }
 
 export default new TokenService();

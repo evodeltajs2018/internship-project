@@ -1,6 +1,7 @@
 import Config from "../utils/Config";
 import TokenService from "../services/auth/TokenService";
 import Navigator from "../services/router/Navigator";
+import Toaster from "../utils/Toaster";
 
 class SoundRepository {
 	constructor() {
@@ -20,43 +21,63 @@ class SoundRepository {
 			...TokenService.getTokenHeader()
 		}
 
-		console.log(options);
-
-		return fetch(this.baseurl + '/sounds', options) 
+		return fetch(this.baseurl + '/sounds', options)
 			.then(response => {
-				if(response.status != '403'){
+				if (response.status != '403') {
+					Toaster.showSuccess("Sound added successfuly");
 					return response.json()
-				}else{
+				} else {
 					return null;
-				}})
-			.catch(err => console.error);
+				}
+			})
+			.catch(err => Toaster.showError("Error adding sound"));
 	}
 
 	getSoundById(id) {
 		return fetch(this.baseurl + "/sounds/" + id, TokenService.getTokenHeader())
 			.then(response => {
-				if(response.status != '403'){
+				if (response.status != '403') {
 					return response.json()
-				}else{
+				} else {
 					Navigator.goToUrl("/forbidden");
 					return;
-				}})
-			.catch(err => console.error(err));
+				}
+			})
+			.catch(err => Toaster.showError("Error getting sounds"));
+	}
 
+	getSplicerSoundsById() {
+		return fetch(this.baseurl + "/splicer")
+			.then(response => response.json())
+			.catch(err => Toaster.showError("Error getting sounds"));
+	}
+
+	getSplicerSounds() {
+		return fetch(this.baseurl + "/splicer")
+			.then(response => response.json())
+			.catch(err => Toaster.showError("Error getting sounds"));
+	}
+
+	getSoundsByType(typeId) {
+		return fetch(this.baseurl + "/splicer/" + typeId, TokenService.getTokenHeader())
+			.then(response => response.json())
+			.catch(err => Toaster.showError("Error getting sounds"));
 	}
 
 	getSoundDataById(id) {
 		return fetch(this.baseurl + "/sounds/audio/" + id, TokenService.getTokenHeader())
 			.then(response => {
-				if(response.status != '403'){
+				if (response.status != '403') {
 					return response.arrayBuffer();
-				}else{
+				} else {
 					throw Error("Forbidden")
-				}})
+				}
+			})
 			.then(arrayBuffer => {
 				return arrayBuffer;
 			})
-			.catch(err => {return null;});
+			.catch(err => Toaster.showError("Error getting sound"));
+
 	}
 
 	editSoundById(data, id, extension) {
@@ -64,6 +85,7 @@ class SoundRepository {
 
 		fd.append("name", data.name);
 		fd.append("type", data.type);
+		fd.append("image", data.src);
 		fd.append("value", new Blob([data.value], { type: `audio/${extension}` }));
 
 		const options = {
@@ -74,12 +96,14 @@ class SoundRepository {
 
 		return fetch(this.baseurl + '/sounds/' + id, options)
 			.then(response => {
-				if(response.status != '403'){
+				if (response.status != '403') {
+					Toaster.showSuccess("Sound edited successfuly");
 					return response.json()
-				}else{
+				} else {
 					return null;
-				}})
-			.catch(err => console.error(err));
+				}
+			})
+			.catch(err => Toaster.showError("Error editing sounds"));
 	}
 
 	getAllSounds(pagination, filter) {
@@ -89,12 +113,13 @@ class SoundRepository {
 		return fetch(
 			this.baseurl + `/sounds?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${name}&type=${type}`, TokenService.getTokenHeader())
 			.then(response => {
-				if(response.status != '403'){
+				if (response.status != '403') {
 					return response.json()
-				}else{
+				} else {
 					Navigator.goToUrl("/forbidden");
 					return;
-				}})
+				}
+			})
 			.catch(err => console.error(err));
 	}
 
@@ -105,8 +130,11 @@ class SoundRepository {
 		}
 
 		return fetch(this.baseurl + "/sounds/" + soundId, options)
-			.then(response =>  response.json())
-			.catch(err => console.error(err));
+			.then(response => {
+				Toaster.showSuccess("Sound deleted successfuly");
+				return response.json();
+			})
+			.catch(err => Toaster.showError("Error getting sounds"));
 	}
 }
 

@@ -5,8 +5,24 @@ class DbMapper {
             name: sound.Name,
             type: {
                 id: sound.TypeId,
-                name: sound.TypeName
+                name: sound.TypeName,
+                iconSrc: sound.IconSrc,
+                colorType: sound.ColorType
+            },
+            image: sound.Image,
+            byteArray:{
+                id: sound.ByteArrayId,
+                value: sound.ByteArray
             }
+        }
+    }
+
+    static mapBeatmap(beatmap) {
+        return {
+            id: beatmap.Id,
+            projectId: beatmap.ProjectId,
+            soundId: beatmap.SoundId,
+            map: beatmap.Map.split(",").map(beat => Number.parseInt(beat))
         }
     }
 
@@ -19,6 +35,24 @@ class DbMapper {
         }
     }
 
+    static mapSoundSplicer(sound){
+        return{
+            id: sound.Id,
+            name: sound.Name,
+            type:{
+                id: sound.TypeId,
+                name: sound.TypeName,
+                iconSrc: sound.IconSrc,
+                colorType: sound.ColorType
+            },
+            image: sound.Image,
+            byteArray:{
+                id: sound.ByteArrayId,
+                value: sound.ByteArray
+            }
+        }
+    }
+
   static mapProject(project) {
         return {
             id: project.Id,
@@ -27,7 +61,10 @@ class DbMapper {
                 id: project.GenreId,
                 name: project.GenreName
             },
-            description: project.Description
+            description: project.Description,
+            bpm: project.Bpm,
+            userEmail: project.UserEmail,
+            userName: project.Username
         }
     }
 

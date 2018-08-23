@@ -8,20 +8,25 @@ import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
 import SoundFilter from "./filter/SoundFilter";
+import Engine from "../splicer/engine/Engine";
 
 class SoundsGrid extends Component {
     constructor(container) {
         super(container, "sounds-grid-container");
 
-        this.pagination = new Pagination(this.domElement, (page) => { this.goToPage(page) }, 'sounds');
+        this.pagination = new Pagination(this.domElement, (page) => {
+            this.goToPage(page)
+        });
         this.data = [];
         this.setup();
         this.getData();
     }
 
-    getData(filter = { name: "", type: "" }) {
-        SoundRepository.getAllSounds(
-            {
+    getData(filter = {
+        name: "",
+        type: ""
+    }) {
+        SoundRepository.getAllSounds({
                 currentPage: this.pagination.currentPage,
                 itemsPerPage: this.pagination.itemsPerPage,
             },
@@ -68,6 +73,7 @@ class SoundsGrid extends Component {
         `;
         this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
         this.filterBar.render();
+        
     }
 
     deletehandler(id) {
@@ -77,7 +83,9 @@ class SoundsGrid extends Component {
             "Are you sure you want to delete this sound?"
         );
         modal.onConfirm = () => {
-            SoundRepository.deleteSound(id).then(() => { this.getData(this.filterBar.getFilterData()) });
+            SoundRepository.deleteSound(id).then(() => {
+                this.getData(this.filterBar.getFilterData())
+            });
         }
         modal.render();
     }
@@ -86,10 +94,14 @@ class SoundsGrid extends Component {
         this.grid = this.domElement.querySelector("#sounds-grid");
         if (this.data.length) {
             for (let row of this.data) {
-                this.soundRow = new SoundRow(this.grid, row, () => { this.getData() });
+                this.soundRow = new SoundRow(this.grid, row, () => {
+                    this.getData()
+                });
                 this.soundRow.render();
                 this.soundRow.deleteHandler = (id) => this.deletehandler(id);
-                this.soundRow.editHandler = (id) => { Navigator.goToUrl("/sound/" + id); }
+                this.soundRow.editHandler = (id) => {
+                    Navigator.goToUrl("/sound/" + id);
+                }
             }
         } else {
             this.domElement.querySelector("#sounds-grid").innerHTML = `<div class="no-sounds">No sounds</div>`;

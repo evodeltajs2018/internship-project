@@ -7,22 +7,25 @@ PRINT ''
 PRINT '----Master script running----'
 PRINT ''
 
+
+
 PRINT '--Creating tables--'
+:r ./Users.sql
+PRINT '>>Users done'
 :r ./Projects.sql
 PRINT '>>Projects done'
 :r ./Sounds.sql
 PRINT '>>Sounds done'
-:r ./Users.sql
-PRINT '>>Users done'
 PRINT 'Creating done'
 PRINT ''
 
 PRINT '--Seeding database--'
+:r ./UsersSeed.sql
+PRINT '>>Users done'
 :r ./ProjectsSeed.sql
 PRINT '>>Projects done'
 :r ./SoundsSeed.sql
 PRINT '>>Sounds done'
-:r ./UsersSeed.sql
-PRINT '>>Users done'
+
 PRINT 'Seeding done'
 PRINT ''
