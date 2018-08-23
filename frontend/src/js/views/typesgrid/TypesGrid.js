@@ -54,10 +54,10 @@ class TypesGrid extends Component {
     setup() {
         this.domElement.innerHTML = `
             <div id="filter-bar"></div>
-            <div id="types-grid-header">
-                <div class="types-cell">Name</div>
-                <div class="types-cell">Color</div>
-                <div class="types-cell">Icon</div>
+            <div id="element-grid-header">
+                <div class="element-cell-type">Name</div>
+                <div class="element-cell-type">Color</div>
+                <div class="element-cell-type">Icon</div>
                 <div class="actions-cell">Actions</div>
             </div>
             <div id="types-grid"></div>
@@ -71,7 +71,7 @@ class TypesGrid extends Component {
     deletehandler(id) {
         let modal = new Modal(
             this.domElement.querySelector(".modals"),
-            "Delete sound",
+            "Delete type",
             "Are you sure you want to delete this type?"
         );
         modal.onConfirm = () => {
@@ -90,7 +90,7 @@ class TypesGrid extends Component {
                 this.TypeRow.editHandler = (id) => { Navigator.goToUrl("/type/" + id); }
             }
         } else {
-            this.domElement.querySelector("#types-grid").innerHTML = `<div class="no-types">No types</div>`;
+            this.domElement.querySelector("#types-grid").innerHTML = `<div class="no-element">No types</div>`;
         }
     }
 

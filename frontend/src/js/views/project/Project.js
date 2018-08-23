@@ -17,6 +17,7 @@ class Project extends Component {
 
         this.getGenresHTML();
 
+       
         if (projectId != null) {
             this.getProject(projectId);
         }
@@ -40,6 +41,7 @@ class Project extends Component {
     getProject(projectId) {
         ProjectRepository.getProjectById(projectId)
         .then(data => {
+            
             if (data.length > 0) {
                 document.querySelector('#name').value = data[0].name;
                 document.querySelector('#genre').value = data[0].genre.id;
@@ -49,6 +51,8 @@ class Project extends Component {
             }
         });
     }
+
+
 
     getFormData() {
         const form = {
@@ -65,7 +69,10 @@ class Project extends Component {
 
     createProject(form) {
         if (this.verifyFormData()) {
-            ProjectRepository.addProject(form).then(response => Navigator.goToUrl("/"));
+            ProjectRepository.addProject(form)
+            .then(response => {
+                Navigator.goToUrl("/")
+            });
         }
     }
 
@@ -127,7 +134,7 @@ class Project extends Component {
     }
 
     createConfirmButton() {
-        this.confirmButton = new Button(this.domElement.querySelectorAll(".field")[3], "Confirm", "confirm-button cursor-pointer");
+        this.confirmButton = new Button(this.domElement.querySelectorAll(".field")[2], "Confirm", "confirm-button cursor-pointer");
         this.confirmButton.render();
 
         if (this.projectId) {
@@ -140,7 +147,7 @@ class Project extends Component {
     }
 
     createCancelButton() {
-        this.cancelButton = new Button(this.domElement.querySelectorAll(".field")[3], "CANCEL", "cancel-button cursor-pointer", () => {
+        this.cancelButton = new Button(this.domElement.querySelectorAll(".field")[2], "CANCEL", "cancel-button cursor-pointer", () => {
             Navigator.goToUrl("/projects");
         });
 
@@ -173,7 +180,7 @@ class Project extends Component {
                             <label class="hidden red" id="genreValidator">Required</label>
                         </div>
                     </div>
-                <div class="field">
+                <div class="description-text">
                     <div class="item left">
                         Description :
                     </div>

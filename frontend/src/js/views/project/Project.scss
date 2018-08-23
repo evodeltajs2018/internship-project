@@ -32,6 +32,16 @@
     width: 300px;
 }
 
+.description-text {
+    display: flex;
+    padding: 5px;
+    margin: 5px;
+    text-align: left;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .project {
     display: flex;
     flex-direction: column;
@@ -73,10 +83,14 @@ a {
 }
 
 .container-view {
+    min-width: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    color: $formFontColor;
 }
 
 .validator {

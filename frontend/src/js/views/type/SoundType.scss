@@ -1,10 +1,14 @@
 .sound-type-form {
     display: flex;
-    width: 350px;
-    height: 550px;
+    width: 550px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 75px;
+    color: $formFontColor;
+    background-color: white;
             
     .visbility-hidden {
         visibility: hidden;
@@ -13,38 +17,78 @@
     .form-buttons {
         display: flex;
         justify-content: space-between;
-        width: 350px;
+        width: 450px;
         margin: 25px 0 20px 0;
+
+        .cancel-button {
+            color: black;
+            border: 1px solid black;
+        }
     }
     
     .icon {
-        margin: 20px 0 20px 0;
-        height: 150px;
-        width: 150px;
-        background-color: #000;
-        border: 1px inset #fff;
-        border-radius: 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 40px 0 0 0;
+        height: 100px;
+        width: 100px;
+        background-color: $mainBackgroundColor;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border-radius: 125px;
+        overflow: hidden;
+
+        &:hover {
+            .icon-text {
+                color: black;
+                font-size: 14px;
+            }
+        }
+
+        .icon-text {
+            font-size: 0px;
+        }
     }
     
     .form-row {
         margin-top: 20px;
         display: flex;
         flex-direction: row;
-        width: 350px;
         justify-content: space-between;
         align-items: baseline;
+
+        .form-text {
+            width: 100px;
+        }
+
+        .image-width {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
     
         .validation {
+            width: 300px;
             display: flex;
             flex-direction: row;
             align-items: baseline;
+
+            #upload,#play-sound{
+                color:grey;
+                font-size:2em;
+            }
     
             .icon-red {
                 color: red;
             }
 
             .input-red {
-                border: 2px inset red;
+                border: 1px solid red;
             }
 
             .required {
@@ -62,7 +106,7 @@
 
             input {
                 margin: 0;
-                width: 150px;
+                width: 200px;
             }
 
             .color-label {
@@ -70,9 +114,8 @@
                 overflow: hidden;
                 width: 22px;
                 height: 22px;
-                border: solid 2px #ddd;
+                border: 1px solid #ddd;
                 border-radius: 40px;
-                margin-right: 75px;
 
                 .input-color-label {
                     cursor: pointer;
@@ -80,16 +123,9 @@
                     color: #fff;
                 }
             }
-
-            .img-src-label {
-                width: 180px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
             
             input[type="color"] {
+                cursor: pointer;
                 position: absolute;
                 right: -8px;
                 top: -10px;
@@ -103,4 +139,9 @@
             }
         }
     }
+}
+
+select{
+    width: 100%;
+    margin: 0px;
 }

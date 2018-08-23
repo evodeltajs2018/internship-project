@@ -1,22 +1,29 @@
-$backgroundPrimary: #131313;
-$backgroundSecondary: #3f3f3f;
-$menuActive: #ffffff;
-$menuInactive: #1f1f1f;
+
+$backgroundPrimary: #212733;
+$backgroundSecondary: #46a29e;
+$mainBackgroundColor: #c5c6c8;
+$sidebarBackgroundColor: #0b0c10;
+
+$menuIcon: #fff;
+$menuActive: #46a29e;
+$menuInactive:  #0b0c10;
+
+$heightCalc: calc(100vh - 232px);
+
+$formFontColor: #000;
+
+$buttonHoverColor: #6ed3ce;
+$iconActionMouseOver:#4dc2bc;
+$gridMouseOverRow: #dcdcdc;
+$gridEvenBgColor: #efefef;
+$gridOddBgColor: #fff;
+
+$gridRowHeight: 50px;
+$mainFontFamily: monospace;
 
 * {
-	box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    color:white;
-	padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-html, body, .app {
-  //  height: 100%;
-    width: 100%;
+    box-sizing: border-box;
+    font-family: $mainFontFamily;
 }
 
 .header {
@@ -25,19 +32,30 @@ html, body, .app {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    .logo {
+        cursor: pointer;
+        margin-right: 15px;
+    }
+
+    .hamburger {
+        cursor: pointer;
+        color: white;
+        font-size: 36px;
+        transform: scale(1.4,1);
+        margin-left: 45px;
+    }
 }
 
-.logo {
-    cursor: pointer;
-    margin-right: 15px;
+html, body, .app {
+    width: 100%;
 }
 
-.hamburger {
-    cursor: pointer;
-    color: white;
-    font-size: 36px;
-    transform: scale(1.4,1);
-    margin-left: 25px;
+body {
+    margin: 0;
+    color:white;
+	padding: 0;
+    font-family: $mainFontFamily;
 }
 
 .show {
@@ -48,75 +66,108 @@ html, body, .app {
     margin: 0;
     width: 120px;
     min-width: 120px;
-    min-height: calc(100vh - 122px);
-    background-color: $backgroundSecondary;
+    min-height: $heightCalc;
+    background-color: $sidebarBackgroundColor;
     transition-duration: 0.5s;
     overflow: hidden;
-    /* -webkit-transition: transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out; */
 
+    .sidebar-content {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        
+        li:nth-child(even) {
+           margin-top: 5px; 
+        }
+
+        .menu-element {
+            background-color: $menuInactive;
+        }
+
+        .active-icon {
+            background-color: $menuActive;
+            -webkit-transition: 0.4s ease-in-out;
+            transition: 0.4s ease-in-out;
+            transform: scale(1.2);
+        }
+    }
     
-}
-
-.sidebar-content {
-    padding: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    .menu-element{
-        color: $menuInactive;
+    .sidebar-content li {
+        list-style-type: none;
     }
-    .active-icon{
-        color: $menuActive;
+    
+    .sidebar-content li i {
+        cursor: pointer;
+        margin-top: 20px;
     }
-}
-
-.sidebar-content li {
-    list-style-type: none;
-}
-
-.sidebar-content li i {
-    cursor: pointer;
-    margin-top: 20px;
 }
 
 .hide-sidebar {
     width: 0;
     min-width: 0;
-    /* -webkit-transition: transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out;
-    -webkit-transform: translateX(-110%);
-    transform: translateX(-110%); */
-}
-
-.page-title {
-    width: 100%;
-    padding-left: 15px;
-    height: 50px;
-    background-color: $backgroundSecondary;
-    display: flex;
-    align-items: center;
-}
-
-hr {
-    margin: 0 0 1px 0;
-    border: 1px solid #ddd;
-    width: 100%;
-}
-
-.main {
-    display: flex;
-    margin: 0;
-    width: 100%;
-    background-color: $backgroundPrimary;
-    justify-content: center;
-}
-
-.main-width {
-    width: 100%;
 }
 
 .split {
     display: flex;
     width: 100%;
+
+    .right-side {
+        width: 100%;
+        height: 100%;
+
+        .page-title {
+            width: 100%;
+            padding-left: 40px;
+            height: 110px;
+            background-color: $backgroundSecondary;
+            display: flex;
+            align-items: center;
+        }
+
+        .main {
+            display: flex;
+            margin: 0;
+            width: 100%;
+            min-height: $heightCalc;
+            background-color: $mainBackgroundColor;
+            justify-content: center;
+        
+            .main-width {
+                width: 100%;
+            }
+        }
+
+        .footer {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
+    }
+
+    .menu-element {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 55px;
+        height: 55px;
+        background-color: $menuActive;
+        border-radius: 50px;
+        margin-top: 20px;
+    
+        i {
+            color: $menuIcon;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.pcr-app.visible {
+    z-index: 10;
+}
+
+.toast-message { 
+    font-size: 20px;
 }

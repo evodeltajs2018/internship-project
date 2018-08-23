@@ -26,10 +26,21 @@ class Projects extends Component {
 		};
 
 		let that = this;
-		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
-
+		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);\
+		
+	///////start
+		this.cards = [];
+		this.currentlyPlaying = null;
+        this.audioContext = new AudioContext();
+		
+		this.setPlayingCard = (projectId) => {
+			this.setPlayingCardHandler(projectId);
+		}
+		this.getProjectsAndTracks();
+	////end
 		this.render();
 	}
+
 
 	projectObserver(isObservable) {
 		let boxElement = document.getElementById('loading');
@@ -46,17 +57,33 @@ class Projects extends Component {
 		if (entries) {
 			entries.forEach(function (entry) {
 				if (entry.intersectionRatio == 1) {
-					that.getProjects();
+					that.getProjectsAndTracks();
 				}
 			});
 		} else {
-			that.getProjects();
+			that.getProjectsAndTracks();
 		}
 	}
 
+	getProjectsAndTracks() {
+		this.getProjects().then(() => {
+			for (let card of this.cards) {
+				card.loadTracks();
+			}
+		});
+	}
+	
+	setPlayingCardHandler(projectId) {
+		for (let card of this.cards) {
+			if (card.engine.isPlaying &&  card.project.id != projectId) {
+				card.engine.stop();
+			}
+		}
+	}
+	
 	getProjects() {
 		this.projectObserver(false)
-		ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
+		return ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
 
 			if (this.pagination.currentPage <= data.pageCount) {
 				this.pagination.currentPage++;
@@ -84,9 +111,15 @@ class Projects extends Component {
 	}
 
 	cardCreator(project) {
-		this.card = new Card(this.domElement.querySelector(".cards"), project);
-		this.card.render();
-		this.card.onDelete = (id) => {
+		let card = new Card(
+			this.domElement.querySelector(".cards"), 
+			project, 
+			this.audioContext,
+			this.setPlayingCard
+		);
+		this.cards.push(card);
+		card.render();
+		card.onDelete = (id) => {
 			this.deleteProject(id);
 		};
 	}
@@ -99,7 +132,7 @@ class Projects extends Component {
 
 	filterProjects() {
 		this.initializeCards();
-		this.getProjects();
+		this.getProjectsAndTracks();
 	}
 
 	populateFilter() {

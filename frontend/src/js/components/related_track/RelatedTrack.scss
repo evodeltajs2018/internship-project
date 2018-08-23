@@ -1,0 +1,21 @@
+.related-sample{
+    display: flex;
+    flex-direction: row;
+    background:grey;
+    border-radius: 10px;
+    width:250px;
+    height:70px;
+    margin: 30px;
+}
+.related-sample-description{
+    padding: 10px;
+}
+.related-sample-name{
+    font-size:20px;
+}
+
+.related-sample-image {
+    width: 70px;
+    height: 70px;
+}
+

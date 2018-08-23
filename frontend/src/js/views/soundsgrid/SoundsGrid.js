@@ -1,4 +1,5 @@
 import "./SoundsGrid.scss";
+import "./Row.scss";
 import Component from "../../components/Component";
 import SoundRepository from "../../repositories/SoundRepository";
 
@@ -7,6 +8,7 @@ import Pagination from "../../components/pagination/Pagination";
 import Modal from "../../components/modal/Modal";
 import Navigator from "../../services/router/Navigator";
 import SoundFilter from "./filter/SoundFilter";
+import Engine from "../splicer/engine/Engine";
 
 class SoundsGrid extends Component {
     constructor(container) {
@@ -58,9 +60,9 @@ class SoundsGrid extends Component {
     setup() {
         this.domElement.innerHTML = `
             <div id="filter-bar"></div>
-            <div id="sounds-grid-header">
-                <div class="sounds-cell">Name</div>
-                <div class="sounds-cell">Type</div>
+            <div id="element-grid-header">
+                <div class="element-cell-sound">Name</div>
+                <div class="element-cell-sound">Type</div>
                 <div class="actions-cell">Actions</div>
             </div>
             <div id="sounds-grid"></div>
@@ -69,6 +71,7 @@ class SoundsGrid extends Component {
         `;
         this.filterBar = new SoundFilter(this.domElement.querySelector("#filter-bar"), "filter-bar", (filter) => this.getData(filter));
         this.filterBar.render();
+        
     }
 
     deletehandler(id) {
