@@ -6,12 +6,11 @@ import "./User.scss";
 class User extends Component {
 	constructor(container, token) {
 		super(container, "user");
-        this.token = token;
         this.clicked = false;
-        this.data = this.decodeToken();
-        this.initials = this.generateNameInitials();
-        console.log(this.data);
         if (TokenService.getToken()) {
+            this.token = token;
+            this.data = this.decodeToken();
+            this.initials = this.generateNameInitials();
             this.render();
         }
     }

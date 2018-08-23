@@ -37,7 +37,6 @@ class Login extends Component {
                 } else {
                     TokenService.setToken(check.token);
                     Navigator.goToUrl("/projects");
-                    this.user = new User(document.querySelector('.user-card'), TokenService.getToken());
                 }
             });
     }

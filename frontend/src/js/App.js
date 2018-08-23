@@ -97,6 +97,7 @@ class App extends Component {
         </div>
         `;
 
+        new User(document.querySelector('.user-card'), TokenService.getToken());
 
         this.domElement.querySelector('.sidebar-content')
             .innerHTML = this.getSidebarLinksHTML();
