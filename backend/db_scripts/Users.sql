@@ -13,8 +13,11 @@ USE [InternshipProject]
 GO
 
 /****** Object:  Table [dbo].[Users]    Script Date: 8/6/2018 5:23:28 PM ******/
+DROP TABLE IF EXISTS [dbo].[Beatmap]
+DROP TABLE IF EXISTS [dbo].[Project]
 DROP TABLE IF EXISTS [dbo].[Users]
 DROP TABLE IF EXISTS [dbo].[Roles]
+
 GO
 
 /****** Object:  Table [dbo].[Users]    Script Date: 8/6/2018 5:23:28 PM ******/
@@ -57,6 +60,7 @@ GO
 
 ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_UserRole] FOREIGN KEY([RoleId])
 REFERENCES [dbo].[Roles] ([Id])
+ON DELETE CASCADE
 GO
 
 

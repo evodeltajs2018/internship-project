@@ -51,15 +51,15 @@ class Router {
         {
             path: "/type",
             component: SoundType
-            }, 
-            {
-                path: "/register",
-                component: Register
-            },
-            {
-                path: "/login",
-                component: Login
-        }
+        }, 
+        {
+            path: "/register",
+            component: Register
+        },
+        {
+            path: "/login",
+            component: Login
+    }
         ];
     }
 
@@ -89,7 +89,9 @@ class Router {
 
     addPopStateEvent() {
         window.onpopstate = (event) => {
-
+            if (window.history.state.refresh) {
+                this.refreshHandler();
+            }
             this.renderByUrl(window.location.pathname);
         };
     }

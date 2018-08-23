@@ -1,6 +1,7 @@
+import TokenService from "../services/auth/TokenService";
 class MenuService {
     constructor() {
-        this.sidebarLinks = [
+        this.adminSidebarLinks = [
             {
                 name: 'Projects',
                 icon: 'fas fa-folder',
@@ -16,11 +17,21 @@ class MenuService {
                 icon: 'fas fa-music',
                 route: '/types'
             }
+        ];
+        this.userSidebarLinks = [
+            {
+                name: 'Projects',
+                icon: 'fas fa-folder',
+                route: '/'
+            },
         ]
     }
 
     getSidebarLinks() {
-        return this.sidebarLinks;
+        console.log(jwt_decode(TokenService.getToken()).id);
+        if (jwt_decode(TokenService.getToken()).id === 1)
+            return this.adminSidebarLinks;
+        return this.userSidebarLinks;
     }
 }
 

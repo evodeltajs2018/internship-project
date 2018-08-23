@@ -1,7 +1,6 @@
 USE [InternshipProject]
 GO
-DROP TABLE IF EXISTS [dbo].[Beatmap]
-DROP TABLE IF EXISTS [dbo].[Project]
+
 
 DROP TABLE IF EXISTS [dbo].[Genre]
 GO
@@ -33,7 +32,8 @@ CREATE TABLE [dbo].[Project](
 	[Name] [nvarchar](max) NOT NULL,
 	[GenreId] [int] NOT NULL,
 	[Description] [nvarchar](500) NULL,
-	[Bpm] [int] NOT NULL
+	[Bpm] [int] NOT NULL,
+	[UserEmail] [nvarchar](50) FOREIGN KEY REFERENCES [dbo].[Users]([Email]) NOT NULL
  CONSTRAINT [PK_Projects] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -44,6 +44,7 @@ GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Projects_Genre] FOREIGN KEY([GenreId])
 REFERENCES [dbo].[Genre] ([Id])
 GO
+
 
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Projects_Genre]
 GO

@@ -4,6 +4,7 @@ import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
 import "./Projects.scss";
+import TokenService from "../../services/auth/TokenService";
 
 class Projects extends Component {
 	constructor(container) {
@@ -14,8 +15,8 @@ class Projects extends Component {
 		this.filter = {};
 		this.cards = [];
 		this.currentlyPlaying = null;
-        this.audioContext = new AudioContext();
-		
+		this.audioContext = new AudioContext();
+
 		this.setPlayingCard = (projectId) => {
 			this.setPlayingCardHandler(projectId);
 		}
@@ -39,6 +40,11 @@ class Projects extends Component {
 
 		if (this.displayData) {
 			for (let project of this.displayData) {
+				project.isEditable = false;
+				// console.log(project.userEmail === jwt_decode(TokenService.getToken()).email);
+				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
+					project.isEditable = true;
+				}
 				this.cardCreator(project);
 			}
 		}
@@ -47,7 +53,7 @@ class Projects extends Component {
 
 	setPlayingCardHandler(projectId) {
 		for (let card of this.cards) {
-			if (card.engine.isPlaying &&  card.project.id != projectId) {
+			if (card.engine.isPlaying && card.project.id != projectId) {
 				card.engine.stop();
 			}
 		}
@@ -55,24 +61,26 @@ class Projects extends Component {
 
 	getProjects() {
 		return ProjectRepository.getProjects()
-		.then((data) => {
-			let promises = []
-			for (let project of data) {
-				promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {
-					project.beatmap = beatmap;
-				}));
-			}
-			this.data = data;
-			this.displayData = data;
-			this.render();
-			return Promise.all(promises);
-		});
+			.then((data) => {
+				console.log(data);
+				let promises = []
+				for (let project of data) {
+					promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {
+						project.beatmap = beatmap;
+
+					}));
+				}
+				this.data = data;
+				this.displayData = data;
+				this.render();
+				return Promise.all(promises);
+			});
 	}
 
 	cardCreator(project) {
 		let card = new Card(
-			this.domElement.querySelector(".cards"), 
-			project, 
+			this.domElement.querySelector(".cards"),
+			project,
 			this.audioContext,
 			this.setPlayingCard
 		);

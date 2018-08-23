@@ -12,9 +12,10 @@ class App extends Component {
     constructor(container) {
         super(container, "app");
         this.router = new Router();
+        this.router.refreshHandler = () => { this.render(); }
         this.menuService = new MenuService();
         this.sidebarLinks = this.menuService.getSidebarLinks();
-        
+
         window.addEventListener("resize", () => {
             this.hideSidebarBySize();
         });
@@ -77,6 +78,7 @@ class App extends Component {
     }
 
     render() {
+        this.sidebarLinks = this.menuService.getSidebarLinks();
         this.domElement.innerHTML = `
         <nav class="header">
             <i class="fas fa-bars hamburger"></i>

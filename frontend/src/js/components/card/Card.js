@@ -96,9 +96,33 @@ class Card extends Component {
         
     }
 
+    renderEditButtons() {
+        
+
+        this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
+            this.editButtonHandler(this.project.id)
+        });
+        this.editButton.render();
+
+        this.domElement.querySelector(".delete-icon").addEventListener("click", () => {
+            this.deleteButtonHandler();
+            document.querySelector("body").style.overflow = "hidden";
+        });
+    }
+
+    renderUsername() {
+        // console.log(this.project.userName);
+        this.domElement.querySelector(".card-footer").innerHTML = `
+            Made by: ${this.project.userName}
+        `;
+    }
+
     render() {
         this.domElement.innerHTML = `
-        <div class="card-header content"><i class="fa fa-times-circle delete-icon"></i> <div>${this.project.name}<br>${this.project.genre.name}</div></div>
+        <div class="card-header content">
+            ${this.project.isEditable? `<i class="fa fa-times-circle delete-icon"></i>` : ""}
+            <div>${this.project.name}<br>${this.project.genre.name}</div>
+        </div>
 
         <div class="card-body content">
             <p class="card-text">${this.project.description}</p>
@@ -122,23 +146,13 @@ class Card extends Component {
             this.playHandler(this.project.id);
         }
         this.engine.render();
-        this.renderWaveform();
-        let idProject = this.project.id;
-
-        this.domElement.querySelector(".delete-icon").addEventListener("click", () => {
-            this.deleteButtonHandler();
-            document.querySelector("body").style.overflow = "hidden";
-        });
-
+        this.renderWaveform();      
+        
+        this.project.isEditable? this.renderEditButtons() : this.renderUsername();
         this.openButton = new Button(this.domElement.querySelector(".card-footer"), "OPEN", "card-button", () => {
-            this.openButtonHandler(idProject);
+            this.openButtonHandler(this.project.id);
         });
         this.openButton.render();
-
-        this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
-            this.editButtonHandler(idProject)
-        });
-        this.editButton.render();
     }
 
 }
