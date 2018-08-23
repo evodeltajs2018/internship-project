@@ -14,6 +14,6 @@ INSERT INTO [dbo].[Users]
            ('Sasha','Mihalache','sasha123','sasha@splicer.com','$2b$10$rQN7M3jOLKbJlQ1TtWCEF.HqSC4.93Lghu2vsG3jywUfgG5m9SOVK', 2),
            ('Nicu','Comiati','nicu990','nicu@splicer.com','$2b$10$rQN7M3jOLKbJlQ1TtWCEF.HqSC4.93Lghu2vsG3jywUfgG5m9SOVK', 2),
            ('Bogdan','Bledea','specialDoom','bledea@splicer.com','$2b$10$rQN7M3jOLKbJlQ1TtWCEF.HqSC4.93Lghu2vsG3jywUfgG5m9SOVK', 2),
-           ('Paul','Şular','schular','paul@splicer.com','$2b$10$rQN7M3jOLKbJlQ1TtWCEF.HqSC4.93Lghu2vsG3jywUfgG5m9SOVK', 2),
+           ('Paul','Şular','schular','paul@splicer.com','$2b$10$rQN7M3jOLKbJlQ1TtWCEF.HqSC4.93Lghu2vsG3jywUfgG5m9SOVK', 2)
 
 GO
