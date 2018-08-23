@@ -40,7 +40,6 @@ class Profile extends Component {
                 if (check.error) {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
-                    console.log(check.token)
                     TokenService.setToken(check.token);
                     Navigator.goToUrl("/projects", {refresh: true});
                 }

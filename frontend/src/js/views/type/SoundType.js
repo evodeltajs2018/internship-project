@@ -148,7 +148,7 @@ class SoundType extends Component {
                             <div class="image-width">
                                 <label for="file" class="icon cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt icon-text"></i>
-                                    <span class="icon-text">Upload Photo</span>
+                                    <span class="icon-text">Upload</span>
                                 </label>
                             </div>
                             <div class="required visbility-hidden required-image">Required</div>

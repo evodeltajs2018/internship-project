@@ -65,11 +65,11 @@ class Sound extends Component {
             validation = false;
         }
 
-        if (data.src == undefined) {
-            document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
-            document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
-            validation = false;
-        }
+        // if (data.src == undefined) {
+        //     document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
+        //     document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
+        //     validation = false;
+        // }
 
         if (uploadSound.files[0] == undefined && this.soundId === null) {
             document.querySelectorAll('.required')[3].classList.remove('visbility-hidden');
@@ -263,7 +263,7 @@ class Sound extends Component {
                             <div class="image-width">
                                 <label for="file" class="icon cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt icon-text"></i>
-                                    <span class="icon-text">Upload Photo</span>
+                                    <span class="icon-text">Upload</span>
                                 </label>
                             </div>
                         <div class="required visbility-hidden required-image">Required</div>
