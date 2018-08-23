@@ -1,4 +1,5 @@
 import Config from "../utils/Config";
+import TokenService from "../services/auth/TokenService";
 
 class ProjectRepository {
 	constructor() {
@@ -6,8 +7,13 @@ class ProjectRepository {
 	}
 
 	getProjects() {
-		return fetch(this.baseurl + "/projects")
-		.then(response => response.json())
+		return fetch(this.baseurl + "/projects", TokenService.getTokenHeader())
+		.then(response => {
+			if(response.status != '403'){
+				return response.json()
+			}else{
+				return null;
+			}})
 		.catch(err => console.error(err));
 	}
 

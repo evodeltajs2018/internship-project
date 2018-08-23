@@ -1,4 +1,5 @@
 import Config from "../utils/Config";
+import TokenService from "../services/auth/TokenService";
 
 class GenreRepository {
 	constructor() {
@@ -6,11 +7,7 @@ class GenreRepository {
 	}
 
 	getGenres() {
-		return fetch(this.baseurl +"/genres", {
-			headers: {
-				'Authorization': `Bearer ${getToken}`
-			}
-		})
+		return fetch(this.baseurl +"/genres", TokenService.getTokenHeader())
 		.then(response => response.json())
 		.catch(err => console.error(err));
 	}

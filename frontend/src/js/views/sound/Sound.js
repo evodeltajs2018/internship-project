@@ -8,6 +8,7 @@ import "./Sound.scss";
 class Sound extends Component {
     constructor(container, soundId = null) {
         super(container, "add-sound");
+
         this.extension = 'wav';
         this.soundId = soundId;
         this.buffer = null;
@@ -142,7 +143,7 @@ class Sound extends Component {
                 source.onended = () => {
                     this.source = false;
                     const elem = document.querySelector("#play-sound");
-                    if(elem) {
+                    if (elem) {
                         elem.className = "fas fa-play-circle";
                     }
                 }
@@ -157,8 +158,10 @@ class Sound extends Component {
     getSoundsById() {
         return SoundRepository.getSoundById(this.soundId)
             .then((data) => {
-                document.querySelector('#name').value = data.name;
-                document.querySelector('#type').value = data.type.id;
+                if (data) {
+                    document.querySelector('#name').value = data.name;
+                    document.querySelector('#type').value = data.type.id;
+                }
             });
     }
 
@@ -193,12 +196,12 @@ class Sound extends Component {
     handleEditSound() {
         this.getSoundsById();
         this.getSoundData()
-            .then(() => {
-                this.extension = document.querySelector('#name').value.split(/[. ]+/).pop();
-                this.uploadClicked = true;
-                this.createPlayButton();
-                this.domElement.querySelector('#submit')
-                    .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId, this.extension));
+            .then((result) => {
+                    this.extension = document.querySelector('#name').value.split(/[. ]+/).pop();
+                    this.uploadClicked = true;
+                    this.createPlayButton();
+                    this.domElement.querySelector('#submit')
+                        .addEventListener("click", () => this.editSoundById(this.getFormData(), this.soundId, this.extension));
             })
     }
 
@@ -214,13 +217,17 @@ class Sound extends Component {
         this.typesElement = `<option value="">Type</option>`;
         SoundTypeRepository.getTypes()
             .then((data) => {
-                this.data = data;
-                for (let i = 0; i < this.data.length; i++) {
-                    this.typesElement += `
-                    <option value="${this.data[i].id}">${this.data[i].name}</option>
-                `
+                if (data) {
+                    this.data = data;
+                    for (let i = 0; i < this.data.length; i++) {
+                        this.typesElement += `
+                    <option value="${this.data[i].id}">${this.data[i].name}</option>`
+                    }
+                    document.querySelector("#type").innerHTML = this.typesElement;
+                } else {
+                    Navigator.goToUrl("/forbidden");
                 }
-                document.querySelector("#type").innerHTML = this.typesElement;
+
             });
     }
 

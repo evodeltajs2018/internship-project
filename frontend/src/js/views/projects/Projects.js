@@ -4,7 +4,7 @@ import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
 import "./Projects.scss";
-
+import Navigator from "../../services/router/Navigator";
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
@@ -32,9 +32,14 @@ class Projects extends Component {
 	}
 	getProjects() {
 		ProjectRepository.getProjects().then((data) => {
-			this.data = data;
-			this.displayData = data;
-			this.render();
+			if(!data){
+				Navigator.goToUrl("/forbidden");
+			}else{
+				this.data = data;
+				this.displayData = data;
+				this.render();
+			}
+			
 		});
 	}
 

@@ -25,29 +25,34 @@ class Project extends Component {
     getGenresHTML() {
         this.typesElement = `<option value=""></option>`;
         GenreRepository.getGenres()
-        .then((data) => {
-            this.data = data;
+            .then((data) => {
+                if (!data) {
+                    Navigator.goToUrl("/forbidden");
+                } else {
+                    this.data = data;
 
-            for (let i = 0; i < this.data.length; i++) {
-                this.typesElement += `
+                    for (let i = 0; i < this.data.length; i++) {
+                        this.typesElement += `
                     <option value="${this.data[i].id}">${this.data[i].name}</option>
                 `
-            }
-            document.querySelector("#genre").innerHTML = this.typesElement;
-        });
+                    }
+                    document.querySelector("#genre").innerHTML = this.typesElement;
+                }
+
+            });
     }
 
     getProject(projectId) {
         ProjectRepository.getProjectById(projectId)
-        .then(data => {
-            if (data.length > 0) {
-                document.querySelector('#name').value = data[0].name;
-                document.querySelector('#genre').value = data[0].genre.id;
-                document.querySelector('#description').value = data[0].description;
-            } else {
-                Navigator.goToUrl("/projects");
-            }
-        });
+            .then(data => {
+                if (data.length > 0) {
+                    document.querySelector('#name').value = data[0].name;
+                    document.querySelector('#genre').value = data[0].genre.id;
+                    document.querySelector('#description').value = data[0].description;
+                } else {
+                    Navigator.goToUrl("/projects");
+                }
+            });
     }
 
     getFormData() {
@@ -97,7 +102,7 @@ class Project extends Component {
         const inputs = [{
             input: nameInput,
             validator: nameValidator
-        },{
+        }, {
             input: genreInput,
             validator: genreValidator
         }];
@@ -109,7 +114,7 @@ class Project extends Component {
             });
         })
 
-        function handleErrorClassesChange(input, validator){
+        function handleErrorClassesChange(input, validator) {
             input.classList.add('wrong-input');
             validator.classList.remove('hidden');
             validation = false;

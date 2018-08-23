@@ -6,6 +6,18 @@ class TokenService {
     getToken() {
         return window.localStorage.getItem('token');
     }
+
+    getTokenHeader(){
+        return {
+            headers: {
+                'Authorization': `Bearer ${this.getToken()}`,
+            }
+        }
+    }
+
+    isUserAuthenticated() {
+        return this.getToken() === true;
+    }
 }
 
 export default new TokenService();

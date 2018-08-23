@@ -1,7 +1,10 @@
+import TokenService from "../auth/TokenService";
+
 class Navigator {
     static goToUrl(url, data = {}) {
         window.history.pushState(data, "", url);
         window.dispatchEvent(new Event("popstate"));
+
     }
 
     static getHistoryState() {

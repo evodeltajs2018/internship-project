@@ -30,7 +30,7 @@ class SoundController {
             const name = fields.name[0];
             const type = fields.type[0];
             const value = files.value[0];
-
+            
             FileOpener(value)
                 .then((data) => {
                     SoundService.addSound(name, type, data).then((result) => {

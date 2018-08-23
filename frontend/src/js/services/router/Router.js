@@ -11,6 +11,8 @@ import TitleService from "../../services/title service/TitleService";
 import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
+import Forbidden from "../../views/forbidden/Forbidden";
+import TokenService from "../../services/auth/TokenService";
 
 class Router {
     constructor(container) {
@@ -18,7 +20,7 @@ class Router {
 
         this.routes = [{
                 path: "/",
-                component: Projects,
+                component: Projects
             },
             {
                 path: "/projects",
@@ -54,11 +56,17 @@ class Router {
             }, 
             {
                 path: "/register",
-                component: Register
+                component: Register,
+                permission: true
             },
             {
                 path: "/login",
-                component: Login
+                component: Login,
+                permission: true
+            },
+            {
+                path: "/forbidden",
+                component: Forbidden
             }
         ];
     }
@@ -89,7 +97,7 @@ class Router {
 
     addPopStateEvent() {
         window.onpopstate = (event) => {
-            
+
             this.renderByUrl(window.location.pathname);
         };
     }
@@ -141,22 +149,28 @@ class Router {
     }
 
     renderByUrl(url) {
+        // if(!TokenService.isUserAuthenticated()) {
+        //     Navigator.goToUrl('/login');
+        //     return;
+        // }
+
         const route = this.findRouteByUrl(url);
 
-        if (route.component.path === "/register" || route.component.path === "/login") {
-            this.handleContentDisplay(true);
-            this.setNewCurrentComponent(route);
-        } else if (route.component) {
-            this.setNewCurrentComponent(route);
-            this.handleContentDisplay(false);
-        } else {
-            console.error("invalid route");
-
+        if (!route || !route.component) {
             const notFound = this.findRouteByUrl("/notfound");
             this.setNewCurrentComponent(notFound);
             Navigator.goToUrl("/notfound")
         }
+        else if (route.component.path === "/register" || route.component.path === "/login") {
+            this.handleContentDisplay(true);
+            this.setNewCurrentComponent(route);
+        }
+        else if (route.component) {
+            this.setNewCurrentComponent(route);
+            this.handleContentDisplay(false);
+        } 
     }
+        
 }
 
 export default Router;
