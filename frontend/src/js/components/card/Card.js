@@ -7,6 +7,7 @@ import Engine from "../../views/splicer/engine/Engine";
 import SoundLoader from "../../services/sound_loader/SoundLoader";
 import Track from "../track/Track";
 import ProjectRepository from "../../repositories/ProjectRepository";
+import TokenService from "../../services/auth/TokenService";
 
 class Card extends Component {
     constructor(container, project, audioContext, playHandler) {
@@ -57,7 +58,8 @@ class Card extends Component {
         Navigator.goToUrl("/splicer/" + idProjectParam, 
             {
                 name: this.project.name,
-                description: this.project.description
+                description: this.project.description,
+                authorized: jwt_decode(TokenService.getToken()).email === this.project.userEmail
             }
         );
     }
@@ -94,7 +96,7 @@ class Card extends Component {
         let x = 0;
         for(let i = 0; i < data.length; i++) {
             barHeight = this.map(data[i], 0, 255, 0, this.soundCanvas.height);
-            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 0.8)";
+            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 1)";
             this.soundCanvasContext.fillRect(x,this.soundCanvas.height-barHeight,barWidth,barHeight);
     
             x += barWidth + 1;

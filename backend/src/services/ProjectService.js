@@ -113,8 +113,13 @@ getPageCount(itemsPerPage, filter) {
             .then(pool => {
                 return pool.input('id', DbConnection.sql.Int, id)
                     .query(`SELECT P.Id, P.Name, P.Description, P.GenreId, 
-                        G.Name AS GenreName, P.Bpm
-                        FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+                        G.Name AS GenreName, P.Bpm,
+                        P.UserEmail as UserEmail,
+                        U.Username as Username
+
+                        FROM Project P 
+                        INNER JOIN Genre G ON P.GenreId = G.Id
+                        INNER JOIN Users U ON U.Email = P.UserEmail
                         WHERE P.Id LIKE @id`)
             })
             .then((result) => {

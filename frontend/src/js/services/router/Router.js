@@ -100,7 +100,7 @@ class Router {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
-
+        
         this.currentComponent = new route.component.component(this.container, route.param);
         this.currentComponent.render();
     }
