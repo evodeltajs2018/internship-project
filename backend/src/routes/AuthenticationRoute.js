@@ -14,6 +14,10 @@ class AuthenticationRoute{
         this.app.post("/login", (req, res)=>{
             AuthenticationController.login(req,res);
         });
+        this.app.put("/edit", (req, res)=>{
+            AuthenticationController.edit(req,res);
+        });
+
     }
 
 }

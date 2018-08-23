@@ -87,10 +87,12 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
+    margin-top: 75px;
+    padding: 20px;
     font-weight: bold;
     font-size: 16px;
     color: $formFontColor;
+    background-color: white;
 }
 
 .validator {
@@ -102,4 +104,9 @@ a {
 
 .hidden{
     display: none;
+}
+
+.cancel-button {
+    color: #000 !important;
+    border: 1px solid #000 !important;
 }

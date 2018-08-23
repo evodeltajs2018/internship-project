@@ -44,6 +44,32 @@ class AuthenticationRepository {
             })
             .catch(err => console.log(err));
     }
+
+    editUser(data) {
+        return fetch(
+            this.baseurl + '/edit', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "PUT",
+                body: JSON.stringify(data)
+            }
+        )
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => console.log(err));
+    }
+
+    getUser(email) {
+        return fetch(this.baseurl + "/user/" + email)
+            .then(response => response.json())
+            .catch(err => Toaster.showError("Error getting user data"));
+    }
 }
 
 export default new AuthenticationRepository();
