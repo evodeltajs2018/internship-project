@@ -147,7 +147,7 @@ class SoundType extends Component {
                             </div>
                             <div class="required visbility-hidden required-image">Required</div>
                         </div>
-                        <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
+                        <input type="file" name="file" id="file" class="inputfile" accept="image/png, image/jpg, image/jpeg"/>
                     </div>
                     <div class="form-row">
                         <div class="form-text">

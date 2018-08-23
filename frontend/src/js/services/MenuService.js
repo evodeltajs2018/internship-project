@@ -28,7 +28,7 @@ class MenuService {
     }
 
     getSidebarLinks() {
-        if (jwt_decode(TokenService.getToken()).id === 1)
+        if (TokenService.getToken() && (jwt_decode(TokenService.getToken()).id === 1))
             return this.adminSidebarLinks;
         return this.userSidebarLinks;
     }

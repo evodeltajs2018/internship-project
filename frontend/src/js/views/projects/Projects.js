@@ -41,7 +41,6 @@ class Projects extends Component {
 		if (this.displayData) {
 			for (let project of this.displayData) {
 				project.isEditable = false;
-				// console.log(project.userEmail === jwt_decode(TokenService.getToken()).email);
 				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
 					project.isEditable = true;
 				}

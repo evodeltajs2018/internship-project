@@ -1,7 +1,6 @@
 import Component from "../../components/Component";
 import Navigator from "../../services/router/Navigator";
 import AuthenticationRepository from "../../repositories/AuthenticationRepository";
-import User from "../../components/user/User";
 import TokenService from "../../services/auth/TokenService";
 
 class Login extends Component {

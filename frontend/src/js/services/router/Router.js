@@ -11,6 +11,7 @@ import TitleService from "../../services/title_service/TitleService";
 import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
+import Profile from "../../views/profile/Profile";
 
 class Router {
     constructor(container) {
@@ -51,7 +52,7 @@ class Router {
         {
             path: "/type",
             component: SoundType
-        }, 
+        },
         {
             path: "/register",
             component: Register
@@ -59,7 +60,11 @@ class Router {
         {
             path: "/login",
             component: Login
-    }
+        },
+        {
+            path: "/profile",
+            component: Profile
+        }
         ];
     }
 

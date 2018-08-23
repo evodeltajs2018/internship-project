@@ -8,6 +8,9 @@ class TitleService {
             case "/":
                 pageTitle.innerHTML = "Projects";
                 break;
+            case "/profile":
+                pageTitle.innerHTML = "Profile";
+                break;
             case "/sounds":
                 pageTitle.innerHTML = "Sounds";
                 break;
