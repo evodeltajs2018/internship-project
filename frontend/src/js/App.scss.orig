@@ -8,6 +8,11 @@ $menuIcon: #fff;
 $menuActive: #46a29e;
 $menuInactive:  #0b0c10;
 
+<<<<<<< HEAD
+html, body, .app {
+  //  height: 100%;
+    width: 100%;
+=======
 $heightCalc: calc(100vh - 232px);
 
 $formFontColor: #000;
@@ -24,6 +29,7 @@ $mainFontFamily: monospace;
 * {
     box-sizing: border-box;
     font-family: $mainFontFamily;
+>>>>>>> dev
 }
 
 .header {
@@ -48,6 +54,7 @@ $mainFontFamily: monospace;
 }
 
 html, body, .app {
+    height: 100%;
     width: 100%;
 }
 
@@ -169,10 +176,5 @@ body {
 }
 
 .toast-message { 
-    font-size: 16px;
-}
-
-.project-description {
-    font-size: 16px;
-    opacity: .8;
+    font-size: 20px;
 }

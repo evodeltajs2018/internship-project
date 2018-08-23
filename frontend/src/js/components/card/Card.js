@@ -6,6 +6,7 @@ import "./Card.scss";
 import Engine from "../../views/splicer/engine/Engine";
 import SoundLoader from "../../services/sound_loader/SoundLoader";
 import Track from "../track/Track";
+import ProjectRepository from "../../repositories/ProjectRepository";
 
 class Card extends Component {
     constructor(container, project, audioContext, playHandler) {
@@ -24,7 +25,7 @@ class Card extends Component {
             this.onDelete(this.project.id);
         };
     }
- 
+
     loadTracks() {
         this.soundLoader.getSoundsWithIds(this.project.beatmap.map(item => item.soundId))
         .then(() => {
@@ -147,7 +148,14 @@ class Card extends Component {
             play: true
         });
         this.engine.cardPlayHandler = () => {
-            
+            if (!this.project.beatmap) {
+                
+                ProjectRepository.getBeatmap(this.project.id).then((beatmap) => {
+                    this.project.beatmap = beatmap;
+                    
+                    this.loadTracks();
+                });
+            }
             this.playHandler(this.project.id);
         }
         this.engine.render();

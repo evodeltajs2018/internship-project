@@ -4,15 +4,15 @@ import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
 import "./Projects.scss";
-import TokenService from "../../services/auth/TokenService";
 
 class Projects extends Component {
 	constructor(container) {
 		super(container, "projects");
 
+<<<<<<< HEAD
 		this.pagination = {
 			currentPage: 1,
-			itemsPerPage: 2,
+			itemsPerPage: 10,
 		};
 
 		this.filter = {
@@ -25,19 +25,33 @@ class Projects extends Component {
 			rootMargin: "0px",
 			threshold: [1]
 		};
+=======
+		this.data = null;
+		this.displayData = null;
+		this.filter = {};
+		this.cards = [];
+		this.currentlyPlaying = null;
+        this.audioContext = new AudioContext();
+		
+		this.setPlayingCard = (projectId) => {
+			this.setPlayingCardHandler(projectId);
+		}
+		this.getProjectsAndTracks();
+
+	}
+
+	getProjectsAndTracks() {
+		this.getProjects().then(() => {
+			for (let card of this.cards) {
+				card.loadTracks();
+			}
+		});
+	}
+>>>>>>> dev
 
 		let that = this;
 		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
 
-		///////start
-		this.cards = [];
-		this.currentlyPlaying = null;
-		this.audioContext = new AudioContext();
-
-		this.setPlayingCard = (projectId) => {
-			this.setPlayingCardHandler(projectId);
-		}
-		////end
 		this.render();
 	}
 
@@ -64,44 +78,54 @@ class Projects extends Component {
 		}
 	}
 
+<<<<<<< HEAD
+	getProjects() {
+		this.projectObserver(false)
+		ProjectRepository.getProjects(this.pagination, this.filter).then((data) => {
+
+			if (this.pagination.currentPage <= data.pageCount) {
+				this.pagination.currentPage++;
+
+				this.addCards(data.data);
+				if (this.pagination.currentPage > data.pageCount) {
+					this.hideLoadingArea(true);
+				}
+			}
+			if (data.data.length > 0) {
+				this.projectObserver(true);
+			} else {
+				this.hideLoadingArea(true);
+			}
+
+=======
 	setPlayingCardHandler(projectId) {
 		for (let card of this.cards) {
-			if (card.engine.isPlaying && card.project.id != projectId) {
+			if (card.engine.isPlaying &&  card.project.id != projectId) {
 				card.engine.stop();
 			}
 		}
 	}
 
 	getProjects() {
-		this.projectObserver(false)
-		return ProjectRepository.getProjects(this.pagination, this.filter)
-			.then((data) => {
-				if (this.pagination.currentPage <= data.pageCount) {
-					this.pagination.currentPage++;
-
-					this.addCards(data.data);
-					if (this.pagination.currentPage > data.pageCount) {
-						this.hideLoadingArea(true);
-					}
-				}
-				if (data.data.length > 0) {
-					this.projectObserver(true);
-				} else {
-					this.hideLoadingArea(true);
-				}
-			});
+		return ProjectRepository.getProjects()
+		.then((data) => {
+			let promises = []
+			for (let project of data) {
+				promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {
+					project.beatmap = beatmap;
+				}));
+			}
+			this.data = data;
+			this.displayData = data;
+			this.render();
+			return Promise.all(promises);
+>>>>>>> dev
+		});
 	}
 
 	addCards(projects) {
-		TokenService.getToken();
-
 		if (projects) {
 			for (let project of projects) {
-				project.isEditable = false;
-				// console.log(project.userEmail === jwt_decode(TokenService.getToken()).email);
-				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
-					project.isEditable = true;
-				}
 				this.cardCreator(project);
 			}
 		}
@@ -109,8 +133,8 @@ class Projects extends Component {
 
 	cardCreator(project) {
 		let card = new Card(
-			this.domElement.querySelector(".cards"),
-			project,
+			this.domElement.querySelector(".cards"), 
+			project, 
 			this.audioContext,
 			this.setPlayingCard
 		);
@@ -123,7 +147,11 @@ class Projects extends Component {
 
 	deleteProject(id) {
 		ProjectRepository.deleteProject(id).then(() => {
+<<<<<<< HEAD
 			this.filterProjects();
+=======
+			this.getProjectsAndTracks();
+>>>>>>> dev
 		});
 	}
 
@@ -140,9 +168,6 @@ class Projects extends Component {
 	}
 
 	initializeCards() {
-		
-
-
 		this.domElement.querySelector(".cards").innerHTML = "";
 		this.hideLoadingArea(false);
 
