@@ -12,6 +12,7 @@ import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
 import Profile from "../../views/profile/Profile";
+import TokenService from "../auth/TokenService";
 
 class Router {
     constructor(container) {
@@ -150,12 +151,18 @@ class Router {
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
 
+
         if (route.component.path === "/register" || route.component.path === "/login") {
             this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
         } else if (route.component) {
-            this.setNewCurrentComponent(route);
-            this.handleContentDisplay(false);
+            if (!TokenService.getToken()) {
+                Navigator.goToUrl("/login");
+            } else {
+                this.setNewCurrentComponent(route);
+                this.handleContentDisplay(false);
+
+            }
         } else {
             console.error("invalid route");
 
