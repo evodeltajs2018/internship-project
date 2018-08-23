@@ -4,14 +4,13 @@ import Navigator from "../../services/router/Navigator";
 import "./User.scss";
 
 class User extends Component {
-	constructor(container, token) {
-		super(container, "user");
-        this.token = token;
+    constructor(container, token) {
+        super(container, "user");
         this.clicked = false;
-        this.data = this.decodeToken();
-        this.initials = this.generateNameInitials();
-        console.log(this.data);
         if (TokenService.getToken()) {
+            this.token = token;
+            this.data = this.decodeToken();
+            this.initials = this.generateNameInitials();
             this.render();
         }
     }
@@ -27,14 +26,15 @@ class User extends Component {
     }
 
     generateNameInitials() {
-        this.initials = this.data.lastName[0].toUpperCase(); 
+        this.initials = this.data.lastName[0].toUpperCase();
         this.initials += this.data.firstName[0].toUpperCase();
 
         return this.initials;
     }
 
-    handleUserClick(visible) {
+    handleUserClick(visible, e) {
         if (!visible) {
+            e.stopPropagation();
             document.querySelectorAll('.user-item')[0].style.visibility = "visible";
             document.querySelectorAll('.user-item')[1].style.visibility = "visible";
             document.querySelector('.user-menu').style.visibility = "visible";
@@ -50,7 +50,17 @@ class User extends Component {
 
     }
 
-	render() {
+    handleWindowClick() {
+        if (this.clicked === true) {
+            document.querySelectorAll('.user-item')[0].style.visibility = "hidden";
+            document.querySelectorAll('.user-item')[1].style.visibility = "hidden";
+            document.querySelector('.user-menu').style.visibility = "hidden";
+            document.querySelector('.user-menu').style.height = "0px";
+            this.clicked = false;
+        }
+    }
+
+    render() {
         this.domElement.innerHTML = `
             <div class="user-logo">${this.initials}</div>
             <div class="user-menu">
@@ -60,14 +70,16 @@ class User extends Component {
 		`;
 
         this.domElement.querySelector(".user-logo")
-            .addEventListener("click", () => { this.handleUserClick(this.clicked) })
+            .addEventListener("click", (e) => { this.handleUserClick(this.clicked, e) })
 
-		this.domElement.querySelector(".user-logout")
-            .addEventListener("click", () => { this.onLogOut() } );
-            
+        this.domElement.querySelector(".user-logout")
+            .addEventListener("click", () => { this.onLogOut() });
+
         this.domElement.querySelector(".user-profile")
-            .addEventListener("click", () => { Navigator.goToUrl('/profile') } );
-	}
+            .addEventListener("click", () => { Navigator.goToUrl('/profile') });
+
+        window.addEventListener("click", () => { this.handleWindowClick() })
+    }
 }
 
 export default User;
