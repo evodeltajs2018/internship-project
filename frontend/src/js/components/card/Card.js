@@ -25,8 +25,6 @@ class Card extends Component {
             this.onDelete(this.project.id);
         };
     }
- 
-	
 
     loadTracks() {
         this.soundLoader.getSoundsWithIds(this.project.beatmap.map(item => item.soundId))

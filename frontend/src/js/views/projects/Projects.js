@@ -11,7 +11,7 @@ class Projects extends Component {
 
 		this.pagination = {
 			currentPage: 1,
-			itemsPerPage: 2,
+			itemsPerPage: 10,
 		};
 
 		this.filter = {
