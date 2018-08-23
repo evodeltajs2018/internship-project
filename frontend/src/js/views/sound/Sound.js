@@ -64,11 +64,11 @@ class Sound extends Component {
             validation = false;
         }
 
-        if (data.src == undefined) {
-            document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
-            document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
-            validation = false;
-        }
+        // if (data.src == undefined) {
+        //     document.querySelectorAll('.required')[0].classList.remove('visbility-hidden')
+        //     document.querySelector('.fa-cloud-upload-alt').classList.add('icon-red');
+        //     validation = false;
+        // }
 
         if (uploadSound.files[0] == undefined && this.soundId === null) {
             document.querySelectorAll('.required')[3].classList.remove('visbility-hidden');
