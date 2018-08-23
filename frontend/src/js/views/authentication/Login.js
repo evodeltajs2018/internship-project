@@ -36,7 +36,7 @@ class Login extends Component {
                     document.querySelector('.error').innerHTML = `${check.error}`;
                 } else {
                     TokenService.setToken(check.token);
-                    Navigator.goToUrl("/projects");
+                    Navigator.goToUrl("/projects", {refresh: true});
                     this.user = new User(document.querySelector('.user-card'), TokenService.getToken());
                 }
             });
