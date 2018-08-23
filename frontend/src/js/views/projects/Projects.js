@@ -62,7 +62,6 @@ class Projects extends Component {
 	getProjects() {
 		return ProjectRepository.getProjects()
 			.then((data) => {
-				console.log(data);
 				let promises = []
 				for (let project of data) {
 					promises.push(ProjectRepository.getBeatmap(project.id).then((beatmap) => {

@@ -6,7 +6,6 @@ class AuthenticationRepository {
     }
 
     createUser(data) {
-        console.log(data);
         return fetch(
             this.baseurl + '/register', {
                 headers: {
