@@ -28,7 +28,6 @@ class Projects extends Component {
 		let that = this;
 		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
 
-		///////start
 		this.cards = [];
 		this.currentlyPlaying = null;
 		this.audioContext = new AudioContext();
@@ -36,7 +35,7 @@ class Projects extends Component {
 		this.setPlayingCard = (projectId) => {
 			this.setPlayingCardHandler(projectId);
 		}
-		////end
+
 		this.render();
 	}
 

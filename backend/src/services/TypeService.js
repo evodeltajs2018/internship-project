@@ -3,6 +3,10 @@ const DbMapper = require("../utils/DbMapper");
 
 class TypeService {
     constructor() {
+        this.fromWhere = `
+            FROM Type 
+            WHERE LOWER(Name) LIKE '%' + LOWER(@name) + '%'
+        `;
     }
 
     getTypeById(id) {
@@ -40,8 +44,7 @@ class TypeService {
                     .input('itemsPerPage', DbConnection.sql.Int, itemsPerPage)
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                    FROM Type 
-                    WHERE LOWER(Name) LIKE LOWER(@name) + '%'`)
+                    ` + this.fromWhere)
             })
             .then((result) => {
                 return result;
@@ -56,8 +59,8 @@ class TypeService {
             .then(pool => {
                 return pool
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
-                    .query(`SELECT COUNT(*) AS Count 
-            FROM Type WHERE LOWER(Name) LIKE LOWER(@name) + '%'`)
+                    .query(`SELECT COUNT(*) AS Count
+                    ` + this.fromWhere)
             })
             .then((result) => {
                 return result;
@@ -78,8 +81,8 @@ class TypeService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`
-                    SELECT Id, Name, IconSrc, ColorType FROM Type
-                    WHERE LOWER(Name) LIKE LOWER(@name) + '%'
+                    SELECT Id, Name, IconSrc, ColorType 
+                    ` + this.fromWhere + `
                     ORDER BY Name
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY

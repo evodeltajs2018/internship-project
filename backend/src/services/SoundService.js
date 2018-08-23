@@ -2,6 +2,14 @@ const DbConnection = require("../dbConnection/Connection");
 const DbMapper = require("../utils/DbMapper");
 
 class SoundService {
+    constructor() {
+        this.fromWhere = `
+        FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
+        WHERE LOWER(S.Name) LIKE '%' + LOWER(@name) + '%' 
+          AND LOWER(T.Name) LIKE '%' + LOWER(@type) + '%'
+        `;
+    }
+
     addByteArray(bytearray) {
         return DbConnection.executePoolRequest()
             .then(pool => {
@@ -18,20 +26,20 @@ class SoundService {
 
     addSound(name, typeId, image, bytearray) {
         return this.addByteArray(bytearray)
-        .then(lastId => {
-            return DbConnection.executePoolRequest()
-                .then(pool => {
-                    return pool
-                        .input('name', DbConnection.sql.NVarChar(50), name)
-                        .input('soundTypeId', DbConnection.sql.Int, typeId)
-                        .input('image', DbConnection.sql.NVarChar(DbConnection.sql.MAX), image)
-                        .input('byteArrayId', DbConnection.sql.Int, lastId)
-                        .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @image, @byteArrayId)`);
-                })
-                .then(result => {
-                    return result.rowsAffected[0] === 1;
-                });
-        })
+            .then(lastId => {
+                return DbConnection.executePoolRequest()
+                    .then(pool => {
+                        return pool
+                            .input('name', DbConnection.sql.NVarChar(50), name)
+                            .input('soundTypeId', DbConnection.sql.Int, typeId)
+                            .input('image', DbConnection.sql.NVarChar(DbConnection.sql.MAX), image)
+                            .input('byteArrayId', DbConnection.sql.Int, lastId)
+                            .query(`INSERT INTO Sound VALUES (@name, @soundtypeId, @image, @byteArrayId)`);
+                    })
+                    .then(result => {
+                        return result.rowsAffected[0] === 1;
+                    });
+            })
     }
 
     editSound(paramId, name, typeId, image, bytearray) {
@@ -40,7 +48,7 @@ class SoundService {
                 return pool.input('paramId', DbConnection.sql.Int, paramId)
                     .input('name', DbConnection.sql.NVarChar(50), name)
                     .input('soundTypeId', DbConnection.sql.Int, typeId)
-                    .input('image',DbConnection.sql.NVarChar(DbConnection.sql.MAX),image)
+                    .input('image', DbConnection.sql.NVarChar(DbConnection.sql.MAX), image)
                     .input('byteArrayId', DbConnection.sql.Int, paramId)
                     .input('value', DbConnection.sql.VarBinary(DbConnection.sql.MAX), bytearray)
                     .query(`UPDATE Sound SET 
@@ -60,8 +68,8 @@ class SoundService {
         return DbConnection.executePoolRequest()
             .then(pool => {
                 return pool
-                .input('id', DbConnection.sql.Int, id)
-                .query(`SELECT S.Id as Id, S.Name, S.TypeId, T.Name AS TypeName, 
+                    .input('id', DbConnection.sql.Int, id)
+                    .query(`SELECT S.Id as Id, S.Name, S.TypeId, T.Name AS TypeName, 
                     S.ByteArrayId AS ByteArrayId, 
                     T.IconSrc as IconSrc,
                     T.ColorType as ColorType,
@@ -139,18 +147,18 @@ class SoundService {
             })
     }
 
-    getSoundsByType(typeId){
-        return DbConnection.executePoolRequest().then(pool =>{
-            return pool.input('typeId',DbConnection.sql.Int,typeId)
-            .query(`SELECT S.Id, S.Name, S.TypeId, S.Image, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
+    getSoundsByType(typeId) {
+        return DbConnection.executePoolRequest().then(pool => {
+                return pool.input('typeId', DbConnection.sql.Int, typeId)
+                    .query(`SELECT S.Id, S.Name, S.TypeId, S.Image, S.ByteArrayId, T.IconSrc, T.ColorType , T.Name as TypeName
             FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
             WHERE S.TypeId = @typeId ;`)
-        })
-        .then((result) => {
-            return result.recordset.map((type) => {
-                return DbMapper.mapSoundSplicer(type);
             })
-        })
+            .then((result) => {
+                return result.recordset.map((type) => {
+                    return DbMapper.mapSoundSplicer(type);
+                })
+            })
 
     }
 
@@ -161,8 +169,7 @@ class SoundService {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                    FROM Sound S INNER JOIN Type T On S.TypeId = T.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
+                    ` + this.fromWhere)
             })
             .then((result) => {
                 return result;
@@ -178,8 +185,7 @@ class SoundService {
                 return pool.input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`SELECT COUNT(*) AS Count 
-            FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
-            WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'`)
+                    ` + this.fromWhere)
             })
             .then((result) => {
                 return result;
@@ -201,8 +207,7 @@ class SoundService {
                     .input('type', DbConnection.sql.NVarChar(50), filter.type)
                     .query(`
                     SELECT S.Id, S.Name, S.TypeId, T.Name AS TypeName
-                    FROM Sound S INNER JOIN Type T ON S.TypeId = T.Id
-                    WHERE LOWER(S.Name) LIKE LOWER(@name) + '%' AND T.Name LIKE LOWER(@type) + '%'
+                    ` + this.fromWhere + `
                     ORDER BY S.Name
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY

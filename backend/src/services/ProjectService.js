@@ -3,9 +3,10 @@ const DbMapper = require("../utils/DbMapper");
 
 class ProjectService {
     constructor() {
-        this.fromwhere = `
+        this.fromWhere = `
         FROM Project P INNER JOIN Genre G On P.GenreId = G.Id
-        WHERE LOWER(P.Name) LIKE '%' + LOWER(@name) + '%' AND G.Name LIKE '%' + LOWER(@genreName) + '%'
+        WHERE LOWER(P.Name) LIKE '%' + LOWER(@name) + '%' 
+          AND LOWER(G.Name) LIKE '%' + LOWER(@genreName) + '%'
         `;
     }
 
@@ -31,7 +32,7 @@ getPageCount(itemsPerPage, filter) {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
                     .query(`SELECT CEILING(CAST(COUNT(*) AS FLOAT) / @itemsPerPage) AS itemCount
-                            ${this.fromwhere}
+                            ${this.fromWhere}
                         `)
             })
             .then((result) => {
@@ -48,7 +49,7 @@ getPageCount(itemsPerPage, filter) {
                 return pool.input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
                     .query(`SELECT COUNT(*) AS Count 
-                            ${this.fromwhere}
+                            ${this.fromWhere}
                         `)
             })
             .then((result) => {
@@ -72,7 +73,7 @@ getPageCount(itemsPerPage, filter) {
                     .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
                     .query(`
                     SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName, P.Bpm as Bpm
-                    ${this.fromwhere}
+                    ${this.fromWhere}
                     ORDER BY P.Id DESC
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY
