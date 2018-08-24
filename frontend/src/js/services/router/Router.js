@@ -111,7 +111,6 @@ class Router {
     setNewCurrentComponent(route) {
         if (this.currentComponent) {
             this.currentComponent.unrender();
-            console.log("aci");
         }
 
         this.currentComponent = new route.component.component(this.container, route.param);
@@ -156,8 +155,7 @@ class Router {
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
         if(!TokenService.getToken() &&  url !=="/login" && url!="/register"){
-            this.handleContentDisplay(true);
-            this.setNewCurrentComponent(route);
+            Navigator.goToUrl('/login');
             return;
         }
 
