@@ -4,6 +4,7 @@ import GenreRepository from "../../repositories/GenreRepository";
 import Button from "../../components/button/Button";
 import Navigator from "../../services/router/Navigator";
 import "./Project.scss";
+import TokenService from "../../services/auth/TokenService";
 
 class Project extends Component {
     constructor(container, projectId = null) {
@@ -14,42 +15,51 @@ class Project extends Component {
         this.selectedGenre = 0;
         this.genres = null;
         this.description = "";
-
-        this.getGenresHTML();
-
-       
+        
         if (projectId != null) {
-            this.getProject(projectId);
+            this.getGenresHTML().then(() => {
+                this.getProject(projectId);
+            })
+        } else {
+            this.getGenresHTML();
         }
     }
 
     getGenresHTML() {
-        this.typesElement = `<option value=""></option>`;
-        GenreRepository.getGenres()
-        .then((data) => {
-            this.data = data;
+        return new Promise((resolve, reject) => {
+            this.typesElement = `<option value=""></option>`;
+            GenreRepository.getGenres()
+            .then((data) => {
+                if (!data) {
+                    Navigator.goToUrl("/forbidden");
+                } else {
+                    this.data = data;
 
-            for (let i = 0; i < this.data.length; i++) {
-                this.typesElement += `
-                    <option value="${this.data[i].id}">${this.data[i].name}</option>
-                `
-            }
-            document.querySelector("#genre").innerHTML = this.typesElement;
-        });
+                    for (let i = 0; i < this.data.length; i++) {
+                        this.typesElement += `
+                        <option value="${this.data[i].id}">${this.data[i].name}</option>
+                        `
+                    }
+                    document.querySelector("#genre").innerHTML = this.typesElement;
+                    
+                    resolve();
+                }
+                
+            });
+        })
     }
 
     getProject(projectId) {
         ProjectRepository.getProjectById(projectId)
-        .then(data => {
-            
-            if (data.length > 0) {
-                document.querySelector('#name').value = data[0].name;
-                document.querySelector('#genre').value = data[0].genre.id;
-                document.querySelector('#description').value = data[0].description;
-            } else {
-                Navigator.goToUrl("/projects");
-            }
-        });
+            .then(data => {
+                if (data.length > 0) {
+                    document.querySelector('#name').value = data[0].name;
+                    document.querySelector('#genre').value = data[0].genre.id;
+                    document.querySelector('#description').value = data[0].description;
+                } else {
+                    Navigator.goToUrl("/projects");
+                }
+            });
     }
 
 
@@ -69,6 +79,7 @@ class Project extends Component {
 
     createProject(form) {
         if (this.verifyFormData()) {
+            form.userEmail = jwt_decode(TokenService.getToken()).email;
             ProjectRepository.addProject(form)
             .then(response => {
                 Navigator.goToUrl("/")
@@ -104,7 +115,7 @@ class Project extends Component {
         const inputs = [{
             input: nameInput,
             validator: nameValidator
-        },{
+        }, {
             input: genreInput,
             validator: genreValidator
         }];
@@ -116,7 +127,7 @@ class Project extends Component {
             });
         })
 
-        function handleErrorClassesChange(input, validator){
+        function handleErrorClassesChange(input, validator) {
             input.classList.add('wrong-input');
             validator.classList.remove('hidden');
             validation = false;

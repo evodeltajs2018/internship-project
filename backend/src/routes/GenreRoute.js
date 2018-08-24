@@ -1,4 +1,7 @@
 const GenreController = require("../controllers/GenreController");
+const jwt = require('jsonwebtoken');
+const config = require("../config/config");
+const TokenService = require("../services/TokenService");
 
 class GenreRoute {
     constructor(app) {
@@ -8,8 +11,14 @@ class GenreRoute {
     }
 
     initRoutes() {
-        this.app.get("/genres", (req, res) => {
-            GenreController.getAllGenres(res)
+        this.app.get("/genres", TokenService.verifyToken, (req, res) => {
+            jwt.verify(req.token, config.secret, (err, auth) => {
+                if (err) {
+                    res.sendStatus(403);
+                } else {
+                    GenreController.getAllGenres(req, res);
+                }
+            })
         });
 
         this.app.get("/genres/:id", (req, res) => {

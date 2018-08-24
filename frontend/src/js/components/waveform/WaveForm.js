@@ -53,6 +53,7 @@ class WaveForm extends Component {
         this.domElement.innerHTML = `
             <div class="waveform-type"><img class="waveform-type-image" src="${this.track.sound.type.iconSrc}"></div>
             <div class="waveform-name">${this.track.sound.name.toUpperCase()}</div>
+            <div class="waveform-type">${this.track.sound.type.name.toUpperCase()}</div>
             <canvas class="waveform"></canvas>
         `;
         this.draw();

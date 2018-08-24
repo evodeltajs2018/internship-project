@@ -4,6 +4,8 @@ import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
 import "./Projects.scss";
+import Navigator from "../../services/router/Navigator";
+import TokenService from "../../services/auth/TokenService";
 
 class Projects extends Component {
 	constructor(container) {
@@ -11,7 +13,7 @@ class Projects extends Component {
 
 		this.pagination = {
 			currentPage: 1,
-			itemsPerPage: 10,
+			itemsPerPage: 2,
 		};
 
 		this.filter = {
@@ -35,10 +37,8 @@ class Projects extends Component {
 		this.setPlayingCard = (projectId) => {
 			this.setPlayingCardHandler(projectId);
 		}
-
 		this.render();
 	}
-
 
 	projectObserver(isObservable) {
 		let boxElement = document.getElementById('loading');
@@ -75,25 +75,31 @@ class Projects extends Component {
 		this.projectObserver(false)
 		return ProjectRepository.getProjects(this.pagination, this.filter)
 			.then((data) => {
-				if (this.pagination.currentPage <= data.pageCount) {
-					this.pagination.currentPage++;
-
-					this.addCards(data.data);
-					if (this.pagination.currentPage > data.pageCount) {
+					if (this.pagination.currentPage <= data.pageCount) {
+						this.pagination.currentPage++;
+	
+						this.addCards(data.data);
+						if (this.pagination.currentPage > data.pageCount) {
+							this.hideLoadingArea(true);
+						}
+					}
+					if (data.data.length > 0) {
+						this.projectObserver(true);
+					} else {
 						this.hideLoadingArea(true);
 					}
-				}
-				if (data.data.length > 0) {
-					this.projectObserver(true);
-				} else {
-					this.hideLoadingArea(true);
-				}
 			});
 	}
 
 	addCards(projects) {
+		TokenService.getToken();
+
 		if (projects) {
 			for (let project of projects) {
+				project.isEditable = false;
+				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
+					project.isEditable = true;
+				}
 				this.cardCreator(project);
 			}
 		}
@@ -132,6 +138,9 @@ class Projects extends Component {
 	}
 
 	initializeCards() {
+		
+
+
 		this.domElement.querySelector(".cards").innerHTML = "";
 		this.hideLoadingArea(false);
 

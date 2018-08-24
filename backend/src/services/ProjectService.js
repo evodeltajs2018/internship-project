@@ -72,8 +72,19 @@ getPageCount(itemsPerPage, filter) {
                     .input('name', DbConnection.sql.NVarChar(50), filter.name)
                     .input('genreName', DbConnection.sql.NVarChar(50), filter.genre)
                     .query(`
-                    SELECT P.Id, P.Name, P.Description, P.GenreId, G.Name AS GenreName, P.Bpm as Bpm
-                    ${this.fromWhere}
+                    SELECT P.Id, 
+                        P.Name, 
+                        P.Description, 
+                        P.GenreId, 
+                        G.Name AS GenreName, 
+                        P.Bpm as Bpm,
+                        P.UserEmail as UserEmail,
+                        U.Username as Username
+
+                    FROM Project P 
+                        INNER JOIN Genre G On P.GenreId = G.Id
+                        INNER JOIN Users U ON U.Email = P.UserEmail
+                    WHERE LOWER(P.Name) LIKE '%' + LOWER(@name) + '%' AND G.Name LIKE '%' + LOWER(@genreName) + '%'
                     ORDER BY P.Id DESC
                     OFFSET ((@page-1) * @itemsPerPage) ROWS
                     FETCH NEXT @itemsPerPage ROWS ONLY
@@ -103,8 +114,13 @@ getPageCount(itemsPerPage, filter) {
             .then(pool => {
                 return pool.input('id', DbConnection.sql.Int, id)
                     .query(`SELECT P.Id, P.Name, P.Description, P.GenreId, 
-                        G.Name AS GenreName, P.Bpm
-                        FROM Project P INNER JOIN Genre G ON P.GenreId = G.Id
+                        G.Name AS GenreName, P.Bpm,
+                        P.UserEmail as UserEmail,
+                        U.Username as Username
+
+                        FROM Project P 
+                        INNER JOIN Genre G ON P.GenreId = G.Id
+                        INNER JOIN Users U ON U.Email = P.UserEmail
                         WHERE P.Id LIKE @id`)
             })
             .then((result) => {
@@ -162,8 +178,9 @@ getPageCount(itemsPerPage, filter) {
                 return pool.input('name', DbConnection.sql.NVarChar(50), project.name)
                     .input('genreId', DbConnection.sql.Int, project.genre.id)
                     .input('description', DbConnection.sql.NVarChar(500), project.description)
-                    .query(`INSERT INTO Project(Name, GenreId, Description, Bpm)
-            VALUES (@name, @genreId, @description, 60)`)
+                    .input('userEmail', DbConnection.sql.NVarChar(50), project.userEmail)
+                    .query(`INSERT INTO Project(Name, GenreId, Description, Bpm, UserEmail)
+            VALUES (@name, @genreId, @description, 60, @userEmail)`)
             })
             .then((result) => {
                 return result.rowsAffected[0] === 1;

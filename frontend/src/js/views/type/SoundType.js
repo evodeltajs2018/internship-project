@@ -3,6 +3,7 @@ import Button from "../../components/button/Button";
 import Navigator from "../../services/router/Navigator";
 import SoundTypeRepository from "../../repositories/SoundTypeRepository";
 import "./SoundType.scss";
+import "../../../../vendor/css/pickr.css";
 
 class SoundType extends Component {
     constructor(container, typeId = null) {
@@ -71,10 +72,15 @@ class SoundType extends Component {
     getTypeById() {
         return SoundTypeRepository.getTypeById(this.typeId)
             .then((data) => {
-                this.buffer = data[0].src;
-                document.querySelector('#name').value = data[0].name;
-                document.querySelector('.pcr-button').style.backgroundColor = data[0].color;
-                document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
+                if (data) {
+                    this.buffer = data[0].src;
+                    document.querySelector('#name').value = data[0].name;
+                    document.querySelector('.pcr-button').style.backgroundColor = data[0].color;
+                    document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
+                }else{
+                    Navigator.goToUrl('/forbidden');
+                }
+
             });
     }
 
@@ -114,12 +120,12 @@ class SoundType extends Component {
         this.pickr.create({
             el: '.color-label',
             default: '#42445A',
-        
+
             components: {
                 preview: true,
                 opacity: true,
                 hue: true,
-        
+
                 interaction: {
                     hex: true,
                     rgba: true,
@@ -142,12 +148,12 @@ class SoundType extends Component {
                             <div class="image-width">
                                 <label for="file" class="icon cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt icon-text"></i>
-                                    <span class="icon-text">Upload Photo</span>
+                                    <span class="icon-text">Upload</span>
                                 </label>
                             </div>
                             <div class="required visbility-hidden required-image">Required</div>
                         </div>
-                        <input type="file" name="file" id="file" class="inputfile" accept="image/png"/>
+                        <input type="file" name="file" id="file" class="inputfile" accept="image/png, image/jpg, image/jpeg"/>
                     </div>
                     <div class="form-row">
                         <div class="form-text">

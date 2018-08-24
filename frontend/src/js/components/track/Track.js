@@ -2,6 +2,7 @@ import Component from "../Component";
 
 import "./Track.scss";
 import VolumeController from "../../views/splicer/engine/VolumeController";
+import Debounce from "../../utils/Debounce";
 
 class Track extends Component {
     constructor(container, sound, arrayBuffer, data) {
@@ -27,6 +28,7 @@ class Track extends Component {
 
     initHandlers() {
         this.selectRowHandler = (event) => this.selectRow(event);
+        this.debouncedPlayHandler = Debounce.debounce(() => this.playSound(), 500);
     }
 
     handlePageLeave() {
@@ -46,7 +48,7 @@ class Track extends Component {
                 icons[i].style.background = '#1f1f1f';
                 if (i === this.index) {
                     icons[i].style.background = this.sound.type.colorType;
-                    this.playSound();
+                    this.debouncedPlayHandler();
                 }
             }
         }
@@ -117,7 +119,7 @@ class Track extends Component {
         this.domElement.querySelectorAll(".track-icon").forEach(icon => {
             icon.addEventListener("click", () => {
                 this.createSelectRowEvent();
-                this.playSound();
+                this.debouncedPlayHandler();
                 document.querySelectorAll(".track-icon").forEach((elem) => {
                     elem.style.background = '#1f1f1f';
                 })

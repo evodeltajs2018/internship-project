@@ -2,6 +2,8 @@ import Component from "./components/Component";
 import MenuService from "./services/MenuService";
 import Navigator from "./services/router/Navigator";
 import Router from "./services/router/Router";
+import TokenService from "./services/auth/TokenService";
+import User from "./components/user/User";
 import "./App.scss";
 
 const sidebarHidingWidth = 900;
@@ -10,9 +12,10 @@ class App extends Component {
     constructor(container) {
         super(container, "app");
         this.router = new Router();
+        this.router.refreshHandler = () => { this.render(); }
         this.menuService = new MenuService();
         this.sidebarLinks = this.menuService.getSidebarLinks();
-        
+
         window.addEventListener("resize", () => {
             this.hideSidebarBySize();
         });
@@ -75,11 +78,12 @@ class App extends Component {
     }
 
     render() {
+        this.sidebarLinks = this.menuService.getSidebarLinks();
         this.domElement.innerHTML = `
         <nav class="header">
             <i class="fas fa-bars hamburger"></i>
             <h1>Splicer</h1>
-            <div />
+            <div class="user-card"></div>
         </nav>
         <div class="split">
             <div class="sidebar">
@@ -95,6 +99,9 @@ class App extends Component {
         </div>
         `;
 
+        console.log(TokenService.getToken());
+        new User(document.querySelector('.user-card'), TokenService.getToken());
+
         this.domElement.querySelector('.sidebar-content')
             .innerHTML = this.getSidebarLinksHTML();
 
@@ -102,7 +109,6 @@ class App extends Component {
             .addEventListener("click", this.toggleMenu);
 
         this.addClickEventListenerToSidebar();
-
         this.initRouter();
         this.hideSidebarBySize();
     }

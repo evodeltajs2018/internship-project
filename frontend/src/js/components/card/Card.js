@@ -7,6 +7,7 @@ import Engine from "../../views/splicer/engine/Engine";
 import SoundLoader from "../../services/sound_loader/SoundLoader";
 import Track from "../track/Track";
 import ProjectRepository from "../../repositories/ProjectRepository";
+import TokenService from "../../services/auth/TokenService";
 
 class Card extends Component {
     constructor(container, project, audioContext, playHandler) {
@@ -54,7 +55,13 @@ class Card extends Component {
     }
 
     openButtonHandler(idProjectParam) {
-        Navigator.goToUrl("/splicer/" + idProjectParam);
+        Navigator.goToUrl("/splicer/" + idProjectParam, 
+            {
+                name: this.project.name,
+                description: this.project.description,
+                authorized: jwt_decode(TokenService.getToken()).email === this.project.userEmail
+            }
+        );
     }
 
     editButtonHandler(idProjectParam) {
@@ -89,7 +96,7 @@ class Card extends Component {
         let x = 0;
         for(let i = 0; i < data.length; i++) {
             barHeight = this.map(data[i], 0, 255, 0, this.soundCanvas.height);
-            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 0.8)";
+            this.soundCanvasContext.fillStyle = "rgba(70, 162, 158, 1)";
             this.soundCanvasContext.fillRect(x,this.soundCanvas.height-barHeight,barWidth,barHeight);
     
             x += barWidth + 1;
@@ -97,9 +104,32 @@ class Card extends Component {
         
     }
 
+    renderEditButtons() {
+        
+
+        this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
+            this.editButtonHandler(this.project.id)
+        });
+        this.editButton.render();
+
+        this.domElement.querySelector(".delete-icon").addEventListener("click", () => {
+            this.deleteButtonHandler();
+            document.querySelector("body").style.overflow = "hidden";
+        });
+    }
+
+    renderUsername() {
+        this.domElement.querySelector(".card-footer").innerHTML = `
+            Made by: ${this.project.userName}
+        `;
+    }
+
     render() {
         this.domElement.innerHTML = `
-        <div class="card-header content"><i class="fa fa-times-circle delete-icon"></i> <div>${this.project.name}<br>${this.project.genre.name}</div></div>
+        <div class="card-header content">
+            ${this.project.isEditable? `<i class="fa fa-times-circle delete-icon"></i>` : ""}
+            <div>${this.project.name}<br>${this.project.genre.name}</div>
+        </div>
 
         <div class="card-body content">
             <p class="card-text">${this.project.description}</p>
@@ -130,23 +160,13 @@ class Card extends Component {
             this.playHandler(this.project.id);
         }
         this.engine.render();
-        this.renderWaveform();
-        let idProject = this.project.id;
-
-        this.domElement.querySelector(".delete-icon").addEventListener("click", () => {
-            this.deleteButtonHandler();
-            document.querySelector("body").style.overflow = "hidden";
-        });
-
+        this.renderWaveform();      
+        
+        this.project.isEditable? this.renderEditButtons() : this.renderUsername();
         this.openButton = new Button(this.domElement.querySelector(".card-footer"), "OPEN", "card-button", () => {
-            this.openButtonHandler(idProject);
+            this.openButtonHandler(this.project.id);
         });
         this.openButton.render();
-
-        this.editButton = new Button(this.domElement.querySelector(".card-footer"), "EDIT", "card-button", () => {
-            this.editButtonHandler(idProject)
-        });
-        this.editButton.render();
     }
 
 }

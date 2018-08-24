@@ -1,12 +1,14 @@
 import Component from "../../../components/Component";
 import Button from "../../../components/button/Button";
+import Navigator from "../../../services/router/Navigator";
 import "./Engine.scss";
 
 const defaultOptions = {
     play: true,
     clear: true,
     bpm: true,
-    save: true
+    save: true,
+    back: true
 }
 
 class Engine extends Component {
@@ -184,6 +186,18 @@ class Engine extends Component {
             () => this.clear());
     }
 
+    renderBackButton() {
+        this.clearButton = new Button(
+            this.domElement.querySelector(".back-btn"),
+            `<i class="fas fa-chevron-left"></i>Back`,
+            "back-button"
+        );
+        this.clearButton.render();
+        this.domElement.querySelector(".back-btn").addEventListener(
+            "click",
+            () => Navigator.goToUrl("/"));
+    }
+
     checkBpm(event) {
         if (event.target.valueAsNumber > 300) {
             this.domElement.querySelector("#bpm-input").value = 60;
@@ -218,12 +232,14 @@ class Engine extends Component {
             <div class="splicer-header-right">
                 <div class="clear-btn"></div>
                 <div class="save-btn"></div>
+                <div class="back-btn"></div>
             </div>
         `;
         this.options.play ? this.renderPlayButton() : null;
         this.options.bpm ? this.addBpmEvents() : null;
         this.options.save ? this.renderSaveButton() : null;
         this.options.clear ? this.renderClearButton() : null;
+        this.options.back ? this.renderBackButton() : null;
 
     }
 }

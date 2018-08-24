@@ -3,10 +3,14 @@ class TitleService {
         let pageTitle = document.querySelector(".page-title h2"); 
         let url = window.location.pathname.toString();
         let parseUrl = url.split("/");
-       
+        TitleService.addSplicerRoute();
+        
         switch (window.location.pathname) {
             case "/":
                 pageTitle.innerHTML = "Projects";
+                break;
+            case "/profile":
+                pageTitle.innerHTML = "Profile";
                 break;
             case "/sounds":
                 pageTitle.innerHTML = "Sounds";
@@ -35,17 +39,25 @@ class TitleService {
             case ("/type/" + parseUrl[parseUrl.length - 1]):
                 pageTitle.innerHTML = "Edit Type";
                 break;
-            case "/splicer":
-                pageTitle.innerHTML = "Splicer";
-                break;
-            case ("/splicer/" + parseUrl[parseUrl.length - 1]):
-                pageTitle.innerHTML = "Project " + parseUrl[parseUrl.length - 1];
+            case "/forbidden":
+                pageTitle.innerHTML = "Forbidden";
                 break;
             default:
                 pageTitle.innerHTML = "Not Found";
                 break;
 
         }
+    }
+ 
+    static addSplicerRoute() {
+        let pageTitle = document.querySelector(".page-title h2"); 
+        document.addEventListener("headerdetails", (event) => {
+            let project = event.detail;
+            pageTitle.innerHTML = `
+                ${project.name}
+                <div class="project-description">${project.description}</div>
+            `;
+        });
     }
 }
 export default TitleService;

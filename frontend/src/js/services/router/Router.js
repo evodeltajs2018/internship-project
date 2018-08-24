@@ -9,7 +9,11 @@ import Splicer from "../../views/splicer/Splicer";
 import SidebarService from "../../services/sidebar_service/SidebarService";
 import TitleService from "../../services/title_service/TitleService";
 import SoundType from "../../views/type/SoundType";
-
+import Register from "../../views/authentication/Register";
+import Login from "../../views/authentication/Login";
+import Forbidden from "../../views/forbidden/Forbidden";
+import Profile from "../../views/profile/Profile";
+import TokenService from "../auth/TokenService";
 
 class Router {
     constructor(container) {
@@ -50,13 +54,43 @@ class Router {
         {
             path: "/type",
             component: SoundType
+        },
+        {
+            path: "/register",
+            component: Register
+        },
+        {
+            path: "/login",
+            component: Login
+        },
+        {
+            path: "/profile",
+            component: Profile
+        },
+        {
+            path: "/forbidden",
+            component: Forbidden
         }
         ];
     }
 
+    handleContentDisplay(auth) {
+        if (auth === true) {
+            document.querySelector('.header').style.display = "none";
+            document.querySelector('.page-title').style.display = "none";
+            document.querySelector('.sidebar').style.display = "none";
+            document.querySelector('.footer').style.display = "none";
+        } else {
+            document.querySelector('.header').style.display = "";
+            document.querySelector('.page-title').style.display = "";
+            document.querySelector('.sidebar').style.display = "";
+            document.querySelector('.footer').style.display = "";
+        }
+    }
+
     init() {
-        this.renderInitialPath();
         this.addPopStateEvent();
+        this.renderInitialPath();
     }
 
     renderInitialPath() {
@@ -65,23 +99,24 @@ class Router {
     }
 
     addPopStateEvent() {
-        // called when URL is changed
-        window.onpopstate = (event) => {
-
+        window.addEventListener("popstate", (event) => {
+            if (window.history.state.refresh) {
+                this.refreshHandler();
+            }
             this.renderByUrl(window.location.pathname);
-        };
+
+        });
     }
 
     setNewCurrentComponent(route) {
         if (this.currentComponent) {
             this.currentComponent.unrender();
+            console.log("aci");
         }
 
         this.currentComponent = new route.component.component(this.container, route.param);
         this.currentComponent.render();
     }
-
-
 
     findRouteByUrl(url) {
         let parameter = null;
@@ -120,15 +155,20 @@ class Router {
 
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
+        if(!TokenService.getToken() &&  url !=="/login" && url!="/register"){
+            this.handleContentDisplay(true);
+            this.setNewCurrentComponent(route);
+            return;
+        }
 
-        if (route.component) {
+        if (route.component.path === "/register" || route.component.path === "/login") {
+            this.handleContentDisplay(true);
+            this.setNewCurrentComponent(route);
+        } else if (route.component) {
+            this.handleContentDisplay(false);
             this.setNewCurrentComponent(route);
         } else {
             console.error("invalid route");
-
-            const notFound = this.findRouteByUrl("/notfound");
-            this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/notfound")
         }
     }
 }

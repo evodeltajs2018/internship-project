@@ -4,7 +4,7 @@ class GenreController {
     constructor() {
     }
 
-    getAllGenres(res) {
+    getAllGenres(req, res) {
        return GenreService.getAllGenres().then((data) => {
             return res.json(data);
         });
