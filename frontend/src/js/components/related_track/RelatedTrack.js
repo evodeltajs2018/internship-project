@@ -45,9 +45,9 @@ class RelatedTrack extends Component{
                 <img src="${this.sound.image}" alt="/img/tracks/default_audio.jpg" class="related-sample-image">
             </div>
             <div class="related-sample-description">
-                <div class="related-sample-name">
+                <p class="related-sample-name">
                     ${this.sound.name}
-                </div>
+                </p>
                 <div class="related-sample-type">
                     ${this.sound.type.name}
                 </div>
