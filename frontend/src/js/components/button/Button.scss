@@ -1,0 +1,77 @@
+.button {
+    display: inline;
+}
+
+.card-button{
+    &:hover{
+        cursor: pointer;
+        color: #888;
+    }
+
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.confirm-button {
+    cursor: pointer;
+    background: $backgroundSecondary;
+    border: 1px solid white;
+    width: 80px;
+    outline: none;
+    color: white;
+    padding: 10px;
+    transform: scale(1);
+    transition: .5s all;
+
+    &:hover {
+        background: $buttonHoverColor;
+        transform: scale(1.1);
+    }
+}
+
+.cancel-button{
+    cursor: pointer;
+    color: white;
+    background-color: $mainBackgroundColor;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+}
+
+.add-btn {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 50px;
+    font-size: 16px;
+    background-color: $backgroundSecondary;
+    color: white;
+    padding: 10px;
+    border: 0;
+    transition-duration: 0.3s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.auth-button {
+    background-color: $backgroundSecondary;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    height: 40px;
+    font-size: 16px;
+    width: 100%;
+    transition-duration: 0.3s;
+    margin-top: 25px;
+
+    &:hover {
+        transform: scale(1.01);
+        background-color: $buttonHoverColor;
+    }
+}

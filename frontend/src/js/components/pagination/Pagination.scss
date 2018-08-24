@@ -1,0 +1,107 @@
+.sounds-pagination {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: $formFontColor;
+    
+    .pages {
+        align-items: center;
+        display: flex;
+        
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            color: white;
+            background: $backgroundSecondary;
+            
+            border: 1px solid #bbb;
+            margin: 0;
+            transition-duration: 0.3s;
+        }
+
+        .pagination-button, .arrow-button {
+            &:hover {
+                background: white;
+                color: $backgroundSecondary;
+                cursor: pointer;
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:disabled:hover {
+                background:$backgroundSecondary;
+            }
+            
+        }
+
+        .arrow-button {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .arrow-button, .pagination-button {
+            &:disabled {
+                color: #bbb;
+                cursor: default;
+            }
+            
+        }
+
+        .pagination-button {
+            &:disabled:hover {
+                cursor: default;
+            }
+        }
+
+        .current-page {
+            color: white;
+            background: $backgroundSecondary;
+            border: none;
+        }
+
+        .current-page:hover {
+            &:hover {
+                background: $backgroundSecondary;
+                color:white;
+            }
+        }
+        
+        .arrow-button {
+            color: white;
+            background: $backgroundSecondary;
+            border: 1px solid #bbb;
+        
+            margin: 10px;
+            i {
+                padding: 5px;
+            }
+        }
+    }
+
+    .button {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        border-collapse: collapse;
+    }
+
+    .page-info {
+        align-items: center;
+        padding: 10px;
+        display: flex;
+        font-weight: 200;
+        font-size: 1.1em;
+
+        span {
+            font-weight: bold;
+            padding: 5px;
+        }
+    }
+}
+
+

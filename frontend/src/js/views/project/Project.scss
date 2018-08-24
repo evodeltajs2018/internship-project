@@ -1,0 +1,112 @@
+.red {
+    color: red;
+    padding-left: 1px;
+}
+
+.wrong-input {
+    border: 1px solid red;
+}
+
+.field {
+    display: flex;
+    padding: 5px;
+    margin: 5px;
+    text-align: left;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.left {
+    width: 200px;
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+    width: 300px;
+}
+
+.description-text {
+    display: flex;
+    padding: 5px;
+    margin: 5px;
+    text-align: left;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+}
+
+.width300 {
+    width: 300px;
+}
+
+.main {
+    display: block;
+}
+
+.form-button {
+    background: #ddd;
+    border-radius: 5px;
+}
+
+.form-button:hover {
+    background: #eee;
+}
+
+.form-button:active {
+    background: #fff;
+}
+
+input,
+select,
+textarea {
+    display: inline;
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 5px;
+}
+
+a {
+    color: gray;
+    text-decoration: none;
+}
+
+.container-view {
+    min-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 75px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    color: $formFontColor;
+    background-color: white;
+}
+
+.validator {
+    display: flex;
+    width: 100px;
+    margin: 5px;
+    font-size: small;
+}
+
+.hidden{
+    display: none;
+}
+
+.cancel-button {
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}

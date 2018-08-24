@@ -1,0 +1,121 @@
+.cards {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill,minmax(340px, 1fr));
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin: 20px;
+        display: flex;
+        background-color:white;
+        color:#131313;
+        flex-direction: column;
+        width: 320px;
+        overflow: hidden;
+        height: 300px;
+        border-radius: 25px;
+        justify-self: center;
+
+        i {
+            transition: .5s ease-in-out;
+            -webkit-transition: .5s ease-in-out;
+            -moz-transition: .5s ease-in-out;
+        
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .card-header {
+            border-bottom: 1.5px solid #DCDCDC;
+            position: relative;
+            height: 60px;
+            
+            .delete-icon {
+                cursor: pointer;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                padding: 2%;
+                font-size: 30px;
+                color: #FF054A;
+            }
+        }
+    
+        .card-body {
+            position: relative;
+            height:195px;
+            border-bottom: 1px solid #C0C0C0;
+            word-wrap: break-word;
+            text-align: center;
+
+            canvas {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .card-engine {
+                z-index: 1;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                div {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .splicer-header-right {
+                    display: none;
+                }
+            }
+
+            #bpm-input {
+                border: none;
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .tracks-hidden {
+                display: none;
+            }
+
+            .play-buttons {
+                button {
+                    opacity: 0;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    background: rgba(0,0,0,0);
+                    font-size: 2em;
+                    transition: opacity 0.3s;
+                    &:hover {
+                        opacity: 1;
+                        background: rgba(0,0,0,.1);
+                        cursor: pointer;
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                
+            }
+        }
+
+        .card-footer {
+            display:flex;
+            justify-content: space-between;
+            height:45px;
+        }
+    }
+}
+
+.content {
+    padding: 15px;
+}

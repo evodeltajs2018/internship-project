@@ -1,0 +1,19 @@
+.types-grid-container {
+    width: 100%;
+    margin: 0 50px;
+    transition-duration: 0.2s;
+}
+
+.no-element {
+    color: $formFontColor;
+    font-size: 20px;
+    display: flex;  
+    justify-content: center;
+    padding: 10px;
+}
+
+@media (max-width: 1080px) {
+    .types-grid-container {
+        padding: 0;
+    }
+}
