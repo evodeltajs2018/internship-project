@@ -119,7 +119,6 @@ class Card extends Component {
     }
 
     renderUsername() {
-        // console.log(this.project.userName);
         this.domElement.querySelector(".card-footer").innerHTML = `
             Made by: ${this.project.userName}
         `;

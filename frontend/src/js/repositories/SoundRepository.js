@@ -100,7 +100,8 @@ class SoundRepository {
 					Toaster.showSuccess("Sound edited successfuly");
 					return response.json()
 				} else {
-					return null;
+					Navigator.goToUrl("/forbidden");
+					return;
 				}
 			})
 			.catch(err => Toaster.showError("Error editing sounds"));
@@ -116,7 +117,11 @@ class SoundRepository {
 				if (response.status != '403') {
 					return response.json()
 				} else {
-					Navigator.goToUrl("/forbidden");
+					if(TokenService.getToken()){
+						Navigator.goToUrl("/forbidden");
+					}else{
+						Navigator.goToUrl("/login");
+					}
 					return;
 				}
 			})

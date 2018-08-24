@@ -89,8 +89,8 @@ class Router {
     }
 
     init() {
-        this.renderInitialPath();
         this.addPopStateEvent();
+        this.renderInitialPath();
     }
 
     renderInitialPath() {
@@ -99,12 +99,13 @@ class Router {
     }
 
     addPopStateEvent() {
-        window.onpopstate = (event) => {
+        window.addEventListener("popstate", (event) => {
             if (window.history.state.refresh) {
                 this.refreshHandler();
             }
             this.renderByUrl(window.location.pathname);
-        };
+
+        });
     }
 
     setNewCurrentComponent(route) {
@@ -152,6 +153,10 @@ class Router {
     }
 
     renderByUrl(url) {
+        if(!TokenService.getToken() &&  url !=="/login" && url!="/register"){
+            Navigator.goToUrl("/login");
+            return;
+        }
         const route = this.findRouteByUrl(url);
 
         if (route.component.path === "/register" || route.component.path === "/login") {

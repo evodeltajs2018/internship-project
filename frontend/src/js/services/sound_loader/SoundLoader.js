@@ -13,10 +13,6 @@ class SoundLoader {
         }
         return Promise.all(promises)
         .then(result => {
-            // if(result.every(x => x === undefined)){
-            //     Navigator.goToUrl('/forbidden');
-            //     return;
-            // }
             this.sounds = result;
             return result.map(item => SoundRepository.getSoundDataById(item.byteArray.id));
             

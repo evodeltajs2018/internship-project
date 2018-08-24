@@ -13,7 +13,8 @@ class SoundTypeRepository {
 				if (response.status != '403') {
 					return response.json()
 				} else {
-					return null;
+					Navigator.goToUrl("/forbidden");
+					return;
 				}
 			})
 			.catch(err => Toaster.showError("Types getting failed"));
@@ -93,7 +94,8 @@ class SoundTypeRepository {
 				if (response.status != '403') {
 					return response.json()
 				} else {
-					return null;
+					Navigator.goToUrl("/forbidden");
+					return;
 				}
 			})
 			.catch(err => Toaster.showError("Types getting failed"));
