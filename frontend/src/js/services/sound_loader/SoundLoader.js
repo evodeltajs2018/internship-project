@@ -7,6 +7,7 @@ class SoundLoader {
     }
 
     getSoundsWithIds(soundIds) {
+        console.log(soundIds);
         let promises = [];
         for (let i = 0; i < soundIds.length; i++) {
             promises.push(SoundRepository.getSoundById(soundIds[i]));

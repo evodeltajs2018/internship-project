@@ -30,7 +30,6 @@ class Projects extends Component {
 		let that = this;
 		this.observer = new IntersectionObserver(that.handleIntersect.bind(that), observerOptions);
 
-		///////start
 		this.cards = [];
 		this.currentlyPlaying = null;
 		this.audioContext = new AudioContext();
@@ -38,7 +37,6 @@ class Projects extends Component {
 		this.setPlayingCard = (projectId) => {
 			this.setPlayingCardHandler(projectId);
 		}
-		////end
 		this.render();
 	}
 
@@ -77,9 +75,6 @@ class Projects extends Component {
 		this.projectObserver(false)
 		return ProjectRepository.getProjects(this.pagination, this.filter)
 			.then((data) => {
-				if(!data){
-					Navigator.goToUrl('/forbidden');
-				}else{
 					if (this.pagination.currentPage <= data.pageCount) {
 						this.pagination.currentPage++;
 	
@@ -93,8 +88,6 @@ class Projects extends Component {
 					} else {
 						this.hideLoadingArea(true);
 					}
-				}
-				
 			});
 	}
 
@@ -104,7 +97,6 @@ class Projects extends Component {
 		if (projects) {
 			for (let project of projects) {
 				project.isEditable = false;
-				// console.log(project.userEmail === jwt_decode(TokenService.getToken()).email);
 				if (project.userEmail === jwt_decode(TokenService.getToken()).email) {
 					project.isEditable = true;
 				}

@@ -49,7 +49,7 @@ class Splicer extends Component {
         this.currentPage = 0;
         
         
-        
+        console.log("splcier");
         this.getBeatmap();
         this.setup();
         this.initHandlers();

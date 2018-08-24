@@ -111,6 +111,7 @@ class Router {
     setNewCurrentComponent(route) {
         if (this.currentComponent) {
             this.currentComponent.unrender();
+            console.log("aci");
         }
 
         this.currentComponent = new route.component.component(this.container, route.param);
@@ -153,18 +154,19 @@ class Router {
     }
 
     renderByUrl(url) {
+        const route = this.findRouteByUrl(url);
         if(!TokenService.getToken() &&  url !=="/login" && url!="/register"){
-            Navigator.goToUrl("/login");
+            this.handleContentDisplay(true);
+            this.setNewCurrentComponent(route);
             return;
         }
-        const route = this.findRouteByUrl(url);
 
         if (route.component.path === "/register" || route.component.path === "/login") {
             this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
         } else if (route.component) {
-            this.setNewCurrentComponent(route);
             this.handleContentDisplay(false);
+            this.setNewCurrentComponent(route);
         } else {
             console.error("invalid route");
         }

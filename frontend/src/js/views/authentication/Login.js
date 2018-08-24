@@ -36,6 +36,7 @@ class Login extends Component {
                 } else {
                     TokenService.setToken(check.token);
                     Navigator.goToUrl("/projects", {refresh: true});
+                    window.location.reload();
                 }
             });
     }

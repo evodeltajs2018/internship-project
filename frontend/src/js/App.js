@@ -99,6 +99,7 @@ class App extends Component {
         </div>
         `;
 
+        console.log(TokenService.getToken());
         new User(document.querySelector('.user-card'), TokenService.getToken());
 
         this.domElement.querySelector('.sidebar-content')
