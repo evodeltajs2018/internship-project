@@ -15,18 +15,20 @@ class Project extends Component {
         this.selectedGenre = 0;
         this.genres = null;
         this.description = "";
-
-        this.getGenresHTML();
-
-       
+        
         if (projectId != null) {
-            this.getProject(projectId);
+            this.getGenresHTML().then(() => {
+                this.getProject(projectId);
+            })
+        } else {
+            this.getGenresHTML();
         }
     }
 
     getGenresHTML() {
-        this.typesElement = `<option value=""></option>`;
-        GenreRepository.getGenres()
+        return new Promise((resolve, reject) => {
+            this.typesElement = `<option value=""></option>`;
+            GenreRepository.getGenres()
             .then((data) => {
                 if (!data) {
                     Navigator.goToUrl("/forbidden");
@@ -35,13 +37,16 @@ class Project extends Component {
 
                     for (let i = 0; i < this.data.length; i++) {
                         this.typesElement += `
-                    <option value="${this.data[i].id}">${this.data[i].name}</option>
-                `
+                        <option value="${this.data[i].id}">${this.data[i].name}</option>
+                        `
                     }
                     document.querySelector("#genre").innerHTML = this.typesElement;
+                    
+                    resolve();
                 }
-
+                
             });
+        })
     }
 
     getProject(projectId) {
