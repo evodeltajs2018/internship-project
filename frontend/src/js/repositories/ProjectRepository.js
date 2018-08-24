@@ -1,4 +1,6 @@
 import Config from "../utils/Config";
+import TokenService from "../services/auth/TokenService";
+
 import Toaster from "../utils/Toaster";
 class ProjectRepository {
 	constructor() {
@@ -7,7 +9,7 @@ class ProjectRepository {
 
 	getProjects(pagination, filter) {
 		return fetch(
-			this.baseurl +`/projects?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${filter.name}&genre=${filter.genreName}`,
+			this.baseurl +`/projects?page=${pagination.currentPage}&perpage=${pagination.itemsPerPage}&name=${filter.name}&genre=${filter.genreName}`, TokenService.getTokenHeader()
 		)
 		.then(response => response.json())
 		.catch(err => Toaster.showError("Failed to get projects"));

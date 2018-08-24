@@ -4,8 +4,8 @@ class TypeController {
     constructor() {
     }
 
-    getAllTypes(res) {
-       return TypeService.getAllTypes().then((data) => {
+    getAllTypes(req, res) {
+        return TypeService.getAllTypes().then((data) => {
             return res.json(data);
         });
     }

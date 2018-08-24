@@ -7,6 +7,17 @@ class TokenService {
         return window.localStorage.getItem('token');
     }
 
+    getTokenHeader(){
+        return {
+            headers: {
+                'Authorization': `Bearer ${this.getToken()}`,
+            }
+        }
+    }
+
+    isUserAuthenticated() {
+        return this.getToken() === true;
+    }
     destroyToken() {
         window.localStorage.removeItem('token');
     }

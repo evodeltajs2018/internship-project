@@ -1,7 +1,7 @@
 const ProjectService = require("../services/ProjectService");
 
 class ProjectController {
-    constructor() {}
+    constructor() { }
 
     getAllProjects(req, res) {
         const page = req.query.page;

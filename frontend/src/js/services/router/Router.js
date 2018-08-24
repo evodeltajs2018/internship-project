@@ -11,6 +11,7 @@ import TitleService from "../../services/title_service/TitleService";
 import SoundType from "../../views/type/SoundType";
 import Register from "../../views/authentication/Register";
 import Login from "../../views/authentication/Login";
+import Forbidden from "../../views/forbidden/Forbidden";
 import Profile from "../../views/profile/Profile";
 import TokenService from "../auth/TokenService";
 
@@ -65,6 +66,10 @@ class Router {
         {
             path: "/profile",
             component: Profile
+        },
+        {
+            path: "/forbidden",
+            component: Forbidden
         }
         ];
     }
@@ -106,12 +111,10 @@ class Router {
         if (this.currentComponent) {
             this.currentComponent.unrender();
         }
-        
+
         this.currentComponent = new route.component.component(this.container, route.param);
         this.currentComponent.render();
     }
-
-
 
     findRouteByUrl(url) {
         let parameter = null;
@@ -151,24 +154,14 @@ class Router {
     renderByUrl(url) {
         const route = this.findRouteByUrl(url);
 
-
         if (route.component.path === "/register" || route.component.path === "/login") {
             this.handleContentDisplay(true);
             this.setNewCurrentComponent(route);
         } else if (route.component) {
-            if (!TokenService.getToken()) {
-                Navigator.goToUrl("/login");
-            } else {
-                this.setNewCurrentComponent(route);
-                this.handleContentDisplay(false);
-
-            }
+            this.setNewCurrentComponent(route);
+            this.handleContentDisplay(false);
         } else {
             console.error("invalid route");
-
-            const notFound = this.findRouteByUrl("/notfound");
-            this.setNewCurrentComponent(notFound);
-            Navigator.goToUrl("/notfound")
         }
     }
 }

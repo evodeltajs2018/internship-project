@@ -1,4 +1,7 @@
 const ProjectController = require("../controllers/ProjectController");
+const jwt = require('jsonwebtoken');
+const config = require("../config/config");
+const TokenService = require("../services/TokenService");
 
 class ProjectRoute {
     constructor(app) {
@@ -8,8 +11,14 @@ class ProjectRoute {
     }
 
     initRoutes() {
-        this.app.get("/projects", (req, res) => {
-            ProjectController.getAllProjects(req, res);
+        this.app.get("/projects", TokenService.verifyToken, (req, res) => {
+            jwt.verify(req.token, config.secret, (err, auth) => {
+                if (err) {
+                    res.sendStatus(403);
+                } else {
+                    ProjectController.getAllProjects(req, res);
+                }
+            })
         });
 
         this.app.post("/projects", (req, res) => {

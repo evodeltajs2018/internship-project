@@ -72,10 +72,15 @@ class SoundType extends Component {
     getTypeById() {
         return SoundTypeRepository.getTypeById(this.typeId)
             .then((data) => {
-                this.buffer = data[0].src;
-                document.querySelector('#name').value = data[0].name;
-                document.querySelector('.pcr-button').style.backgroundColor = data[0].color;
-                document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
+                if (data) {
+                    this.buffer = data[0].src;
+                    document.querySelector('#name').value = data[0].name;
+                    document.querySelector('.pcr-button').style.backgroundColor = data[0].color;
+                    document.querySelector('.icon').style.backgroundImage = `url("${data[0].src}")`;
+                }else{
+                    Navigator.goToUrl('/forbidden');
+                }
+
             });
     }
 
@@ -115,12 +120,12 @@ class SoundType extends Component {
         this.pickr.create({
             el: '.color-label',
             default: '#42445A',
-        
+
             components: {
                 preview: true,
                 opacity: true,
                 hue: true,
-        
+
                 interaction: {
                     hex: true,
                     rgba: true,

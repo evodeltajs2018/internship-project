@@ -39,7 +39,7 @@ class AuthenticationController {
                             lastName: result.LastName,
                             email: req.body.email
                         }
-                        jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {
+                        jwt.sign(user, config.secret, { expiresIn: 86400 }, (err, token) => {
                             return res.json({ token });
                         })
                     } else {
@@ -67,7 +67,7 @@ class AuthenticationController {
                                         lastName: result.LastName,
                                         email: req.body.email
                                     }
-                                    jwt.sign(user, config.secret, { expiresIn: 1200 }, (err, token) => {
+                                    jwt.sign(user, config.secret, { expiresIn: 86400 }, (err, token) => {
                                         return res.json({ token });
                                     })
                                 } else {

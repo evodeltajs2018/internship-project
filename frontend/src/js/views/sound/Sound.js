@@ -8,6 +8,7 @@ import "./Sound.scss";
 class Sound extends Component {
     constructor(container, soundId = null) {
         super(container, "add-sound");
+
         this.extension = 'wav';
         this.soundId = soundId;
         this.buffer = null;
@@ -162,7 +163,7 @@ class Sound extends Component {
                 source.onended = () => {
                     this.source = false;
                     const elem = document.querySelector("#play-sound");
-                    if(elem) {
+                    if (elem) {
                         elem.className = "fas fa-play-circle";
                     }
                 }
@@ -176,11 +177,13 @@ class Sound extends Component {
     
     getSoundsById() {
         return SoundRepository.getSoundById(this.soundId)
-        .then((data) => {
-            this.imageSrc = data.image;
-            document.querySelector('.icon').style.backgroundImage = `url("${data.image}")`;
-            document.querySelector('#name').value = data.name;
-            document.querySelector('#type').value = data.type.id;
+            .then((data) => {
+                if (data) {
+                    this.imageSrc = data.image;
+                    document.querySelector('.icon').style.backgroundImage = `url("${data.image}")`;
+                    document.querySelector('#name').value = data.name;
+                    document.querySelector('#type').value = data.type.id;
+                }
         });
     }
     
@@ -234,15 +237,19 @@ class Sound extends Component {
 
     createSoundTypesDropdown() {
         this.typesElement = `<option value="">Type</option>`;
-        SoundTypeRepository.getTypes()
+        SoundTypeRepository.getSoundTypes()
             .then((data) => {
-                this.data = data;
-                for (let i = 0; i < this.data.length; i++) {
-                    this.typesElement += `
-                    <option value="${this.data[i].id}">${this.data[i].name}</option>
-                `
+                if (data) {
+                    this.data = data;
+                    for (let i = 0; i < this.data.length; i++) {
+                        this.typesElement += `
+                    <option value="${this.data[i].id}">${this.data[i].name}</option>`
+                    }
+                    document.querySelector("#type").innerHTML = this.typesElement;
+                } else {
+                    Navigator.goToUrl("/forbidden");
                 }
-                document.querySelector("#type").innerHTML = this.typesElement;
+
             });
     }
 

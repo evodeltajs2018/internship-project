@@ -39,6 +39,9 @@ class TitleService {
             case ("/type/" + parseUrl[parseUrl.length - 1]):
                 pageTitle.innerHTML = "Edit Type";
                 break;
+            case "/forbidden":
+                pageTitle.innerHTML = "Forbidden";
+                break;
             default:
                 pageTitle.innerHTML = "Not Found";
                 break;

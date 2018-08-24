@@ -27,13 +27,18 @@ class TypesGrid extends Component {
             filter
         ).then(
             (data) => {
-                this.data = data.data;
-                this.render();
-                this.setupPagination(data);
-                
-                if (this.pagination.pageCount < this.pagination.currentPage) {
-                    this.goToPage(this.pagination.pageCount);
+                if (!data) {
+                    Navigator.goToUrl("/forbidden");
+                } else {
+                    this.data = data.data;
+                    this.render();
+                    this.setupPagination(data);
+
+                    if (this.pagination.pageCount < this.pagination.currentPage) {
+                        this.goToPage(this.pagination.pageCount);
+                    }
                 }
+
             });
     }
 

@@ -4,6 +4,7 @@ import AddingCard from "../../components/card/AddingCard";
 import Card from "../../components/card/Card";
 import Search from "../../components/search/Search";
 import "./Projects.scss";
+import Navigator from "../../services/router/Navigator";
 import TokenService from "../../services/auth/TokenService";
 
 class Projects extends Component {
@@ -76,19 +77,24 @@ class Projects extends Component {
 		this.projectObserver(false)
 		return ProjectRepository.getProjects(this.pagination, this.filter)
 			.then((data) => {
-				if (this.pagination.currentPage <= data.pageCount) {
-					this.pagination.currentPage++;
-
-					this.addCards(data.data);
-					if (this.pagination.currentPage > data.pageCount) {
+				if(!data){
+					Navigator.goToUrl('/forbidden');
+				}else{
+					if (this.pagination.currentPage <= data.pageCount) {
+						this.pagination.currentPage++;
+	
+						this.addCards(data.data);
+						if (this.pagination.currentPage > data.pageCount) {
+							this.hideLoadingArea(true);
+						}
+					}
+					if (data.data.length > 0) {
+						this.projectObserver(true);
+					} else {
 						this.hideLoadingArea(true);
 					}
 				}
-				if (data.data.length > 0) {
-					this.projectObserver(true);
-				} else {
-					this.hideLoadingArea(true);
-				}
+				
 			});
 	}
 
